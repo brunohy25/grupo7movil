@@ -120,10 +120,10 @@ export default function Home({ navigation }) {
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
-                source={require("../assets/Icono_Movimientos.png")}
+                source={require("../assets/Icono_Entregas2.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={estilos.textoBoton}>Movimientos</Text>
+              <Text style={estilos.textoBoton}>Cobranzas</Text>
             </View>
           </TouchableOpacity>
         </View>
