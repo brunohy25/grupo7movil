@@ -1,7 +1,7 @@
 // components/ModalEditar.js
 import React, { useState, useEffect } from 'react';
 import {
-  Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,
+  Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
 
@@ -43,7 +43,11 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
 
   return (
     <Modal visible={visible} transparent animationType="slide" onRequestClose={onCancel}>
-      <View style={styles.overlay}>
+
+      <KeyboardAvoidingView
+        style={styles.overlay}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      >
         <View style={styles.modal}>
           <View style={styles.topBar} />
 
@@ -137,7 +141,7 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
             </TouchableOpacity>
           </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 }
