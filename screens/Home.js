@@ -79,7 +79,7 @@ export default function Home({ navigation }) {
         <View style={styles.filaBotones}>
           <TouchableOpacity
             style={styles.botonGrilla}
-            onPress={() => alert("Va a la sección Productos")}
+            onPress={() => navigation.navigate("Productos")}
           >
             <View style={styles.contenidoBotonGrilla}>
               <Image
