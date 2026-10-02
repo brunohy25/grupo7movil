@@ -9,6 +9,7 @@ import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
 import Productos from '../screens/Productos';
 import NuevoProductos from '../screens/NuevoProductos';
+import Reestablecer from '../screens/Reestablecer';
 
 
 const Stack = createStackNavigator();
@@ -48,6 +49,7 @@ export default function Navigation() {
           <>
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+            <Stack.Screen name="Reestablecer" component={Reestablecer} options={{ headerShown: false }} />
           </>
         )}
       </Stack.Navigator>
