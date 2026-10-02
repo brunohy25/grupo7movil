@@ -15,9 +15,14 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { colores } from "../constants/colores";
 import { estilos } from "../constants/estilos";
 import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
+import { PRODUCTOS_MOCK } from "../data/ProductosMock";
+import ProductoCard from '../components/ProductoCard';
+import ModalEditar from '../components/ModalEditar';
+import ModalDetalle from '../components/ModalDetalle';
+import ModalEliminar from '../components/ModalEliminar';
 
 
-export default function Productos({ navigation }) {
+export default function Productos({ navigation, route}) {
   const [productos, setProductos] = useState(PRODUCTOS_MOCK);
   const [busqueda, setBusqueda] = useState('');
   const [filtroActivo, setFiltroActivo] = useState(false);
@@ -27,7 +32,7 @@ export default function Productos({ navigation }) {
   const productosFiltrados = productos.filter((producto) =>
     producto.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
-    React.useEffect(() => {
+   React.useEffect(() => {
     if (route?.params?.nuevoProducto) {
       setProductos(prev => [route.params.nuevoProducto, ...prev]);
       navigation.setParams({ nuevoProducto: null });
@@ -133,13 +138,21 @@ export default function Productos({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <FlatList
-          data={productosFiltrados}
-          keyExtractor={(item) => item.id}
-          renderItem={renderProducto}
-          contentContainerStyle={styles.lista}
-          showsVerticalScrollIndicator={false}
-        />
+          <FlatList
+            data={productosFiltrados}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <ProductoCard
+                producto={item}
+                onVer={() => setModalDetalle({ visible: true, producto: item })}
+                onEditar={() => setModalEditar({ visible: true, producto: item })}
+                onEliminar={() => setModalEliminar({ visible: true, producto: item })}
+              />
+            )}
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={false}
+          />
+
       </View>
 
       {/* Barra de navegación inferior */}

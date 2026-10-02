@@ -39,13 +39,10 @@ export default function Navigation() {
     <NavigationContainer>
       <Stack.Navigator>
         {user ? (
-          // <Stack.Screen name="Home" component={Home} options={{ title: 'Inicio' }} /> // Deja visible la barra superior de INICIO
-          // <Stack.Screen name="Login" component={Login} options={{ title: 'Iniciar sesión' }} /> Deja visible la barra superior de INICIAR SESIÓN
-          // <Stack.Screen name="SignUp" component={SignUp} options={{ title: 'Registro' }} /> Deja visible la barra superior de REGISTRO
           <>
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-          <Stack.Screen name="Productos" component={Productos} />
-          <Stack.Screen name="NuevoProductos" component= {NuevoProductos} />
+          <Stack.Screen name="Productos" component={Productos} options={{ headerShown: false }}/>
+          <Stack.Screen name="NuevoProductos" component= {NuevoProductos} options={{ headerShown: false }}/>
           </>
         ) : (
           <>
