@@ -13,7 +13,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../src/config/firebaseConfig";
 import { colores } from '../constants/colores';
 import { estilos } from '../constants/estilos';
-
+//Andrew estuvo aqui
 export default function Home({ navigation }) {
   const handleLogOut = async () => {
     try {
