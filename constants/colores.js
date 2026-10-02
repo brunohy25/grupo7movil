@@ -8,4 +8,7 @@ export const colores = {
   campoFondo: "#e3e3dc",     // fondo de los inputs
   campoBorde: "#c5c6bf",     // borde de los inputs
   iconoGris: "#ccc",         // iconos dentro de los inputs
+  textoOscuro: "#494949",    // títulos de las tarjetas
+  textoSecundario: "#919191", // texto descriptivo de las tarjetas
+  rojo: "#cc3636",           // acciones de eliminar
 };
