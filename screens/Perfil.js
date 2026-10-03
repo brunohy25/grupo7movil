@@ -22,6 +22,7 @@ import ProductoCard from '../components/ProductoCard';
 import ModalEditar from '../components/ModalEditar';
 import ModalDetalle from '../components/ModalDetalle';
 import ModalEliminar from '../components/ModalEliminar';
+import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
 
 
 export default function Perfil({ navigation, route}) {
@@ -121,51 +122,7 @@ export default function Perfil({ navigation, route}) {
         </View>
 
       {/* Barra de navegación inferior */}
-      <View style={estilos.barraNavegacion}>
-        <TouchableOpacity
-          style={estilos.itemNavegacion}
-          onPress={() => navigation.popTo("Home")}
-        >
-          <View style={estilos.contenedorIconoNav}>
-            <Image
-              source={require("../assets/Icono_home.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
-            />
-            <Text style={estilos.textoNavActivo}>Inicio</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={estilos.itemNavegacion}
-          onPress={() => {
-            navigation.navigate("Perfil"); // Descomentar cuando tengamos lista la pantalla de Perfil
-          }}
-        >
-          <View style={estilos.contenedorIconoNav}>
-            <Image
-              source={require("../assets/Icono_perfil.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
-            />
-            <Text style={estilos.textoNavInactivo}>Perfil</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={estilos.itemNavegacion}
-          onPress={() => {
-            // navigation.navigate("Ajustes"); // Descomentar cuando tengamos lista la pantalla de Ajustes
-            alert("Va a la sección Ajustes");
-          }}
-        >
-          <View style={estilos.contenedorIconoNav}>
-            <Image
-              source={require("../assets/Icono_ajustes.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
-            />
-            <Text style={estilos.textoNavInactivo}>Ajustes</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+            <BarraNavegaciónInferior navigation={navigation}/>
       {/* Modales */}
       <ModalEditar
         visible={modalEditar.visible}
