@@ -9,20 +9,11 @@ import {
   StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { signOut } from "firebase/auth";
-import { auth } from "../src/config/firebaseConfig";
 import { colores } from '../constants/colores';
 import { estilos } from '../constants/estilos';
-//Andrew estuvo aqui
+import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
+
 export default function Home({ navigation }) {
-  const handleLogOut = async () => {
-    try {
-      await signOut(auth);
-      Alert.alert("Sesión cerrada", "Has cerrado sesión correctamente.");
-    } catch (error) {
-      Alert.alert("Error", "Hubo un problema al cerrar sesión.");
-    }
-  };
 
   return (
     <SafeAreaView
@@ -38,9 +29,9 @@ export default function Home({ navigation }) {
       >
         <View style={estilos.tarjetaCabecera}>
           {/* Campana de notificaciones */}
-      <TouchableOpacity style={estilos.button} onPress={handleLogOut}>
+      {/*<TouchableOpacity style={estilos.button} onPress={handleLogOut}>
         <Text style={estilos.buttonText}>Cerrar sesión</Text>
-      </TouchableOpacity>
+      </TouchableOpacity>*/}
           <TouchableOpacity
             style={estilos.botonNotificacion}
             onPress={() => alert("Sin nuevas notificaciones")}
@@ -158,49 +149,7 @@ export default function Home({ navigation }) {
       </ScrollView>
 
       {/* Barra de navegación inferior */}
-      <View style={estilos.barraNavegacion}>
-        <TouchableOpacity style={estilos.itemNavegacion}>
-          <View style={estilos.contenedorIconoNav}>
-            <Image
-              source={require("../assets/Icono_home.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
-            />
-            <Text style={estilos.textoNavActivo}>Inicio</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={estilos.itemNavegacion}
-          onPress={() => {
-            // navigation.navigate("Perfil"); // Descomentar cuando tengamos lista la pantalla de Perfil
-            alert("Va a la sección Perfil");
-          }}
-        >
-          <View style={estilos.contenedorIconoNav}>
-            <Image
-              source={require("../assets/Icono_perfil.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
-            />
-            <Text style={estilos.textoNavInactivo}>Perfil</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={estilos.itemNavegacion}
-          onPress={() => {
-            // navigation.navigate("Ajustes"); // Descomentar cuando tengamos lista la pantalla de Ajustes
-            alert("Va a la sección Ajustes");
-          }}
-        >
-          <View style={estilos.contenedorIconoNav}>
-            <Image
-              source={require("../assets/Icono_ajustes.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
-            />
-            <Text style={estilos.textoNavInactivo}>Ajustes</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+            <BarraNavegaciónInferior navigation={navigation}/>
     </SafeAreaView>
   );
 }

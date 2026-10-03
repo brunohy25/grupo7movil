@@ -10,6 +10,7 @@ import Home from '../screens/Home';
 import Productos from '../screens/Productos';
 import NuevoProductos from '../screens/NuevoProductos';
 import Reestablecer from '../screens/Reestablecer';
+import Perfil from '../screens/Perfil';
 
 
 const Stack = createStackNavigator();
@@ -44,6 +45,7 @@ export default function Navigation() {
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
           <Stack.Screen name="Productos" component={Productos} options={{ headerShown: false }}/>
           <Stack.Screen name="NuevoProductos" component= {NuevoProductos} options={{ headerShown: false }}/>
+          <Stack.Screen name="Perfil" component= {Perfil} options={{ headerShown: false }}/>
           </>
         ) : (
           <>

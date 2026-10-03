@@ -16,31 +16,30 @@ import { colores } from "../constants/colores";
 import { estilos } from "../constants/estilos";
 import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
 import { PRODUCTOS_MOCK } from "../data/ProductosMock";
+import { signOut } from "firebase/auth";
+import { auth } from "../src/config/firebaseConfig";
 import ProductoCard from '../components/ProductoCard';
 import ModalEditar from '../components/ModalEditar';
 import ModalDetalle from '../components/ModalDetalle';
 import ModalEliminar from '../components/ModalEliminar';
-import BarraNavegaciónInferior from '../components/BarraNavegaciónInferior'
 
 
-export default function Productos({ navigation, route}) {
-  const [productos, setProductos] = useState(PRODUCTOS_MOCK);
-  const [busqueda, setBusqueda] = useState('');
+export default function Perfil({ navigation, route}) {
   const [filtroActivo, setFiltroActivo] = useState(false);
   const [modalEditar, setModalEditar] = useState({ visible: false, producto: null });
   const [modalDetalle, setModalDetalle] = useState({ visible: false, producto: null });
   const [modalEliminar, setModalEliminar] = useState({ visible: false, producto: null });
-  const productosFiltrados = productos.filter((producto) =>
-    producto.nombre.toLowerCase().includes(busqueda.toLowerCase())
-  );
-   React.useEffect(() => {
-    if (route?.params?.nuevoProducto) {
-      setProductos(prev => [route.params.nuevoProducto, ...prev]);
-      navigation.setParams({ nuevoProducto: null });
-    }
-  }, [route?.params?.nuevoProducto]);
 
-   const handleGuardarEdicion = (productoEditado) => {
+  const handleLogOut = async () => {
+    try {
+      await signOut(auth);
+      Alert.alert("Sesión cerrada", "Has cerrado sesión correctamente.");
+    } catch (error) {
+      Alert.alert("Error", "Hubo un problema al cerrar sesión.");
+    }
+  };
+  
+  const handleGuardarEdicion = (productoEditado) => {
     setProductos(prev =>
       prev.map(p => (p.id === productoEditado.id ? productoEditado : p))
     );
@@ -99,7 +98,7 @@ export default function Productos({ navigation, route}) {
       </View>
     </View>
   );
-
+//ദ്ദി˙ᗜ˙)
   return (
     <SafeAreaView
       style={estilos.contenedorPrincipal}
@@ -109,55 +108,64 @@ export default function Productos({ navigation, route}) {
 
       {/* Cabecera */}
       <View style={styles.cabecera}>
-        <Text style={styles.titulo}>Productos</Text>
-        <TouchableOpacity
-          style={styles.botonAgregar}
-          onPress={() => alert("Va a la sección Nuevo producto")}
-        >
-          <Text style={styles.textoAgregar}>+ Agregar</Text>
+        <Text style={styles.titulo}>Mi Perfil</Text>
+        <TouchableOpacity style={styles.botonCerrarSesion} onPress={handleLogOut}>
+          <Text style={styles.textoCerrarSesion}>Cerrar sesión</Text>
         </TouchableOpacity>
       </View>
 
-      <View style={styles.cuerpo}>
-        {/* Búsqueda fuera de la lista para que el campo no pierda el foco */}
-        <View style={styles.filaBusqueda}>
-          <View style={[styles.cajaCampo, styles.campoBusqueda]}>
-            <Ionicons name="search" size={20} color="#575757" />
-            <TextInput
-              style={styles.inputBusqueda}
-              placeholder="Buscar producto..."
-              placeholderTextColor="#a4a4a4"
-              value={busqueda}
-              onChangeText={setBusqueda}
-            />
-          </View>
-          <TouchableOpacity
-            style={[styles.cajaCampo, styles.botonFiltro]}
-            onPress={() => alert("Filtros próximamente")}
-          >
-            <MaterialIcons name="filter-list" size={24} color="#404040" />
-          </TouchableOpacity>
+        <View style={styles.cuerpo}>
+          <Text style={styles.textoCuerpo}>ദ്ദി˙ᗜ˙)</Text>
+          <Text style={styles.textoCuerpo}>Mentira jaja XD
+             No hay nada capo, es solo pa cerrar sesión</Text>
         </View>
 
-          <FlatList
-            data={productosFiltrados}
-            keyExtractor={item => item.id}
-            renderItem={({ item }) => (
-              <ProductoCard
-                producto={item}
-                onVer={() => setModalDetalle({ visible: true, producto: item })}
-                onEditar={() => setModalEditar({ visible: true, producto: item })}
-                onEliminar={() => setModalEliminar({ visible: true, producto: item })}
-              />
-            )}
-            contentContainerStyle={styles.listContent}
-            showsVerticalScrollIndicator={false}
-          />
-
-      </View>
-
       {/* Barra de navegación inferior */}
-      <BarraNavegaciónInferior navigation={navigation}/>
+      <View style={estilos.barraNavegacion}>
+        <TouchableOpacity
+          style={estilos.itemNavegacion}
+          onPress={() => navigation.popTo("Home")}
+        >
+          <View style={estilos.contenedorIconoNav}>
+            <Image
+              source={require("../assets/Icono_home.png")}
+              style={{ width: 22, height: 22, resizeMode: "contain" }}
+            />
+            <Text style={estilos.textoNavActivo}>Inicio</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={estilos.itemNavegacion}
+          onPress={() => {
+            navigation.navigate("Perfil"); // Descomentar cuando tengamos lista la pantalla de Perfil
+          }}
+        >
+          <View style={estilos.contenedorIconoNav}>
+            <Image
+              source={require("../assets/Icono_perfil.png")}
+              style={{ width: 22, height: 22, resizeMode: "contain" }}
+            />
+            <Text style={estilos.textoNavInactivo}>Perfil</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={estilos.itemNavegacion}
+          onPress={() => {
+            // navigation.navigate("Ajustes"); // Descomentar cuando tengamos lista la pantalla de Ajustes
+            alert("Va a la sección Ajustes");
+          }}
+        >
+          <View style={estilos.contenedorIconoNav}>
+            <Image
+              source={require("../assets/Icono_ajustes.png")}
+              style={{ width: 22, height: 22, resizeMode: "contain" }}
+            />
+            <Text style={estilos.textoNavInactivo}>Ajustes</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
       {/* Modales */}
       <ModalEditar
         visible={modalEditar.visible}
@@ -195,18 +203,18 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: colores.blanco,
   },
-  botonAgregar: {
-    backgroundColor: colores.crema,
+  botonCerrarSesion: {
+    backgroundColor: "#802424ff",
     borderRadius: 10,
     width: 127,
     height: 36,
     justifyContent: "center",
     alignItems: "center",
   },
-  textoAgregar: {
+  textoCerrarSesion: {
     fontSize: 16,
     fontWeight: "600",
-    color: colores.verdePrincipal,
+    color: colores.blanco,
   },
   cuerpo: {
     flex: 1,
@@ -215,6 +223,10 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 20,
     paddingHorizontal: 17,
     paddingTop: 18,
+  },
+ textoCuerpo: {
+  color:"#5c5c5cff",
+    fontSize:50,
   },
   filaBusqueda: {
     flexDirection: "row",

@@ -72,7 +72,7 @@ export default function Reestablecer({ navigation }) {
         <Text style={styles.buttonText}>Enviar Solicitud al correo</Text>
       </TouchableOpacity>
       <TouchableOpacity  style={styles.button2}  onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.buttonText2}>Volver al Ingreso de cuenta</Text>
+              <Text style={styles.buttonText2}>Volver al Inicio de sesión</Text>
             </TouchableOpacity>
     </View>
     </BarraVerdeSuperior>

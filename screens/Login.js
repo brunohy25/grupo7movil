@@ -110,7 +110,7 @@ export default function Login({ navigation }) {
         >
           <Text style={styles.buttonText2}>Reestablecer</Text>
         </TouchableOpacity>
-        <Text style={styles.signUpText}>¿No tienes cuenta aún?</Text>
+        <Text style={styles.signUpText}>¿No tenes una cuenta?</Text>
         <TouchableOpacity
           style={styles.button2}
           onPress={() => navigation.navigate("SignUp")}
