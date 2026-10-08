@@ -175,8 +175,7 @@ export default function Home({ navigation }) {
         <TouchableOpacity
           style={styles.itemNavegacion}
           onPress={() => {
-            // navigation.navigate("Perfil"); // Descomentar cuando tengamos lista la pantalla de Perfil
-            alert("Va a la sección Perfil");
+            navigation.navigate("Perfil");
           }}
         >
           <View style={styles.contenedorIconoNav}>
