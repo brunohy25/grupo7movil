@@ -6,17 +6,20 @@ import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { auth } from "../src/config/firebaseConfig";
 import { colores } from "../constants/colores";
+import { estilosGlobales } from "../constants/estilos";
 
 export default function Perfil({ navigation }) {
   const usuario = auth.currentUser;
 
-  // me rindo, no se como separar nombre y apellido
-  const [nombreCompleto, setNombreCompleto] = useState(usuario?.displayName || "");
-
+  //me shindo no se como separar nombre y apellido
+  const [nombreCompleto, setNombreCompleto] = useState(
+    usuario?.displayName || ""
+  );
   const [editando, setEditando] = useState(false);
   const [guardando, setGuardando] = useState(false);
   const [fotoPerfil, setFotoPerfil] = useState(null);
 
+  // Seleccionar foto de perfil
   const seleccionarFoto = async () => {
     try {
       const resultado = await ImagePicker.launchImageLibraryAsync({
@@ -30,19 +33,18 @@ export default function Perfil({ navigation }) {
         setFotoPerfil(resultado.assets[0].uri);
       }
     } catch (error) {
-      Alert.alert("Error","No se pudo abrir la galería.");
+      Alert.alert("Error", "No se pudo abrir la galería.");
     }
   };
 
-  
   const guardarCambios = async () => {
     if (!nombreCompleto.trim()) {
-      Alert.alert("Atención","Ingresá tu nombre y apellido.");
+      Alert.alert("Atención", "Ingresá tu nombre y apellido.");
       return;
     }
 
     if (!usuario) {
-      Alert.alert("Error","No se encontró el usuario.");
+      Alert.alert("Error", "No se encontró el usuario.");
       return;
     }
 
@@ -54,57 +56,58 @@ export default function Perfil({ navigation }) {
       });
 
       setEditando(false);
-
-      Alert.alert("Éxito","Perfil actualizado correctamente.");
+      Alert.alert("Éxito", "Perfil actualizado correctamente.");
     } catch (error) {
-      Alert.alert("Error","No se pudo actualizar el perfil.");
+      Alert.alert("Error", "No se pudo actualizar el perfil.");
     } finally {
       setGuardando(false);
     }
   };
 
-
-  
   const cancelarEdicion = () => {
     setNombreCompleto(usuario?.displayName || "");
     setEditando(false);
   };
 
-
   const cerrarSesion = () => {
-    Alert.alert("Cerrar sesión","¿Querés cerrar sesión?",
-      [
-        {text: "Cancelar", style: "cancel",},
-        {
-          text: "Salir",
-          onPress: async () => {
-            try {
-              await signOut(auth);
-            } catch (error) {
-              Alert.alert("Error","No se pudo cerrar sesión.");
-            }
-          },
+    Alert.alert("Cerrar sesión", "¿Querés cerrar sesión?", [
+      {
+        text: "Cancelar",
+        style: "cancel",
+      },
+      {
+        text: "Salir",
+        onPress: async () => {
+          try {
+            await signOut(auth);
+          } catch (error) {
+            Alert.alert("Error", "No se pudo cerrar sesión.");
+          }
         },
-      ]
-    );
+      },
+    ]);
   };
 
   return (
-    <View style={estilos.contenedor}>
-      <View style={estilos.encabezado}>
+    <View style={estilosGlobales.contenedor}>
 
+      <View
+        style={[
+          estilosGlobales.encabezado,
+          estilosGlobales.encabezadoPerfil,
+        ]}
+      >
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={estilos.flecha}>←</Text>
+          <Text style={estilosGlobales.flecha}>←</Text>
         </TouchableOpacity>
 
-        <Text style={estilos.titulo}>
+        <Text style={estilosGlobales.titulo}>
           {editando ? "Editar Perfil" : "Mi Perfil"}
         </Text>
-
       </View>
 
       <ScrollView
-        contentContainerStyle={estilos.contenido}
+        contentContainerStyle={estilosGlobales.contenido}
         keyboardShouldPersistTaps="handled"
       >
 
@@ -115,7 +118,6 @@ export default function Perfil({ navigation }) {
             ) : (
               <Text style={estilos.iconoFoto}>👤</Text>
             )}
-
           </View>
 
           {editando && (
@@ -123,11 +125,9 @@ export default function Perfil({ navigation }) {
               <Ionicons name="camera" size={22} color={colores.blanco}/>
             </TouchableOpacity>
           )}
-
         </View>
 
-        
-        <Text style={estilos.etiqueta}>Nombre y apellido</Text>
+        <Text style={estilosGlobales.etiqueta}>Nombre y apellido</Text>
 
         <View style={estilos.contenedorCampo}>
           <TextInput
@@ -143,11 +143,10 @@ export default function Perfil({ navigation }) {
           )}
         </View>
 
-        <Text style={estilos.etiqueta}>Correo electrónico</Text>
+        <Text style={estilosGlobales.etiqueta}>Correo electrónico</Text>
 
-        <TextInput
-          style={[
-            estilos.campo,
+        <TextInput style={[
+            estilosGlobales.campo,
             estilos.campoBloqueado,
           ]}
           value={usuario?.email || ""}
@@ -156,75 +155,34 @@ export default function Perfil({ navigation }) {
 
         {editando ? (
           <>
-
-            <TouchableOpacity style={estilos.boton} onPress={guardarCambios} disabled={guardando}>
-              <Text style={estilos.textoBoton}>
-                {guardando
-                  ? "Guardando..."
-                  : "Guardar cambios"}
+            <TouchableOpacity style={estilosGlobales.boton} onPress={guardarCambios} disabled={guardando}>
+              <Text style={estilosGlobales.textoBoton}>
+                {guardando ? "Guardando..." : "Guardar cambios"}
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={estilos.botonSecundario} onPress={cancelarEdicion}>
-              <Text style={estilos.textoSecundario}>Cancelar</Text>
+            <TouchableOpacity style={estilosGlobales.botonSecundario} onPress={cancelarEdicion}>
+              <Text style={estilosGlobales.textoSecundario}>Cancelar</Text>
             </TouchableOpacity>
-
           </>
         ) : (
           <>
-
-            <TouchableOpacity style={estilos.boton} onPress={() => setEditando(true)}>
-              <Text style={estilos.textoBoton}>Editar perfil</Text>
+            <TouchableOpacity style={estilosGlobales.boton}onPress={() => setEditando(true)}>
+              <Text style={estilosGlobales.textoBoton}>Editar perfil</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={estilos.botonSecundario} onPress={cerrarSesion}>
-              <Text style={estilos.textoSecundario}>Cerrar sesión</Text>
+            <TouchableOpacity style={estilosGlobales.botonSecundario} onPress={cerrarSesion}>
+              <Text style={estilosGlobales.textoSecundario}>Cerrar sesión</Text>
             </TouchableOpacity>
-
           </>
         )}
-
       </ScrollView>
     </View>
   );
 }
 
-
+// estilos propios de perfil como foto de perfil y camara...
 const estilos = StyleSheet.create({
-
-  // CONTENEDOR PRINCIPAL
-  contenedor: {
-    flex: 1,
-    backgroundColor: colores.crema,
-  },
-
-  // ENCABEZADO
-  encabezado: {
-    backgroundColor: colores.verdePrincipal,
-    paddingTop: 55,
-    paddingBottom: 20,
-    paddingHorizontal: 20,
-    flexDirection: "row",
-    alignItems: "center",
-  },
-
-  flecha: {
-    color: colores.blanco,
-    fontSize: 28,
-    marginRight: 25,
-  },
-
-  titulo: {
-    color: colores.blanco,
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-
-  contenido: {
-    padding: 25,
-  },
-
-  // FOTO DE PERFIL
   contenedorFoto: {
     width: 110,
     height: 110,
@@ -253,7 +211,6 @@ const estilos = StyleSheet.create({
     borderRadius: 55,
   },
 
-  // BOTÓN DE CÁMARA
   botonCamara: {
     position: "absolute",
     bottom: 0,
@@ -267,24 +224,6 @@ const estilos = StyleSheet.create({
     borderWidth: 2,
     borderColor: colores.blanco,
     elevation: 3,
-  },
-
-  // ETIQUETAS
-  etiqueta: {
-    color: colores.verdeOscuro,
-    fontSize: 15,
-    marginBottom: 8,
-  },
-
-  // CAMPOS
-  campo: {
-    backgroundColor: colores.campoFondo,
-    borderColor: colores.campoBorde,
-    borderWidth: 1,
-    borderRadius: 10,
-    padding: 14,
-    marginBottom: 20,
-    color: colores.verdeOscuro,
   },
 
   campoBloqueado: {
@@ -309,37 +248,4 @@ const estilos = StyleSheet.create({
     color: colores.verdeOscuro,
     fontSize: 15,
   },
-
-  // BOTÓN PRINCIPAL
-  boton: {
-    backgroundColor: colores.verdePrincipal,
-    padding: 15,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 20,
-  },
-
-  textoBoton: {
-    color: colores.blanco,
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-
-  // BOTÓN SECUNDARIO
-  botonSecundario: {
-    borderWidth: 1,
-    borderColor: colores.verdeOscuro,
-    padding: 15,
-    borderRadius: 12,
-    alignItems: "center",
-    marginTop: 15,
-  },
-
-  textoSecundario: {
-    color: colores.verdeOscuro,
-    fontSize: 16,
-  },
-
 });
-
-

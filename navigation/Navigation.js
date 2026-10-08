@@ -7,7 +7,8 @@ import { auth, isFirebaseConfigured } from '../src/config/firebaseConfig';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
-import Perfil from '../screens/Perfil'
+import Perfil from '../screens/Perfil';
+import Ajustes from '../screens/Ajustes';
 
 const Stack = createStackNavigator();
 
@@ -40,6 +41,7 @@ export default function Navigation() {
           <>
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} /> 
           <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} />
+          <Stack.Screen name="Ajustes" component={Ajustes} options={{ headerShown: false }} />
           </>
         ) : (
           <>

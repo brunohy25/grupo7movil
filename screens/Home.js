@@ -189,10 +189,7 @@ export default function Home({ navigation }) {
 
         <TouchableOpacity
           style={styles.itemNavegacion}
-          onPress={() => {
-            // navigation.navigate("Ajustes"); // Descomentar cuando tengamos lista la pantalla de Ajustes
-            alert("Va a la sección Ajustes");
-          }}
+          onPress={() => navigation.navigate("Ajustes")}
         >
           <View style={styles.contenedorIconoNav}>
             <Image
