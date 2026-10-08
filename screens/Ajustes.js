@@ -1,93 +1,35 @@
-
-import React, { useState } from "react";
 import {View,Text,TouchableOpacity,Switch,StyleSheet,ScrollView,} from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { colores } from "../constants/colores";
-import { estilosGlobales } from "../constants/estilos";
+import { estilosGlobales, estilosTema } from "../constants/estilos";
+import { usarTema } from "../contexto/ContextoTema";
 
 export default function Ajustes({ navigation }) {
-  const [modoOscuro, setModoOscuro] = useState(false);
-
-  const colorFondo = modoOscuro ? "#1E1E1E" : colores.blanco;
-  const colorTarjeta = modoOscuro ? "#333333" : "#F2F2F2";
-  const colorTexto = modoOscuro ? colores.blanco : colores.verdeOscuro;
+  const { modoOscuro, cambiarTema } = usarTema();
+  const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
 
   return (
-    <View
-      style={[
-        estilosGlobales.contenedor,
-        { backgroundColor: colorFondo },
-      ]}
-    >
-      <View
-        style={[
-          estilosGlobales.encabezado,
-          estilos.encabezadoAjustes,
-        ]}
-      >
+    <View style={[estilosGlobales.contenedor,tema.fondoAjustes]}>
+      <View style={[estilosGlobales.encabezado,estilos.encabezadoAjustes]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons
-            name="arrow-back"
-            size={26}
-            color={colores.blanco}
-          />
+          <Ionicons name="arrow-back" size={26} color={colores.blanco}/>
         </TouchableOpacity>
 
-        <Text
-          style={[
-            estilosGlobales.titulo,
-            estilos.tituloAjustes,
-          ]}
-        >
-          Ajustes
-        </Text>
+        <Text style={[estilosGlobales.titulo,estilos.tituloAjustes]}>Ajustes</Text>
       </View>
 
-      <ScrollView
-        contentContainerStyle={[
-          estilosGlobales.contenido,
-          estilos.contenidoAjustes,
-        ]}
-      >
-        <Text
-          style={[
-            estilos.subtitulo,
-            { color: colorTexto },
-          ]}
-        >
-          Apariencia
-        </Text>
+      <ScrollView contentContainerStyle={[estilosGlobales.contenido,estilos.contenidoAjustes]}>
+        <Text style={[estilos.subtitulo,tema.texto]}>Apariencia</Text>
 
-        <View
-          style={[
-            estilos.opcion,
-            { backgroundColor: colorTarjeta },
-          ]}
-        >
+        <View style={[estilos.opcion,tema.tarjetaAjustes]}>
           <View style={estilos.informacion}>
-            <Ionicons
-              name="moon-outline"
-              size={24}
-              color={colorTexto}
-            />
+            <Ionicons name="moon-outline" size={24} color={tema.texto.color}/>
 
-            <Text
-              style={[
-                estilos.texto,
-                { color: colorTexto },
-              ]}
-            >
-              Modo oscuro
-            </Text>
+            <Text style={[estilos.texto,tema.texto]}>Modo oscuro</Text>
           </View>
 
-          <Switch
-            value={modoOscuro}
-            onValueChange={setModoOscuro}
-            trackColor={{
-              false: "#CCCCCC",
-              true: "#7D9B76",
-            }}
+          <Switch value={modoOscuro} onValueChange={cambiarTema}
+            trackColor={{false: "#CCCCCC",true: "#7D9B76"}}
             thumbColor={colores.blanco}
           />
         </View>
@@ -96,7 +38,8 @@ export default function Ajustes({ navigation }) {
   );
 }
 
-// estilos propios de ajustes
+// estilos propios de ajustes, el texto de apariencia, el recuadro, la alineación, texto modo oscuro. Ademas tiene espacios
+// y tamaño de letras.
 const estilos = StyleSheet.create({
   encabezadoAjustes: {
     backgroundColor: colores.verdePrincipal,
@@ -115,7 +58,6 @@ const estilos = StyleSheet.create({
   subtitulo: {
     fontSize: 18,
     fontWeight: "bold",
-    color: colores.verdeOscuro,
     marginBottom: 15,
   },
 
@@ -125,7 +67,6 @@ const estilos = StyleSheet.create({
     alignItems: "center",
     padding: 15,
     borderRadius: 12,
-    backgroundColor: "#F2F2F2",
   },
 
   informacion: {
@@ -136,6 +77,5 @@ const estilos = StyleSheet.create({
 
   texto: {
     fontSize: 16,
-    color: colores.verdeOscuro,
   },
 });

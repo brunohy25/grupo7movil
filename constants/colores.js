@@ -9,3 +9,21 @@ export const colores = {
   campoBorde: "#c5c6bf",     // borde de los inputs
   iconoGris: "#ccc",         // iconos dentro de los inputs
 };
+
+// para el modo oscuro separo en paletas de colores
+export const coloresTema = {
+  claro: {
+    fondo: "#FAF8F3",
+    tarjeta: "#FFFFFF",
+    texto: "#2C3E2D",
+    campo: "#e3e3dc",
+    borde: "#c5c6bf",
+  },
+  oscuro: {
+    fondo: "#1E1E1E",
+    tarjeta: "#333333",
+    texto: "#FFFFFF",
+    campo: "#333333",
+    borde: "#555555",
+  },
+};

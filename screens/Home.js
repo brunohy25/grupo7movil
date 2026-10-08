@@ -1,31 +1,16 @@
+
 import React from "react";
-import {
-  View,
-  Text,
-  TouchableOpacity,
-  StyleSheet,
-  Alert,
-  Image,
-  ScrollView,
-  Dimensions,
-  StatusBar,
-} from "react-native";
+import {View,Text,TouchableOpacity,StyleSheet,Alert,Image,ScrollView,Dimensions,StatusBar,} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { signOut } from "firebase/auth";
-import { auth } from "../src/config/firebaseConfig";
 import { colores } from '../constants/colores';
+import { estilosTema } from "../constants/estilos";
+import { usarTema } from "../contexto/ContextoTema";
 
 const anchoPantalla = Dimensions.get("window").width;
 
 export default function Home({ navigation }) {
-  const handleLogOut = async () => {
-    try {
-      await signOut(auth);
-      Alert.alert("Sesión cerrada", "Has cerrado sesión correctamente.");
-    } catch (error) {
-      Alert.alert("Error", "Hubo un problema al cerrar sesión.");
-    }
-  };
+  const { modoOscuro } = usarTema();
+  const tema = modoOscuro ? estilosTema.oscuro : estilosTema.claro;
 
   return (
     <SafeAreaView
@@ -36,14 +21,14 @@ export default function Home({ navigation }) {
 
       {/* Contenido principal */}
       <ScrollView
-        contentContainerStyle={styles.cuerpoScroll}
+        contentContainerStyle={[
+          styles.cuerpoScroll,
+          tema.fondo
+        ]}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.tarjetaCabecera}>
+        <View style={[styles.tarjetaCabecera, tema.fondo]}>
           {/* Campana de notificaciones */}
-      <TouchableOpacity style={styles.button} onPress={handleLogOut}>
-        <Text style={styles.buttonText}>Cerrar sesión</Text>
-      </TouchableOpacity>
           <TouchableOpacity
             style={styles.botonNotificacion}
             onPress={() => alert("Sin nuevas notificaciones")}
@@ -73,12 +58,12 @@ export default function Home({ navigation }) {
         </View>
 
         {/* Título de sección */}
-        <Text style={styles.textoPregunta}>¿Qué necesitás gestionar?</Text>
+        <Text style={[styles.textoPregunta, tema.texto]}>¿Qué necesitás gestionar?</Text>
 
         {/* Fila 1 */}
         <View style={styles.filaBotones}>
           <TouchableOpacity
-            style={styles.botonGrilla}
+            style={[styles.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Productos")}
           >
             <View style={styles.contenidoBotonGrilla}>
@@ -86,11 +71,12 @@ export default function Home({ navigation }) {
                 source={require("../assets/Icono_productos.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={styles.textoBoton}>Productos</Text>
+              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Productos</Text>
             </View>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.botonGrilla}
+            style={[styles.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Pedidos")}
           >
             <View style={styles.contenidoBotonGrilla}>
@@ -98,7 +84,7 @@ export default function Home({ navigation }) {
                 source={require("../assets/Icono_pedidos.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={styles.textoBoton}>Pedidos</Text>
+              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Pedidos</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -106,7 +92,7 @@ export default function Home({ navigation }) {
         {/* Fila 2 */}
         <View style={styles.filaBotones}>
           <TouchableOpacity
-            style={styles.botonGrilla}
+            style={[styles.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Proveedores")}
           >
             <View style={styles.contenidoBotonGrilla}>
@@ -114,11 +100,12 @@ export default function Home({ navigation }) {
                 source={require("../assets/Icono_proveedores.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={styles.textoBoton}>Proveedores</Text>
+              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Proveedores</Text>
             </View>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.botonGrilla}
+            style={[styles.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Movimientos")}
           >
             <View style={styles.contenidoBotonGrilla}>
@@ -126,7 +113,7 @@ export default function Home({ navigation }) {
                 source={require("../assets/Icono_Movimientos.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={styles.textoBoton}>Movimientos</Text>
+              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Movimientos</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -134,7 +121,7 @@ export default function Home({ navigation }) {
         {/* Fila 3 */}
         <View style={styles.filaBotones}>
           <TouchableOpacity
-            style={styles.botonGrilla}
+            style={[styles.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Depósito")}
           >
             <View style={styles.contenidoBotonGrilla}>
@@ -142,11 +129,12 @@ export default function Home({ navigation }) {
                 source={require("../assets/Icono_depositos.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={styles.textoBoton}>Depósito</Text>
+              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Depósito</Text>
             </View>
           </TouchableOpacity>
+
           <TouchableOpacity
-            style={styles.botonGrilla}
+            style={[styles.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Entregas")}
           >
             <View style={styles.contenidoBotonGrilla}>
@@ -154,7 +142,7 @@ export default function Home({ navigation }) {
                 source={require("../assets/Icono_entregas.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={styles.textoBoton}>Entregas</Text>
+              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Entregas</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -209,6 +197,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colores.verdePrincipal,
   },
+
   cuerpoScroll: {
     backgroundColor: colores.crema,
     flexGrow: 1,
@@ -217,12 +206,14 @@ const styles = StyleSheet.create({
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
   },
+
   tarjetaCabecera: {
     position: "relative", // Para que la campana no se pierda
     backgroundColor: colores.crema,
     paddingTop: 20,
     marginBottom: 10,
   },
+
   botonNotificacion: {
     position: "absolute",
     right: 20,
@@ -230,25 +221,30 @@ const styles = StyleSheet.create({
     padding: 8,
     zIndex: 10,
   },
+
   iconoNotificacion: {
     width: 22,
     height: 22,
   },
+
   contenedorLogo: {
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
     paddingVertical: 1,
   },
+
   logoEstilo: {
     width: 200,
     height: 125,
   },
+
   fondoDivisor: {
     width: anchoPantalla,
     height: 110,
     marginTop: 0,
   },
+
   textoPregunta: {
     fontSize: 22,
     fontWeight: "bold",
@@ -257,12 +253,14 @@ const styles = StyleSheet.create({
     marginBottom: 25,
     color: colores.verdeOscuro,
   },
+
   filaBotones: {
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
     marginBottom: 25,
   },
+
   botonGrilla: {
     backgroundColor: colores.blanco,
     width: "48%",
@@ -278,16 +276,19 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 3,
   },
+
   contenidoBotonGrilla: {
     alignItems: "center",
     justifyContent: "center",
   },
+
   textoBoton: {
     fontSize: 16,
     fontWeight: "600",
     color: colores.verdePrincipal,
     marginTop: 6,
   },
+
   barraNavegacion: {
     flexDirection: "row",
     backgroundColor: colores.verdePrincipal,
@@ -296,19 +297,23 @@ const styles = StyleSheet.create({
     alignItems: "center",
     borderTopWidth: 0,
   },
+
   itemNavegacion: {
     alignItems: "center",
     justifyContent: "center",
     flex: 1,
   },
+
   contenedorIconoNav: {
     alignItems: "center",
     justifyContent: "center",
   },
+
   textoNavInactivo: {
     color: colores.verdeClaro,
     fontSize: 13,
   },
+
   textoNavActivo: {
     color: colores.blanco,
     fontSize: 13,

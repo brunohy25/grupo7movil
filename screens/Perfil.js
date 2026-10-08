@@ -6,10 +6,15 @@ import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
 import { auth } from "../src/config/firebaseConfig";
 import { colores } from "../constants/colores";
-import { estilosGlobales } from "../constants/estilos";
+import { estilosGlobales, estilosTema } from "../constants/estilos";
+import { usarTema } from "../contexto/ContextoTema";
 
 export default function Perfil({ navigation }) {
   const usuario = auth.currentUser;
+
+  //para el modo oscuro
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
 
   //me shindo no se como separar nombre y apellido
   const [nombreCompleto, setNombreCompleto] = useState(
@@ -19,7 +24,6 @@ export default function Perfil({ navigation }) {
   const [guardando, setGuardando] = useState(false);
   const [fotoPerfil, setFotoPerfil] = useState(null);
 
-  // Seleccionar foto de perfil
   const seleccionarFoto = async () => {
     try {
       const resultado = await ImagePicker.launchImageLibraryAsync({
@@ -89,16 +93,11 @@ export default function Perfil({ navigation }) {
   };
 
   return (
-    <View style={estilosGlobales.contenedor}>
+    <View style={[estilosGlobales.contenedor, tema.fondo]}>
 
-      <View
-        style={[
-          estilosGlobales.encabezado,
-          estilosGlobales.encabezadoPerfil,
-        ]}
-      >
+      <View style={[estilosGlobales.encabezado,estilosGlobales.encabezadoPerfil,]}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Text style={estilosGlobales.flecha}>←</Text>
+          <Ionicons name="arrow-back" size={26} color={colores.blanco}/>
         </TouchableOpacity>
 
         <Text style={estilosGlobales.titulo}>
@@ -106,11 +105,7 @@ export default function Perfil({ navigation }) {
         </Text>
       </View>
 
-      <ScrollView
-        contentContainerStyle={estilosGlobales.contenido}
-        keyboardShouldPersistTaps="handled"
-      >
-
+      <ScrollView contentContainerStyle={estilosGlobales.contenido} keyboardShouldPersistTaps="handled">
         <View style={estilos.contenedorFoto}>
           <View style={estilos.foto}>
             {fotoPerfil ? (
@@ -127,28 +122,27 @@ export default function Perfil({ navigation }) {
           )}
         </View>
 
-        <Text style={estilosGlobales.etiqueta}>Nombre y apellido</Text>
+        <Text style={[estilosGlobales.etiqueta, tema.texto]}>Nombre y apellido</Text>
 
-        <View style={estilos.contenedorCampo}>
+        <View style={[estilos.contenedorCampo, tema.campo]}>
           <TextInput
-            style={estilos.campoNombre}
+            style={[estilos.campoNombre, tema.texto]}
             value={nombreCompleto}
             onChangeText={setNombreCompleto}
             editable={editando}
             placeholder="Nombre y apellido"
+            placeholderTextColor={modoOscuro ? "#AAAAAA" : "#777777"}
           />
 
           {editando && (
-            <MaterialIcons name="edit" size={22} color={colores.verdeOscuro}/>
+            <MaterialIcons name="edit" size={22} color={tema.texto.color}/>
           )}
         </View>
 
-        <Text style={estilosGlobales.etiqueta}>Correo electrónico</Text>
+        <Text style={[estilosGlobales.etiqueta, tema.texto]}>Correo electrónico</Text>
 
-        <TextInput style={[
-            estilosGlobales.campo,
-            estilos.campoBloqueado,
-          ]}
+        <TextInput
+          style={[estilosGlobales.campo, estilos.campoBloqueado, tema.campo]}
           value={usuario?.email || ""}
           editable={false}
         />
@@ -161,18 +155,18 @@ export default function Perfil({ navigation }) {
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={estilosGlobales.botonSecundario} onPress={cancelarEdicion}>
-              <Text style={estilosGlobales.textoSecundario}>Cancelar</Text>
+            <TouchableOpacity style={[estilosGlobales.botonSecundario, tema.borde]} onPress={cancelarEdicion}>
+              <Text style={[estilosGlobales.textoSecundario, tema.texto]}>Cancelar</Text>
             </TouchableOpacity>
           </>
         ) : (
           <>
-            <TouchableOpacity style={estilosGlobales.boton}onPress={() => setEditando(true)}>
+            <TouchableOpacity style={estilosGlobales.boton} onPress={() => setEditando(true)}>
               <Text style={estilosGlobales.textoBoton}>Editar perfil</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={estilosGlobales.botonSecundario} onPress={cerrarSesion}>
-              <Text style={estilosGlobales.textoSecundario}>Cerrar sesión</Text>
+            <TouchableOpacity style={[estilosGlobales.botonSecundario, tema.borde]} onPress={cerrarSesion}>
+              <Text style={[estilosGlobales.textoSecundario, tema.texto]}>Cerrar sesión</Text>
             </TouchableOpacity>
           </>
         )}
@@ -181,7 +175,7 @@ export default function Perfil({ navigation }) {
   );
 }
 
-// estilos propios de perfil como foto de perfil y camara...
+// estilos propios de perfil como foto de perfil, camara y el formulario con campo bloqueado
 const estilos = StyleSheet.create({
   contenedorFoto: {
     width: 110,

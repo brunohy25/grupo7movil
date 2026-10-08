@@ -80,3 +80,34 @@ export const estilosGlobales = StyleSheet.create({
     fontSize: 16,
   },
 });
+
+// estilos para el modo claro y oscuro
+export const estilosTema = {
+  claro: {
+    fondo: { backgroundColor: colores.crema },
+    fondoAjustes: { backgroundColor: colores.blanco },
+    tarjeta: { backgroundColor: colores.blanco },
+    tarjetaAjustes: { backgroundColor: "#F2F2F2" },
+    texto: { color: colores.verdeOscuro },
+    campo: {
+      backgroundColor: colores.campoFondo,
+      borderColor: colores.campoBorde,
+      color: colores.verdeOscuro,
+    },
+    borde: { borderColor: colores.verdeOscuro },
+  },
+
+  oscuro: {
+    fondo: { backgroundColor: "#1E1E1E" },
+    fondoAjustes: { backgroundColor: "#1E1E1E" },
+    tarjeta: { backgroundColor: "#333333" },
+    tarjetaAjustes: { backgroundColor: "#333333" },
+    texto: { color: colores.blanco },
+    campo: {
+      backgroundColor: "#333333",
+      borderColor: "#555555",
+      color: colores.blanco,
+    },
+    borde: { borderColor: colores.blanco },
+  },
+};
