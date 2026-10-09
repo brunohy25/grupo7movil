@@ -5,6 +5,7 @@ import { auth } from '../src/config/firebaseConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { colores } from '../constants/colores';
 import BarraVerdeSuperior from '../components/BarraVerdeSuperior';
+import handleForgotPassword from '../components/Olvidecontra';
 
 export default function Reestablecer({ navigation }) {
   const [email, setEmail] = useState('');
@@ -43,7 +44,7 @@ export default function Reestablecer({ navigation }) {
     } catch (error) {
       Alert.alert("Cuenta creada", "La cuenta se creó, pero no se pudo guardar el nombre.");
     }
-    // Firebase inicia la sesión y el navegador muestra Home.
+    // Input de ingreso de correo
   };
 
   return (
@@ -68,7 +69,7 @@ export default function Reestablecer({ navigation }) {
         />
       </View>
 
-      <TouchableOpacity  style={styles.button}  onPress={() => navigation.navigate('Login')}>
+      <TouchableOpacity  style={styles.button}  onPress={() => handleForgotPassword (email)}>
         <Text style={styles.buttonText}>Enviar Solicitud al correo</Text>
       </TouchableOpacity>
       <TouchableOpacity  style={styles.button2}  onPress={() => navigation.navigate('Login')}>
