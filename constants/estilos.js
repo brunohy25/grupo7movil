@@ -224,3 +224,100 @@ export const estilosTema = {
     borde: { borderColor: colores.blanco },
   },
 };
+
+// estilos compartidos para las pantallas de autenticación (Login, SignUp)
+export const estilosAuth = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    paddingHorizontal: 24,
+    backgroundColor: colores.crema,
+  },
+  logo: {
+    width: 220,
+    height: 150,
+    resizeMode: "contain",
+  },
+  titleLogo: {
+    fontSize: 38,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: colores.verdeOscuro,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: colores.verdeOscuro,
+  },
+  label: {
+    alignSelf: "flex-start",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 10,
+    color: colores.verdeOscuro,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    width: "100%",
+    height: 45,
+    paddingHorizontal: 10,
+    backgroundColor: colores.campoFondo,
+    borderWidth: 1,
+    borderColor: colores.campoBorde,
+    borderRadius: 7,
+    marginBottom: 12,
+  },
+  iconContainer: {
+    width: 32,
+    height: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 40,
+    paddingVertical: 0,
+    textAlignVertical: "center",
+  },
+  eyeButton: {
+    width: 32,
+    height: 32,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  button: {
+    width: "70%",
+    alignItems: "center",
+    backgroundColor: colores.verdePrincipal,
+    paddingVertical: 10,
+    borderRadius: 14,
+    marginTop: 12,
+  },
+  button2: {
+    width: "70%",
+    alignItems: "center",
+    backgroundColor: "transparent",
+    borderWidth: 1,
+    borderColor: colores.verdeOscuro,
+    paddingVertical: 10,
+    borderRadius: 14,
+    marginTop: 12,
+  },
+  buttonText: {
+    color: colores.blanco,
+    fontSize: 13,
+    fontWeight: "bold",
+  },
+  buttonText2: {
+    color: colores.verdeOscuro,
+    fontSize: 13,
+    fontWeight: "bold",
+  },
+  signUpText: {
+    marginTop: 20,
+    color: colores.verdePrincipal,
+  },
+});
