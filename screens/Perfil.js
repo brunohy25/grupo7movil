@@ -8,6 +8,8 @@ import { auth } from "../src/config/firebaseConfig";
 import { colores } from "../constants/colores";
 import { estilosGlobales, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
 
 export default function Perfil({ navigation }) {
   const usuario = auth.currentUser;
@@ -15,6 +17,7 @@ export default function Perfil({ navigation }) {
   //para el modo oscuro
   const { modoOscuro } = usarTema();
   const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
+  const insets = useSafeAreaInsets();
 
   //me shindo no se como separar nombre y apellido
   const [nombreCompleto, setNombreCompleto] = useState(
@@ -93,19 +96,19 @@ export default function Perfil({ navigation }) {
   };
 
   return (
-    <View style={[estilosGlobales.contenedor, tema.fondo]}>
+    <View style={[estilosGlobales.contenedorVerde, { paddingTop: insets.top }]}>
 
       <View style={[estilosGlobales.encabezado,estilosGlobales.encabezadoPerfil,]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={26} color={colores.blanco}/>
-        </TouchableOpacity>
-
         <Text style={estilosGlobales.titulo}>
           {editando ? "Editar Perfil" : "Mi Perfil"}
         </Text>
       </View>
 
-      <ScrollView contentContainerStyle={estilosGlobales.contenido} keyboardShouldPersistTaps="handled">
+      <ScrollView
+        style={[tema.fondo, estilosGlobales.bordeRedondeadoAbajo]}
+        contentContainerStyle={[estilosGlobales.contenido, { flexGrow: 1 }]}
+        keyboardShouldPersistTaps="handled"
+      >
         <View style={estilos.contenedorFoto}>
           <View style={estilos.foto}>
             {fotoPerfil ? (
@@ -131,7 +134,7 @@ export default function Perfil({ navigation }) {
             onChangeText={setNombreCompleto}
             editable={editando}
             placeholder="Nombre y apellido"
-            placeholderTextColor={modoOscuro ? "#AAAAAA" : "#777777"}
+            placeholderTextColor={modoOscuro ? colores.placeholderOscuro : colores.placeholderClaro}
           />
 
           {editando && (
@@ -171,6 +174,7 @@ export default function Perfil({ navigation }) {
           </>
         )}
       </ScrollView>
+      <BarraNavegaciónInferior navigation={navigation}/>
     </View>
   );
 }

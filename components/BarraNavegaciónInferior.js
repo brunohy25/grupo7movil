@@ -1,5 +1,5 @@
 import { View,TouchableOpacity,Image,Text} from "react-native";
-import { estilos } from '../constants/estilos';
+import { estilos, estilosGlobales } from '../constants/estilos';
 
 
 export default function BarraNavegaciónInferior({navigation}) {
@@ -10,7 +10,7 @@ export default function BarraNavegaciónInferior({navigation}) {
           <View style={estilos.contenedorIconoNav}>
             <Image
               source={require("../assets/Icono_home.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
+              style={estilosGlobales.iconoNav}
             />
             <Text style={estilos.textoNavActivo}>Inicio</Text>
           </View>
@@ -25,7 +25,7 @@ export default function BarraNavegaciónInferior({navigation}) {
           <View style={estilos.contenedorIconoNav}>
             <Image
               source={require("../assets/Icono_perfil.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
+              style={estilosGlobales.iconoNav}
             />
             <Text style={estilos.textoNavInactivo}>Perfil</Text>
           </View>
@@ -40,7 +40,7 @@ export default function BarraNavegaciónInferior({navigation}) {
           <View style={estilos.contenedorIconoNav}>
             <Image
               source={require("../assets/Icono_ajustes.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
+              style={estilosGlobales.iconoNav}
             />
             <Text style={estilos.textoNavInactivo}>Ajustes</Text>
           </View>

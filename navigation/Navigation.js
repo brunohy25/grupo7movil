@@ -43,11 +43,11 @@ export default function Navigation() {
       <Stack.Navigator>
         {user ? (
           <>
-          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={Home} options={{ headerShown: false, animation: 'none', transitionSpec: { open: { animation: 'timing', config: { duration: 0 } }, close: { animation: 'timing', config: { duration: 0 } } } }} />
           <Stack.Screen name="Productos" component={Productos} options={{ headerShown: false }}/>
           <Stack.Screen name="NuevoProductos" component= {NuevoProductos} options={{ headerShown: false }}/>
-          <Stack.Screen name="Perfil" component= {Perfil} options={{ headerShown: false }}/>
-          <Stack.Screen name="Ajustes" component={Ajustes} options={{ headerShown: false }} />
+          <Stack.Screen name="Perfil" component= {Perfil} options={{ headerShown: false, animation: 'none', transitionSpec: { open: { animation: 'timing', config: { duration: 0 } }, close: { animation: 'timing', config: { duration: 0 } } } }}/>
+          <Stack.Screen name="Ajustes" component={Ajustes} options={{ headerShown: false, animation: 'none', transitionSpec: { open: { animation: 'timing', config: { duration: 0 } }, close: { animation: 'timing', config: { duration: 0 } } } }} />
           </>
         ) : (
           <>

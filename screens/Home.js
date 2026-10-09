@@ -8,26 +8,25 @@ import {
   ScrollView,
   StatusBar,
 } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { colores } from '../constants/colores';
-import { estilos, estilosTema } from '../constants/estilos';
+import { estilos, estilosGlobales, estilosTema } from '../constants/estilos';
 import { usarTema } from "../contexto/ContextoTema";
 import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
 
 export default function Home({ navigation }) {
   const { modoOscuro } = usarTema();
   const tema = modoOscuro ? estilosTema.oscuro : estilosTema.claro;
+  const insets = useSafeAreaInsets();
 
   return (
-    <SafeAreaView
-      style={estilos.contenedorPrincipal}
-      edges={["top", "left", "right"]}
-    >
-      <StatusBar barStyle="light-content" backgroundColor={colores.verdePrincipal} />
+    <View style={estilosGlobales.contenedorVerde}>
+      <StatusBar barStyle={modoOscuro ? "light-content" : "dark-content"} backgroundColor="transparent" translucent={true} />
 
       {/* Contenido principal */}
       <ScrollView
-        contentContainerStyle={[estilos.cuerpoScroll, tema.fondo]}
+        style={[tema.fondo, estilosGlobales.bordeRedondeadoAbajo, { paddingTop: insets.top }]}
+        contentContainerStyle={estilos.cuerpoScroll}
         showsVerticalScrollIndicator={false}
       >
         <View style={[estilos.tarjetaCabecera, tema.fondo]}>
@@ -75,7 +74,7 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_productos.png")}
-                style={{ width: 32, height: 32, resizeMode: "contain" }}
+                style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Productos</Text>
             </View>
@@ -87,7 +86,7 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_pedidos.png")}
-                style={{ width: 32, height: 32, resizeMode: "contain" }}
+                style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Pedidos</Text>
             </View>
@@ -103,7 +102,7 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_proveedores.png")}
-                style={{ width: 32, height: 32, resizeMode: "contain" }}
+                style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Proveedores</Text>
             </View>
@@ -115,7 +114,7 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_Entregas2.png")}
-                style={{ width: 32, height: 32, resizeMode: "contain" }}
+                style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Cobranzas</Text>
             </View>
@@ -131,7 +130,7 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_depositos.png")}
-                style={{ width: 32, height: 32, resizeMode: "contain" }}
+                style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Depósito</Text>
             </View>
@@ -153,6 +152,6 @@ export default function Home({ navigation }) {
 
       {/* Barra de navegación inferior */}
             <BarraNavegaciónInferior navigation={navigation}/>
-    </SafeAreaView>
+    </View>
   );
 }

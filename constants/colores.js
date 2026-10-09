@@ -11,6 +11,10 @@ export const colores = {
   textoOscuro: "#494949",    // títulos de las tarjetas
   textoSecundario: "#919191", // texto descriptivo de las tarjetas
   rojo: "#cc3636",           // acciones de eliminar
+  switchInactivo: "#CCCCCC",
+  switchActivo: "#7D9B76",
+  placeholderClaro: "#777777",
+  placeholderOscuro: "#AAAAAA",
 };
 
 // para el modo oscuro separo en paletas de colores

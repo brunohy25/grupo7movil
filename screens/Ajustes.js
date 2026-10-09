@@ -3,22 +3,24 @@ import { Ionicons } from "@expo/vector-icons";
 import { colores } from "../constants/colores";
 import { estilosGlobales, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
 
 export default function Ajustes({ navigation }) {
   const { modoOscuro, cambiarTema } = usarTema();
   const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
+  const insets = useSafeAreaInsets();
 
   return (
-    <View style={[estilosGlobales.contenedor,tema.fondoAjustes]}>
+    <View style={[estilosGlobales.contenedorVerde, { paddingTop: insets.top }]}>
       <View style={[estilosGlobales.encabezado,estilos.encabezadoAjustes]}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Ionicons name="arrow-back" size={26} color={colores.blanco}/>
-        </TouchableOpacity>
-
         <Text style={[estilosGlobales.titulo,estilos.tituloAjustes]}>Ajustes</Text>
       </View>
 
-      <ScrollView contentContainerStyle={[estilosGlobales.contenido,estilos.contenidoAjustes]}>
+      <ScrollView 
+        style={[tema.fondo, estilosGlobales.bordeRedondeadoAbajo]}
+        contentContainerStyle={[estilosGlobales.contenido,estilos.contenidoAjustes, { flexGrow: 1 }]}
+      >
         <Text style={[estilos.subtitulo,tema.texto]}>Apariencia</Text>
 
         <View style={[estilos.opcion,tema.tarjetaAjustes]}>
@@ -29,11 +31,12 @@ export default function Ajustes({ navigation }) {
           </View>
 
           <Switch value={modoOscuro} onValueChange={cambiarTema}
-            trackColor={{false: "#CCCCCC",true: "#7D9B76"}}
+            trackColor={{false: colores.switchInactivo, true: colores.switchActivo}}
             thumbColor={colores.blanco}
           />
         </View>
       </ScrollView>
+      <BarraNavegaciónInferior navigation={navigation}/>
     </View>
   );
 }

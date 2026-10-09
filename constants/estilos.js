@@ -121,6 +121,11 @@ export const estilosGlobales = StyleSheet.create({
     backgroundColor: colores.crema,
   },
 
+  contenedorVerde: {
+    flex: 1,
+    backgroundColor: colores.verdePrincipal,
+  },
+
   encabezado: {
     backgroundColor: colores.verdePrincipal,
     flexDirection: "row",
@@ -128,7 +133,7 @@ export const estilosGlobales = StyleSheet.create({
   },
 
   encabezadoPerfil: {
-    paddingTop: 55,
+    paddingTop: 10,
     paddingBottom: 20,
     paddingHorizontal: 20,
   },
@@ -191,6 +196,23 @@ export const estilosGlobales = StyleSheet.create({
   textoSecundario: {
     color: colores.verdeOscuro,
     fontSize: 16,
+  },
+
+  bordeRedondeadoAbajo: {
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
+  },
+
+  iconoNav: {
+    width: 22,
+    height: 22,
+    resizeMode: "contain",
+  },
+
+  iconoGrilla: {
+    width: 32,
+    height: 32,
+    resizeMode: "contain",
   },
 });
 
