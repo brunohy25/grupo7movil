@@ -1,12 +1,18 @@
-
 import React from "react";
-import {View,Text,TouchableOpacity,StyleSheet,Alert,Image,ScrollView,Dimensions,StatusBar,} from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+  StatusBar,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colores } from '../constants/colores';
-import { estilosTema } from "../constants/estilos";
+import { estilos, estilosTema } from '../constants/estilos';
 import { usarTema } from "../contexto/ContextoTema";
-
-const anchoPantalla = Dimensions.get("window").width;
+import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
 
 export default function Home({ navigation }) {
   const { modoOscuro } = usarTema();
@@ -14,37 +20,37 @@ export default function Home({ navigation }) {
 
   return (
     <SafeAreaView
-      style={styles.contenedorPrincipal}
+      style={estilos.contenedorPrincipal}
       edges={["top", "left", "right"]}
     >
       <StatusBar barStyle="light-content" backgroundColor={colores.verdePrincipal} />
 
       {/* Contenido principal */}
       <ScrollView
-        contentContainerStyle={[
-          styles.cuerpoScroll,
-          tema.fondo
-        ]}
+        contentContainerStyle={[estilos.cuerpoScroll, tema.fondo]}
         showsVerticalScrollIndicator={false}
       >
-        <View style={[styles.tarjetaCabecera, tema.fondo]}>
+        <View style={[estilos.tarjetaCabecera, tema.fondo]}>
           {/* Campana de notificaciones */}
+      {/*<TouchableOpacity style={estilos.button} onPress={handleLogOut}>
+        <Text style={estilos.buttonText}>Cerrar sesión</Text>
+      </TouchableOpacity>*/}
           <TouchableOpacity
-            style={styles.botonNotificacion}
+            style={estilos.botonNotificacion}
             onPress={() => alert("Sin nuevas notificaciones")}
           >
             <Image
               source={require("../assets/Icono_notificaciones.png")}
-              style={styles.iconoNotificacion}
+              style={estilos.iconoNotificacion}
               resizeMode="contain"
             />
           </TouchableOpacity>
 
           {/* Logo */}
-          <View style={styles.contenedorLogo}>
+          <View style={estilos.contenedorLogo}>
             <Image
               source={require("../assets/logo_sabores.png")}
-              style={styles.logoEstilo}
+              style={estilos.logoEstilo}
               resizeMode="contain"
             />
           </View>
@@ -52,271 +58,101 @@ export default function Home({ navigation }) {
           {/* Imagen separadora, ajustada al ancho de pantalla */}
           <Image
             source={require("../assets/fondo_home.png")}
-            style={styles.fondoDivisor}
+            style={estilos.fondoDivisor}
             resizeMode="cover"
           />
         </View>
 
         {/* Título de sección */}
-        <Text style={[styles.textoPregunta, tema.texto]}>¿Qué necesitás gestionar?</Text>
+        <Text style={[estilos.textoPregunta, tema.texto]}>¿Qué necesitás gestionar?</Text>
 
         {/* Fila 1 */}
-        <View style={styles.filaBotones}>
+        <View style={estilos.filaBotones}>
           <TouchableOpacity
-            style={[styles.botonGrilla, tema.tarjeta]}
-            onPress={() => alert("Va a la sección Productos")}
+            style={[estilos.botonGrilla, tema.tarjeta]}
+            onPress={() => navigation.navigate("Productos")}
           >
-            <View style={styles.contenidoBotonGrilla}>
+            <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_productos.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Productos</Text>
+              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Productos</Text>
             </View>
           </TouchableOpacity>
-
           <TouchableOpacity
-            style={[styles.botonGrilla, tema.tarjeta]}
+            style={[estilos.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Pedidos")}
           >
-            <View style={styles.contenidoBotonGrilla}>
+            <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_pedidos.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Pedidos</Text>
+              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Pedidos</Text>
             </View>
           </TouchableOpacity>
         </View>
 
         {/* Fila 2 */}
-        <View style={styles.filaBotones}>
+        <View style={estilos.filaBotones}>
           <TouchableOpacity
-            style={[styles.botonGrilla, tema.tarjeta]}
+            style={[estilos.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Proveedores")}
           >
-            <View style={styles.contenidoBotonGrilla}>
+            <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_proveedores.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Proveedores</Text>
+              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Proveedores</Text>
             </View>
           </TouchableOpacity>
-
           <TouchableOpacity
-            style={[styles.botonGrilla, tema.tarjeta]}
+            style={[estilos.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Movimientos")}
           >
-            <View style={styles.contenidoBotonGrilla}>
+            <View style={estilos.contenidoBotonGrilla}>
               <Image
-                source={require("../assets/Icono_Movimientos.png")}
+                source={require("../assets/Icono_Entregas2.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Movimientos</Text>
+              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Cobranzas</Text>
             </View>
           </TouchableOpacity>
         </View>
 
         {/* Fila 3 */}
-        <View style={styles.filaBotones}>
+        <View style={estilos.filaBotones}>
           <TouchableOpacity
-            style={[styles.botonGrilla, tema.tarjeta]}
+            style={[estilos.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Depósito")}
           >
-            <View style={styles.contenidoBotonGrilla}>
+            <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_depositos.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Depósito</Text>
+              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Depósito</Text>
             </View>
           </TouchableOpacity>
-
           <TouchableOpacity
-            style={[styles.botonGrilla, tema.tarjeta]}
+            style={[estilos.botonGrilla, tema.tarjeta]}
             onPress={() => alert("Va a la sección Entregas")}
           >
-            <View style={styles.contenidoBotonGrilla}>
+            <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/Icono_entregas.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={[styles.textoBoton, modoOscuro && tema.texto]}>Entregas</Text>
+              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Entregas</Text>
             </View>
           </TouchableOpacity>
         </View>
       </ScrollView>
 
       {/* Barra de navegación inferior */}
-      <View style={styles.barraNavegacion}>
-        <TouchableOpacity style={styles.itemNavegacion}>
-          <View style={styles.contenedorIconoNav}>
-            <Image
-              source={require("../assets/Icono_home.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
-            />
-            <Text style={styles.textoNavActivo}>Inicio</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.itemNavegacion}
-          onPress={() => {
-            navigation.navigate("Perfil");
-          }}
-        >
-          <View style={styles.contenedorIconoNav}>
-            <Image
-              source={require("../assets/Icono_perfil.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
-            />
-            <Text style={styles.textoNavInactivo}>Perfil</Text>
-          </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.itemNavegacion}
-          onPress={() => navigation.navigate("Ajustes")}
-        >
-          <View style={styles.contenedorIconoNav}>
-            <Image
-              source={require("../assets/Icono_ajustes.png")}
-              style={{ width: 22, height: 22, resizeMode: "contain" }}
-            />
-            <Text style={styles.textoNavInactivo}>Ajustes</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
+            <BarraNavegaciónInferior navigation={navigation}/>
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  contenedorPrincipal: {
-    flex: 1,
-    backgroundColor: colores.verdePrincipal,
-  },
-
-  cuerpoScroll: {
-    backgroundColor: colores.crema,
-    flexGrow: 1,
-    paddingBottom: 30,
-    paddingTop: 30,
-    borderBottomLeftRadius: 30,
-    borderBottomRightRadius: 30,
-  },
-
-  tarjetaCabecera: {
-    position: "relative", // Para que la campana no se pierda
-    backgroundColor: colores.crema,
-    paddingTop: 20,
-    marginBottom: 10,
-  },
-
-  botonNotificacion: {
-    position: "absolute",
-    right: 20,
-    top: 1,
-    padding: 8,
-    zIndex: 10,
-  },
-
-  iconoNotificacion: {
-    width: 22,
-    height: 22,
-  },
-
-  contenedorLogo: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    paddingVertical: 1,
-  },
-
-  logoEstilo: {
-    width: 200,
-    height: 125,
-  },
-
-  fondoDivisor: {
-    width: anchoPantalla,
-    height: 110,
-    marginTop: 0,
-  },
-
-  textoPregunta: {
-    fontSize: 22,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginTop: 20,
-    marginBottom: 25,
-    color: colores.verdeOscuro,
-  },
-
-  filaBotones: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 20,
-    marginBottom: 25,
-  },
-
-  botonGrilla: {
-    backgroundColor: colores.blanco,
-    width: "48%",
-    height: 85,
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
-    borderWidth: 1,
-    borderColor: colores.bordeSuave,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-  },
-
-  contenidoBotonGrilla: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  textoBoton: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: colores.verdePrincipal,
-    marginTop: 6,
-  },
-
-  barraNavegacion: {
-    flexDirection: "row",
-    backgroundColor: colores.verdePrincipal,
-    height: 60,
-    justifyContent: "space-around",
-    alignItems: "center",
-    borderTopWidth: 0,
-  },
-
-  itemNavegacion: {
-    alignItems: "center",
-    justifyContent: "center",
-    flex: 1,
-  },
-
-  contenedorIconoNav: {
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  textoNavInactivo: {
-    color: colores.verdeClaro,
-    fontSize: 13,
-  },
-
-  textoNavActivo: {
-    color: colores.blanco,
-    fontSize: 13,
-    fontWeight: "bold",
-  },
-});

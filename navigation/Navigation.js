@@ -9,6 +9,10 @@ import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
 import Perfil from '../screens/Perfil';
 import Ajustes from '../screens/Ajustes';
+import Productos from '../screens/Productos';
+import NuevoProductos from '../screens/NuevoProductos';
+import Reestablecer from '../screens/Reestablecer';
+
 
 const Stack = createStackNavigator();
 
@@ -39,14 +43,17 @@ export default function Navigation() {
       <Stack.Navigator>
         {user ? (
           <>
-          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} /> 
-          <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: false }} />
+          <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+          <Stack.Screen name="Productos" component={Productos} options={{ headerShown: false }}/>
+          <Stack.Screen name="NuevoProductos" component= {NuevoProductos} options={{ headerShown: false }}/>
+          <Stack.Screen name="Perfil" component= {Perfil} options={{ headerShown: false }}/>
           <Stack.Screen name="Ajustes" component={Ajustes} options={{ headerShown: false }} />
           </>
         ) : (
           <>
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
             <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
+            <Stack.Screen name="Reestablecer" component={Reestablecer} options={{ headerShown: false }} />
           </>
         )}
       </Stack.Navigator>
