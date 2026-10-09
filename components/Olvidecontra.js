@@ -11,10 +11,10 @@ const auth = getAuth();
 export default function handleForgotPassword(resetemail) {
   sendPasswordResetEmail(auth, resetemail)
     .then(() => {
-      alert("Password reset email sent! Check your inbox.");
+      alert("Si el correo existe, se enviará el enlace para restablecer su contraseña.");
       navigation.navigate('Login')
     })
     .catch((error) => {
-      console.error("Error sending reset email:", error.code, error.message);
+      console.error("Error al enviar enlace al correo:", error.code, error.message);
     })
 }
