@@ -4,7 +4,8 @@ import {View,Text,TextInput,TouchableOpacity,StyleSheet,Alert,Image,ScrollView,}
 import { signOut, updateProfile } from "firebase/auth";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import { auth } from "../src/config/firebaseConfig";
+import { auth, db } from "../src/config/firebaseConfig";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { colores } from "../constants/colores";
 import { estilosGlobales, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
@@ -19,13 +20,32 @@ export default function Perfil({ navigation }) {
   const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
   const insets = useSafeAreaInsets();
 
-  //me shindo no se como separar nombre y apellido
-  const [nombreCompleto, setNombreCompleto] = useState(
-    usuario?.displayName || ""
-  );
+  const [nombre, setNombre] = useState("");
+  const [apellido, setApellido] = useState("");
   const [editando, setEditando] = useState(false);
   const [guardando, setGuardando] = useState(false);
   const [fotoPerfil, setFotoPerfil] = useState(null);
+
+  React.useEffect(() => {
+    const cargarPerfil = async () => {
+      if (!usuario || !db) return;
+
+      try {
+        const docRef = doc(db, "usuarios", usuario.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setNombre(data.nombre || "");
+          setApellido(data.apellido || "");
+        }
+      } catch (error) {
+        console.error("Error al cargar perfil desde Firestore:", error);
+      }
+    };
+
+    cargarPerfil();
+  }, [usuario]);
 
   const seleccionarFoto = async () => {
     try {
@@ -45,7 +65,7 @@ export default function Perfil({ navigation }) {
   };
 
   const guardarCambios = async () => {
-    if (!nombreCompleto.trim()) {
+    if (!nombre.trim() || !apellido.trim()) {
       Alert.alert("Atención", "Ingresá tu nombre y apellido.");
       return;
     }
@@ -58,8 +78,22 @@ export default function Perfil({ navigation }) {
     try {
       setGuardando(true);
 
+      // Guardamos los campos limpios y separados en la base de datos Firestore
+      if (db) {
+        await setDoc(
+          doc(db, "usuarios", usuario.uid),
+          {
+            nombre: nombre.trim(),
+            apellido: apellido.trim(),
+            email: usuario.email || "",
+          },
+          { merge: true }
+        );
+      }
+
+      // Sincronizamos también el usuario en Auth
       await updateProfile(usuario, {
-        displayName: nombreCompleto.trim(),
+        displayName: `${nombre.trim()} ${apellido.trim()}`,
       });
 
       setEditando(false);
@@ -71,8 +105,19 @@ export default function Perfil({ navigation }) {
     }
   };
 
-  const cancelarEdicion = () => {
-    setNombreCompleto(usuario?.displayName || "");
+  const cancelarEdicion = async () => {
+    if (usuario?.uid && db) {
+      try {
+        const docSnap = await getDoc(doc(db, "usuarios", usuario.uid));
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setNombre(data.nombre || "");
+          setApellido(data.apellido || "");
+        }
+      } catch (error) {
+        console.error("Error al restaurar perfil:", error);
+      }
+    }
     setEditando(false);
   };
 
@@ -125,15 +170,32 @@ export default function Perfil({ navigation }) {
           )}
         </View>
 
-        <Text style={[estilosGlobales.etiqueta, tema.texto]}>Nombre y apellido</Text>
+        <Text style={[estilosGlobales.etiqueta, tema.texto]}>Nombre</Text>
 
         <View style={[estilos.contenedorCampo, tema.campo]}>
           <TextInput
             style={[estilos.campoNombre, tema.texto]}
-            value={nombreCompleto}
-            onChangeText={setNombreCompleto}
+            value={nombre}
+            onChangeText={setNombre}
             editable={editando}
-            placeholder="Nombre y apellido"
+            placeholder="Nombre"
+            placeholderTextColor={modoOscuro ? colores.placeholderOscuro : colores.placeholderClaro}
+          />
+
+          {editando && (
+            <MaterialIcons name="edit" size={22} color={tema.texto.color}/>
+          )}
+        </View>
+
+        <Text style={[estilosGlobales.etiqueta, tema.texto]}>Apellido</Text>
+
+        <View style={[estilos.contenedorCampo, tema.campo]}>
+          <TextInput
+            style={[estilos.campoNombre, tema.texto]}
+            value={apellido}
+            onChangeText={setApellido}
+            editable={editando}
+            placeholder="Apellido"
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : colores.placeholderClaro}
           />
 
