@@ -7,7 +7,7 @@ import * as ImagePicker from "expo-image-picker";
 import { auth, db } from "../src/config/firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { colores } from "../constants/colores";
-import { estilosGlobales, estilosTema } from "../constants/estilos";
+import { estilos, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
@@ -141,17 +141,17 @@ export default function Perfil({ navigation }) {
   };
 
   return (
-    <View style={[estilosGlobales.contenedorVerde, { paddingTop: insets.top }]}>
+    <View style={[estilos.contenedorVerde, { paddingTop: insets.top }]}>
 
-      <View style={[estilosGlobales.encabezado,estilosGlobales.encabezadoPerfil,]}>
-        <Text style={estilosGlobales.titulo}>
+      <View style={[estilos.encabezado, estilos.encabezadoPerfil]}>
+        <Text style={estilos.titulo}>
           {editando ? "Editar Perfil" : "Mi Perfil"}
         </Text>
       </View>
 
       <ScrollView
-        style={[tema.fondo, estilosGlobales.bordeRedondeadoAbajo]}
-        contentContainerStyle={[estilosGlobales.contenido, { flexGrow: 1 }]}
+        style={[tema.fondo, estilos.bordeRedondeadoAbajo]}
+        contentContainerStyle={[estilos.contenido, { flexGrow: 1 }]}
         keyboardShouldPersistTaps="handled"
       >
         <View style={estilos.contenedorFoto}>
@@ -170,7 +170,7 @@ export default function Perfil({ navigation }) {
           )}
         </View>
 
-        <Text style={[estilosGlobales.etiqueta, tema.texto]}>Nombre</Text>
+        <Text style={[estilos.etiqueta, tema.texto]}>Nombre</Text>
 
         <View style={[estilos.contenedorCampo, tema.campo]}>
           <TextInput
@@ -187,7 +187,7 @@ export default function Perfil({ navigation }) {
           )}
         </View>
 
-        <Text style={[estilosGlobales.etiqueta, tema.texto]}>Apellido</Text>
+        <Text style={[estilos.etiqueta, tema.texto]}>Apellido</Text>
 
         <View style={[estilos.contenedorCampo, tema.campo]}>
           <TextInput
@@ -204,34 +204,34 @@ export default function Perfil({ navigation }) {
           )}
         </View>
 
-        <Text style={[estilosGlobales.etiqueta, tema.texto]}>Correo electrónico</Text>
+        <Text style={[estilos.etiqueta, tema.texto]}>Correo electrónico</Text>
 
         <TextInput
-          style={[estilosGlobales.campo, estilos.campoBloqueado, tema.campo]}
+          style={[estilos.campo, estilos.campoBloqueado, tema.campo]}
           value={usuario?.email || ""}
           editable={false}
         />
 
         {editando ? (
           <>
-            <TouchableOpacity style={estilosGlobales.boton} onPress={guardarCambios} disabled={guardando}>
-              <Text style={estilosGlobales.textoBoton}>
+            <TouchableOpacity style={estilos.boton} onPress={guardarCambios} disabled={guardando}>
+              <Text style={estilos.textoBoton}>
                 {guardando ? "Guardando..." : "Guardar cambios"}
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[estilosGlobales.botonSecundario, tema.borde]} onPress={cancelarEdicion}>
-              <Text style={[estilosGlobales.textoSecundario, tema.texto]}>Cancelar</Text>
+            <TouchableOpacity style={[estilos.botonSecundario, tema.borde]} onPress={cancelarEdicion}>
+              <Text style={[estilos.textoSecundario, tema.texto]}>Cancelar</Text>
             </TouchableOpacity>
           </>
         ) : (
           <>
-            <TouchableOpacity style={estilosGlobales.boton} onPress={() => setEditando(true)}>
-              <Text style={estilosGlobales.textoBoton}>Editar perfil</Text>
+            <TouchableOpacity style={estilos.boton} onPress={() => setEditando(true)}>
+              <Text style={estilos.textoBoton}>Editar perfil</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={[estilosGlobales.botonSecundario, tema.borde]} onPress={cerrarSesion}>
-              <Text style={[estilosGlobales.textoSecundario, tema.texto]}>Cerrar sesión</Text>
+            <TouchableOpacity style={[estilos.botonSecundario, tema.borde]} onPress={cerrarSesion}>
+              <Text style={[estilos.textoSecundario, tema.texto]}>Cerrar sesión</Text>
             </TouchableOpacity>
           </>
         )}
@@ -240,72 +240,3 @@ export default function Perfil({ navigation }) {
     </View>
   );
 }
-
-// estilos propios de perfil como foto de perfil, camara y el formulario con campo bloqueado
-const estilos = StyleSheet.create({
-  contenedorFoto: {
-    width: 110,
-    height: 110,
-    alignSelf: "center",
-    marginTop: 5,
-    marginBottom: 35,
-  },
-
-  foto: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    backgroundColor: colores.iconoGris,
-    alignItems: "center",
-    justifyContent: "center",
-    overflow: "hidden",
-  },
-
-  iconoFoto: {
-    fontSize: 55,
-  },
-
-  imagenPerfil: {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-  },
-
-  botonCamara: {
-    position: "absolute",
-    bottom: 0,
-    right: -5,
-    backgroundColor: colores.verdePrincipal,
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: 2,
-    borderColor: colores.blanco,
-    elevation: 3,
-  },
-
-  campoBloqueado: {
-    opacity: 0.6,
-  },
-
-  contenedorCampo: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: colores.campoFondo,
-    borderColor: colores.campoBorde,
-    borderWidth: 1,
-    borderRadius: 10,
-    marginBottom: 20,
-    paddingRight: 15,
-  },
-
-  campoNombre: {
-    flex: 1,
-    paddingVertical: 14,
-    paddingHorizontal: 14,
-    color: colores.verdeOscuro,
-    fontSize: 15,
-  },
-});

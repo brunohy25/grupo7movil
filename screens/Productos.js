@@ -13,7 +13,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { colores } from "../constants/colores";
-import { estilos } from "../constants/estilos";
+import { estilosGlobales } from "../constants/estilos";
 import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
 import { PRODUCTOS_MOCK } from "../data/ProductosMock";
 import ProductoCard from '../components/ProductoCard';
@@ -102,7 +102,7 @@ export default function Productos({ navigation, route}) {
 
   return (
     <SafeAreaView
-      style={estilos.contenedorPrincipal}
+      style={estilosGlobales.contenedorPrincipal}
       edges={["top", "left", "right"]}
     >
       <StatusBar barStyle="light-content" backgroundColor={colores.verdePrincipal} />

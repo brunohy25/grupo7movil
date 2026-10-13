@@ -9,8 +9,7 @@ import {
   StatusBar,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { colores } from '../constants/colores';
-import { estilos, estilosGlobales, estilosTema } from '../constants/estilos';
+import { estilos, estilosTema } from '../constants/estilos';
 import { usarTema } from "../contexto/ContextoTema";
 import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
 
@@ -20,20 +19,16 @@ export default function Home({ navigation }) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={estilosGlobales.contenedorVerde}>
+    <View style={estilos.contenedorVerde}>
       <StatusBar barStyle={modoOscuro ? "light-content" : "dark-content"} backgroundColor="transparent" translucent={true} />
 
       {/* Contenido principal */}
       <ScrollView
-        style={[tema.fondo, estilosGlobales.bordeRedondeadoAbajo, { paddingTop: insets.top }]}
+        style={[tema.fondo, estilos.bordeRedondeadoAbajo, { paddingTop: insets.top }]}
         contentContainerStyle={estilos.cuerpoScroll}
         showsVerticalScrollIndicator={false}
       >
         <View style={[estilos.tarjetaCabecera, tema.fondo]}>
-          {/* Campana de notificaciones */}
-      {/*<TouchableOpacity style={estilos.button} onPress={handleLogOut}>
-        <Text style={estilos.buttonText}>Cerrar sesión</Text>
-      </TouchableOpacity>*/}
           <TouchableOpacity
             style={estilos.botonNotificacion}
             onPress={() => alert("Sin nuevas notificaciones")}
@@ -74,9 +69,9 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/iconos/Icono_productos.png")}
-                style={estilosGlobales.iconoGrilla}
+                style={estilos.iconoGrilla}
               />
-              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Productos</Text>
+              <Text style={[estilos.textoBotonGrilla, modoOscuro && tema.texto]}>Productos</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -86,9 +81,9 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/iconos/Icono_pedidos.png")}
-                style={estilosGlobales.iconoGrilla}
+                style={estilos.iconoGrilla}
               />
-              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Pedidos</Text>
+              <Text style={[estilos.textoBotonGrilla, modoOscuro && tema.texto]}>Pedidos</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -102,9 +97,9 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/iconos/Icono_proveedores.png")}
-                style={estilosGlobales.iconoGrilla}
+                style={estilos.iconoGrilla}
               />
-              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Proveedores</Text>
+              <Text style={[estilos.textoBotonGrilla, modoOscuro && tema.texto]}>Proveedores</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -114,9 +109,9 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/iconos/Icono_Entregas2.png")}
-                style={estilosGlobales.iconoGrilla}
+                style={estilos.iconoGrilla}
               />
-              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Cobranzas</Text>
+              <Text style={[estilos.textoBotonGrilla, modoOscuro && tema.texto]}>Cobranzas</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -130,9 +125,9 @@ export default function Home({ navigation }) {
             <View style={estilos.contenidoBotonGrilla}>
               <Image
                 source={require("../assets/iconos/Icono_depositos.png")}
-                style={estilosGlobales.iconoGrilla}
+                style={estilos.iconoGrilla}
               />
-              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Depósito</Text>
+              <Text style={[estilos.textoBotonGrilla, modoOscuro && tema.texto]}>Depósito</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity
@@ -144,14 +139,14 @@ export default function Home({ navigation }) {
                 source={require("../assets/iconos/Icono_entregas.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
-              <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Entregas</Text>
+              <Text style={[estilos.textoBotonGrilla, modoOscuro && tema.texto]}>Entregas</Text>
             </View>
           </TouchableOpacity>
         </View>
       </ScrollView>
 
       {/* Barra de navegación inferior */}
-            <BarraNavegaciónInferior navigation={navigation}/>
+      <BarraNavegaciónInferior navigation={navigation} />
     </View>
   );
 }
