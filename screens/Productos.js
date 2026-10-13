@@ -11,6 +11,7 @@ import {
   StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { colores, COLORS, SPACING, RADIUS, FONTS } from "../constants/colores";
 import { estilosGlobales } from "../constants/estilos";
 import { PRODUCTOS_MOCK } from "../data/ProductosMock";
