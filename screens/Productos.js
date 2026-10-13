@@ -11,10 +11,8 @@ import {
   StatusBar,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons, MaterialIcons } from "@expo/vector-icons";
-import { colores } from "../constants/colores";
+import { colores, COLORS, SPACING, RADIUS, FONTS } from "../constants/colores";
 import { estilosGlobales } from "../constants/estilos";
-import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
 import { PRODUCTOS_MOCK } from "../data/ProductosMock";
 import ProductoCard from '../components/ProductoCard';
 import ModalEditar from '../components/ModalEditar';

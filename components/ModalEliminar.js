@@ -1,7 +1,7 @@
 // components/ModalEliminar.js
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
+import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
 
 export default function ModalEliminar({ visible, producto, onCancel, onConfirm }) {
   return (

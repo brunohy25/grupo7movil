@@ -8,7 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
+import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
 
 export default function NuevoProductos({ navigation }) {
   const [form, setForm] = useState({

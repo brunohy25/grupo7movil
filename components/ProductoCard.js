@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
+import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
 
 export default function ProductoCard({ producto, onVer, onEditar, onEliminar }) {
   return (

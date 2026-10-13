@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {
   Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform,
 } from 'react-native';
-import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
+import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
 
 export default function ModalEditar({ visible, producto, onCancel, onSave }) {
   const [form, setForm] = useState({
