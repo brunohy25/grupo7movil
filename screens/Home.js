@@ -39,7 +39,7 @@ export default function Home({ navigation }) {
             onPress={() => alert("Sin nuevas notificaciones")}
           >
             <Image
-              source={require("../assets/Icono_notificaciones.png")}
+              source={require("../assets/iconos/Icono_notificaciones.png")}
               style={estilos.iconoNotificacion}
               resizeMode="contain"
             />
@@ -48,7 +48,7 @@ export default function Home({ navigation }) {
           {/* Logo */}
           <View style={estilos.contenedorLogo}>
             <Image
-              source={require("../assets/logo_sabores.png")}
+              source={require("../assets/logos/logo_sabores.png")}
               style={estilos.logoEstilo}
               resizeMode="contain"
             />
@@ -56,7 +56,7 @@ export default function Home({ navigation }) {
 
           {/* Imagen separadora, ajustada al ancho de pantalla */}
           <Image
-            source={require("../assets/fondo_home.png")}
+            source={require("../assets/fondos/fondo_home.png")}
             style={estilos.fondoDivisor}
             resizeMode="cover"
           />
@@ -73,7 +73,7 @@ export default function Home({ navigation }) {
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
-                source={require("../assets/Icono_productos.png")}
+                source={require("../assets/iconos/Icono_productos.png")}
                 style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Productos</Text>
@@ -85,7 +85,7 @@ export default function Home({ navigation }) {
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
-                source={require("../assets/Icono_pedidos.png")}
+                source={require("../assets/iconos/Icono_pedidos.png")}
                 style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Pedidos</Text>
@@ -101,7 +101,7 @@ export default function Home({ navigation }) {
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
-                source={require("../assets/Icono_proveedores.png")}
+                source={require("../assets/iconos/Icono_proveedores.png")}
                 style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Proveedores</Text>
@@ -113,7 +113,7 @@ export default function Home({ navigation }) {
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
-                source={require("../assets/Icono_Entregas2.png")}
+                source={require("../assets/iconos/Icono_Entregas2.png")}
                 style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Cobranzas</Text>
@@ -129,7 +129,7 @@ export default function Home({ navigation }) {
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
-                source={require("../assets/Icono_depositos.png")}
+                source={require("../assets/iconos/Icono_depositos.png")}
                 style={estilosGlobales.iconoGrilla}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Depósito</Text>
@@ -141,7 +141,7 @@ export default function Home({ navigation }) {
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
-                source={require("../assets/Icono_entregas.png")}
+                source={require("../assets/iconos/Icono_entregas.png")}
                 style={{ width: 32, height: 32, resizeMode: "contain" }}
               />
               <Text style={[estilos.textoBoton, modoOscuro && tema.texto]}>Entregas</Text>

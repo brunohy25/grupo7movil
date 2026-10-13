@@ -61,7 +61,7 @@ export default function Login({ navigation }) {
   return (
     <BarraVerdeSuperior>
       <View style={styles.container}>
-        <Image source={require("../assets/logo.png")} style={styles.logo} />
+        <Image source={require("../assets/logos/logo.png")} style={styles.logo} />
         <Text style={styles.titleLogo}>SABOR ANDINO</Text>
         <Text style={styles.title}>Iniciar sesión</Text>
         <View style={styles.inputContainer}>

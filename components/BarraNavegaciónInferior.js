@@ -9,7 +9,7 @@ export default function BarraNavegaciónInferior({navigation}) {
   navigation.navigate("Home");}}>
           <View style={estilos.contenedorIconoNav}>
             <Image
-              source={require("../assets/Icono_home.png")}
+              source={require("../assets/iconos/Icono_home.png")}
               style={estilosGlobales.iconoNav}
             />
             <Text style={estilos.textoNavActivo}>Inicio</Text>
@@ -24,7 +24,7 @@ export default function BarraNavegaciónInferior({navigation}) {
         >
           <View style={estilos.contenedorIconoNav}>
             <Image
-              source={require("../assets/Icono_perfil.png")}
+              source={require("../assets/iconos/Icono_perfil.png")}
               style={estilosGlobales.iconoNav}
             />
             <Text style={estilos.textoNavInactivo}>Perfil</Text>
@@ -39,7 +39,7 @@ export default function BarraNavegaciónInferior({navigation}) {
         >
           <View style={estilos.contenedorIconoNav}>
             <Image
-              source={require("../assets/Icono_ajustes.png")}
+              source={require("../assets/iconos/Icono_ajustes.png")}
               style={estilosGlobales.iconoNav}
             />
             <Text style={estilos.textoNavInactivo}>Ajustes</Text>

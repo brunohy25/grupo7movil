@@ -51,7 +51,7 @@ export default function Reestablecer({ navigation }) {
     <BarraVerdeSuperior>
       
     <View style={styles.container}>
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
+      <Image source={require('../assets/logos/logo.png')} style={styles.logo} />
       <Text style={styles.title}>Olvidé mi contraseña</Text>
       <Text style={styles.signUpText}>Reestablecer contraseña de tu cuenta:</Text>
       <View style={styles.inputContainer}>

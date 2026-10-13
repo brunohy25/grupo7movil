@@ -82,7 +82,7 @@ export default function SignUp({ navigation }) {
   return (
     <BarraVerdeSuperior>
     <View style={styles.container}>
-      <Image source={require('../assets/logo.png')} style={styles.logo} />
+      <Image source={require('../assets/logos/logo.png')} style={styles.logo} />
       <Text style={styles.title}>Registrar Cuenta</Text>
       <View style={styles.inputContainer}>
         <View style={styles.iconContainer}>
