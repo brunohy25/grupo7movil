@@ -323,20 +323,32 @@ export const estilos = StyleSheet.create({
 
   contenidoAjustes: {
     padding: 20,
+    paddingBottom: 40,
+    flexGrow: 1,
   },
 
   subtitulo: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "bold",
-    marginBottom: 15,
+    marginTop: 6,
+    marginBottom: 12,
   },
 
   opcion: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: 15,
-    borderRadius: 12,
+    height: 56,
+    paddingHorizontal: 16,
+    borderRadius: 14,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: colores.bordeSuave,
+  },
+
+  divisorSeccion: {
+    height: 1,
+    marginVertical: 14,
   },
 
   informacion: {
@@ -346,7 +358,114 @@ export const estilos = StyleSheet.create({
   },
 
   texto: {
-    fontSize: 16,
+    fontSize: 15,
+  },
+
+  textoPeligro: {
+    color: colores.rojo,
+    fontWeight: "600",
+  },
+
+  modalFondo: {
+    flex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+  },
+
+  modalCard: {
+    width: "100%",
+    maxHeight: "85%",
+    borderRadius: 18,
+    padding: 20,
+  },
+
+  modalHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 15,
+  },
+
+  modalTitulo: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+
+  itemFaq: {
+    marginBottom: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: colores.bordeSuave,
+  },
+
+  preguntaFaq: {
+    fontSize: 15,
+    fontWeight: "bold",
+    marginBottom: 4,
+  },
+
+  respuestaFaq: {
+    fontSize: 14,
+    lineHeight: 20,
+    opacity: 0.85,
+    marginBottom: 10,
+  },
+
+  parrafoTerminos: {
+    fontSize: 14,
+    lineHeight: 20,
+    opacity: 0.85,
+    marginBottom: 12,
+  },
+
+  itemFaqUltimo: {
+    marginBottom: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 0,
+  },
+
+  subtituloModal: {
+    fontSize: 15,
+    fontWeight: "bold",
+    marginBottom: 8,
+  },
+
+  subtituloModalSecundario: {
+    fontSize: 15,
+    fontWeight: "bold",
+    marginTop: 15,
+    marginBottom: 10,
+  },
+
+  modalBoton: {
+    backgroundColor: colores.verdePrincipal,
+    padding: 14,
+    borderRadius: 12,
+    alignItems: "center",
+    marginTop: 15,
+  },
+
+  textoNegrita: {
+    fontWeight: "bold",
+  },
+
+  filaContacto: {
+    flexDirection: "row",
+    alignItems: "center",
+    height: 54,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: colores.bordeSuave,
+    gap: 12,
+  },
+
+  textoContacto: {
+    fontSize: 15,
+    fontWeight: "600",
   },
 });
 
@@ -356,7 +475,11 @@ export const estilosTema = {
     fondo: { backgroundColor: colores.crema },
     fondoAjustes: { backgroundColor: colores.blanco },
     tarjeta: { backgroundColor: colores.blanco },
-    tarjetaAjustes: { backgroundColor: "#F2F2F2" },
+    tarjetaAjustes: {
+      backgroundColor: colores.blanco,
+      borderColor: colores.bordeSuave,
+    },
+    divisor: { backgroundColor: colores.bordeSuave },
     texto: { color: colores.verdeOscuro },
     campo: {
       backgroundColor: colores.campoFondo,
@@ -370,7 +493,11 @@ export const estilosTema = {
     fondo: { backgroundColor: "#1E1E1E" },
     fondoAjustes: { backgroundColor: "#1E1E1E" },
     tarjeta: { backgroundColor: "#333333" },
-    tarjetaAjustes: { backgroundColor: "#333333" },
+    tarjetaAjustes: {
+      backgroundColor: "#2A2A2A",
+      borderColor: "#3D3D3D",
+    },
+    divisor: { backgroundColor: "#383838" },
     texto: { color: colores.blanco },
     campo: {
       backgroundColor: "#333333",
