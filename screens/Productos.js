@@ -21,6 +21,8 @@ import ModalEditar from '../components/ModalEditar';
 import ModalDetalle from '../components/ModalDetalle';
 import ModalEliminar from '../components/ModalEliminar';
 import BarraNavegaciónInferior from '../components/BarraNavegaciónInferior'
+import {} from '../components/productosService'
+
 
 
 export default function Productos({ navigation, route}) {
