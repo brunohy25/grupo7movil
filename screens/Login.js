@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StyleSheet,
   Alert,
   Image,
 } from "react-native";
@@ -12,6 +11,7 @@ import { FontAwesome } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../src/config/firebaseConfig";
 import { colores } from "../constants/colores";
+import { estilosAuth } from "../constants/estilos";
 import BarraVerdeSuperior from "../components/BarraVerdeSuperior";
 
 export default function Login({ navigation }) {
@@ -60,16 +60,16 @@ export default function Login({ navigation }) {
 
   return (
     <BarraVerdeSuperior>
-      <View style={styles.container}>
-        <Image source={require("../assets/logos/logo.png")} style={styles.logo} />
-        <Text style={styles.titleLogo}>SABOR ANDINO</Text>
-        <Text style={styles.title}>Iniciar sesión</Text>
-        <View style={styles.inputContainer}>
-          <View style={styles.iconContainer}>
+      <View style={[estilosAuth.container, { marginTop: 60 }]}>
+        <Image source={require("../assets/logos/logo.png")} style={estilosAuth.logo} />
+        <Text style={estilosAuth.titleLogo}>SABOR ANDINO</Text>
+        <Text style={estilosAuth.title}>Iniciar sesión</Text>
+        <View style={estilosAuth.inputContainer}>
+          <View style={estilosAuth.iconContainer}>
             <FontAwesome name="envelope" size={20} color="#ccc" />
           </View>
           <TextInput
-            style={styles.input}
+            style={estilosAuth.input}
             placeholder="Ingrese su correo"
             value={email}
             onChangeText={setEmail}
@@ -78,12 +78,12 @@ export default function Login({ navigation }) {
           />
         </View>
 
-        <View style={styles.inputContainer}>
-          <View style={styles.iconContainer}>
+        <View style={estilosAuth.inputContainer}>
+          <View style={estilosAuth.iconContainer}>
             <FontAwesome name="lock" size={20} color="#ccc" />
           </View>
           <TextInput
-            style={styles.input}
+            style={estilosAuth.input}
             placeholder="Ingrese su contraseña"
             value={password}
             onChangeText={setPassword}
@@ -91,7 +91,7 @@ export default function Login({ navigation }) {
           />
           <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
             <FontAwesome
-              style={styles.eyeButton}
+              style={estilosAuth.eyeButton}
               name={showPassword ? "eye-slash" : "eye"}
               size={20}
               color="#ccc"
@@ -99,119 +99,26 @@ export default function Login({ navigation }) {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Iniciar Sesión</Text>
+        <TouchableOpacity style={estilosAuth.button} onPress={handleLogin}>
+          <Text style={estilosAuth.buttonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
 
-        <Text style={styles.signUpText}>¿Olvidaste tu contraseña?</Text>
+        <Text style={estilosAuth.signUpText}>¿Olvidaste tu contraseña?</Text>
         <TouchableOpacity
-          style={styles.button2}
+          style={estilosAuth.button2}
           onPress={() => navigation.navigate("Reestablecer")}
         >
-          <Text style={styles.buttonText2}>Reestablecer</Text>
+          <Text style={estilosAuth.buttonText2}>Reestablecer</Text>
         </TouchableOpacity>
-        <Text style={styles.signUpText}>¿No tenes una cuenta?</Text>
+        <Text style={estilosAuth.signUpText}>¿No tenes una cuenta?</Text>
         <TouchableOpacity
-          style={styles.button2}
+          style={estilosAuth.button2}
           onPress={() => navigation.navigate("SignUp")}
         >
-          <Text style={styles.buttonText2}>Registrarse</Text>
+          <Text style={estilosAuth.buttonText2}>Registrarse</Text>
         </TouchableOpacity>
       </View>
     </BarraVerdeSuperior>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 60,
-    alignItems: "center",
-    paddingHorizontal: 24,
-    backgroundColor: "#f3f3eb",
-  },
-  logo: {
-    width: 220,
-    height: 150,
-    resizeMode: "contain",
-  },
-  titleLogo: {
-    fontSize: 38,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  label: {
-    alignSelf: "flex-start",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 10,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    width: "100%",
-    height: 45,
-    paddingHorizontal: 10,
-    backgroundColor: "#e3e3dc",
-    borderWidth: 1,
-    borderColor: "#c5c6bf",
-    borderRadius: 7,
-    marginBottom: 12,
-  },
-  icon: {
-    marginRight: 10,
-  },
-  input: {
-    flex: 1,
-    height: 40,
-  },
-  button: {
-    width: "70%",
-    alignItems: "center",
-    backgroundColor: "#3e6934",
-    paddingVertical: 10,
-    borderRadius: 14,
-    marginTop: 12,
-  },
-  button2: {
-    width: "70%",
-    alignItems: "center",
-    backgroundColor: "#fafafa00",
-    borderWidth: 1,
-    borderColor: "#0c2706",
-    paddingVertical: 10,
-    borderRadius: 14,
-    marginTop: 12,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 13,
-    fontWeight: "bold",
-  },
-  buttonText2: {
-    color: "#17380a",
-    fontSize: 13,
-    fontWeight: "bold",
-  },
-  signUpText: {
-    marginTop: 20,
-    color: "#1f4912",
-  },
-  iconContainer: {
-    width: 32,
-    height: 24,
-    alignItems: "center",
-    justifyContent: "center",
-    marginRight: 10,
-  },
-  eyeButton: {
-    width: 32,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
