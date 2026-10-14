@@ -1,5 +1,5 @@
 // screens/NuevoProductos.js
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,
   Image, Alert, KeyboardAvoidingView, Platform,
@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
 import { estilosTema } from '../constants/estilos';
 import { usarTema } from '../contexto/ContextoTema';
+import { crearProducto, validarProducto } from '../src/servicios/productos';
 
 export default function NuevoProductos({ navigation }) {
   const { modoOscuro } = usarTema();
@@ -25,6 +26,9 @@ export default function NuevoProductos({ navigation }) {
     descripcion: '',
     imagen: null,
   });
+  const [guardando, setGuardando] = useState(false);
+  // Bloquea el segundo toque al instante (el estado recién cambia en el próximo render)
+  const enviando = useRef(false);
 
   const update = (key, value) => setForm(prev => ({ ...prev, [key]: value }));
 
@@ -47,29 +51,26 @@ export default function NuevoProductos({ navigation }) {
     }
   };
 
-  const handleGuardar = () => {
-    if (!form.nombre.trim()) {
-      Alert.alert('Campo requerido', 'Ingresá el nombre del producto.');
+  const handleGuardar = async () => {
+    if (enviando.current) return;
+    const { error, datos } = validarProducto(form);
+    if (error) {
+      Alert.alert('Campo requerido', error);
       return;
     }
-    if (!form.stock.trim()) {
-      Alert.alert('Campo requerido', 'Ingresá el stock actual.');
-      return;
+    enviando.current = true;
+    try {
+      setGuardando(true);
+      // ponytail: guarda la URI local de la imagen; no se ve en otros dispositivos hasta subirla a Storage.
+      await crearProducto({ ...datos, imagen: form.imagen });
+      // La lista de Productos se actualiza sola por onSnapshot.
+      navigation.goBack();
+    } catch (e) {
+      Alert.alert('Error', 'No se pudo guardar el producto.');
+    } finally {
+      enviando.current = false;
+      setGuardando(false);
     }
-
-    const nuevoProducto = {
-      id: Date.now().toString(),
-      nombre: form.nombre.trim(),
-      categoria: form.categoria.trim(),
-      presentacion: form.presentacion.trim(),
-      stock: parseInt(form.stock, 10) || 0,
-      origen: form.origen.trim(),
-      vencimiento: form.vencimiento.trim(),
-      descripcion: form.descripcion.trim(),
-      imagen: form.imagen,
-    };
-
-    navigation.navigate('Productos', { nuevoProducto });
   };
 
   const handleCancelar = () => {
@@ -193,8 +194,8 @@ export default function NuevoProductos({ navigation }) {
             </Field>
 
             {/* Botones */}
-            <TouchableOpacity style={styles.btnGuardar} onPress={handleGuardar}>
-              <Text style={styles.btnGuardarText}>Guardar producto</Text>
+            <TouchableOpacity style={styles.btnGuardar} onPress={handleGuardar} disabled={guardando}>
+              <Text style={styles.btnGuardarText}>{guardando ? 'Guardando...' : 'Guardar producto'}</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.btnCancelar} onPress={handleCancelar}>

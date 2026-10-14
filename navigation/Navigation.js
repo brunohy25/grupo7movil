@@ -40,7 +40,8 @@ export default function Navigation() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      {/* En web cada pantalla ocupa solo el alto visible; sin esto el contenido se corta y no se puede desplazar */}
+      <Stack.Navigator screenOptions={{ cardStyle: { flex: 1 } }}>
         {user ? (
           <>
           <Stack.Screen name="Home" component={Home} options={{ headerShown: false, animation: 'none', transitionSpec: { open: { animation: 'timing', config: { duration: 0 } }, close: { animation: 'timing', config: { duration: 0 } } } }} />

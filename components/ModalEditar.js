@@ -1,11 +1,12 @@
 // components/ModalEditar.js
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
-  Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform,
+  Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Alert,
 } from 'react-native';
 import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
 import { estilosTema } from '../constants/estilos';
 import { usarTema } from '../contexto/ContextoTema';
+import { actualizarProducto, validarProducto } from '../src/servicios/productos';
 
 export default function ModalEditar({ visible, producto, onCancel, onSave }) {
   const { modoOscuro } = usarTema();
@@ -19,6 +20,9 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
     vencimiento: '',
     descripcion: '',
   });
+  const [guardando, setGuardando] = useState(false);
+  // Bloquea el segundo toque al instante (el estado recién cambia en el próximo render)
+  const enviando = useRef(false);
 
   useEffect(() => {
     if (producto && visible) {
@@ -36,13 +40,24 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
 
   const update = (key, value) => setForm(prev => ({ ...prev, [key]: value }));
 
-  const handleSave = () => {
-    if (!form.nombre.trim()) return;
-    onSave({
-      ...producto,
-      ...form,
-      stock: parseInt(form.stock, 10) || 0,
-    });
+  const handleSave = async () => {
+    if (enviando.current) return;
+    const { error, datos } = validarProducto(form);
+    if (error) {
+      Alert.alert('Atención', error);
+      return;
+    }
+    enviando.current = true;
+    try {
+      setGuardando(true);
+      await actualizarProducto(producto.id, datos);
+      onSave({ ...producto, ...datos });
+    } catch (e) {
+      Alert.alert('Error', 'No se pudo actualizar el producto.');
+    } finally {
+      enviando.current = false;
+      setGuardando(false);
+    }
   };
 
   return (
@@ -140,8 +155,8 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
               <Text style={[styles.btnCancelText, modoOscuro && tema.texto]}>Cancelar</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.btnSave} onPress={handleSave}>
-              <Text style={styles.btnSaveText}>Guardar</Text>
+            <TouchableOpacity style={styles.btnSave} onPress={handleSave} disabled={guardando}>
+              <Text style={styles.btnSaveText}>{guardando ? 'Guardando...' : 'Guardar'}</Text>
             </TouchableOpacity>
           </View>
         </View>

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, StatusBar } from "react-native";
+import { ScrollView, StyleSheet, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colores } from "../constants/colores";
 import { estilosTema } from "../constants/estilos";
@@ -18,7 +18,14 @@ export default function BarraVerdeSuperior({ children }) {
         barStyle="light-content"
         backgroundColor={colores.verdePrincipal}
       />
-      <View style={[styles.cuerpo, tema.fondo]}>{children}</View>
+      {/* Desplazable para que el formulario no se corte en pantallas bajas */}
+      <ScrollView
+        style={[styles.cuerpo, tema.fondo]}
+        contentContainerStyle={{ flexGrow: 1 }}
+        keyboardShouldPersistTaps="handled"
+      >
+        {children}
+      </ScrollView>
     </SafeAreaView>
   );
 }

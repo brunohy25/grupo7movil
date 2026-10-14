@@ -9,13 +9,14 @@ import {
   FlatList,
   Alert,
   StatusBar,
+  ActivityIndicator,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { colores, COLORS, SPACING, RADIUS, FONTS } from "../constants/colores";
 import { estilosGlobales, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
-import { PRODUCTOS_MOCK } from "../data/ProductosMock";
+import { escucharProductos, eliminarProducto } from "../src/servicios/productos";
 import ProductoCard from '../components/ProductoCard';
 import ModalEditar from '../components/ModalEditar';
 import ModalDetalle from '../components/ModalDetalle';
@@ -26,7 +27,9 @@ import BarraNavegaciónInferior from '../components/BarraNavegaciónInferior'
 export default function Productos({ navigation, route}) {
   const { modoOscuro } = usarTema();
   const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
-  const [productos, setProductos] = useState(PRODUCTOS_MOCK);
+  const [productos, setProductos] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [errorCarga, setErrorCarga] = useState(null);
   const [busqueda, setBusqueda] = useState('');
   const [filtroActivo, setFiltroActivo] = useState(false);
   const [modalEditar, setModalEditar] = useState({ visible: false, producto: null });
@@ -35,26 +38,35 @@ export default function Productos({ navigation, route}) {
   const productosFiltrados = productos.filter((producto) =>
     producto.nombre.toLowerCase().includes(busqueda.toLowerCase())
   );
-   React.useEffect(() => {
-    if (route?.params?.nuevoProducto) {
-      setProductos(prev => [route.params.nuevoProducto, ...prev]);
-      navigation.setParams({ nuevoProducto: null });
+  // Lista en tiempo real: altas, ediciones y bajas llegan solas por onSnapshot.
+  React.useEffect(() => escucharProductos(
+    (lista) => {
+      setProductos(lista);
+      setCargando(false);
+    },
+    () => {
+      setErrorCarga("No se pudieron cargar los productos.");
+      setCargando(false);
     }
-  }, [route?.params?.nuevoProducto]);
+  ), []);
 
-   const handleGuardarEdicion = (productoEditado) => {
-    setProductos(prev =>
-      prev.map(p => (p.id === productoEditado.id ? productoEditado : p))
-    );
+  // ModalEditar ya guardó en Firestore; acá solo se cierra.
+  const handleGuardarEdicion = () => {
     setModalEditar({ visible: false, producto: null });
     Alert.alert('Éxito', 'Producto actualizado correctamente.');
   };
 
-  const handleConfirmarEliminar = () => {
-    if (!modalEliminar.producto) return;
-    setProductos(prev => prev.filter(p => p.id !== modalEliminar.producto.id));
+  const handleConfirmarEliminar = async () => {
+    const producto = modalEliminar.producto;
+    if (!producto) return;
+    // Se cierra antes de borrar para evitar un doble toque.
     setModalEliminar({ visible: false, producto: null });
-    Alert.alert('Eliminado', 'El producto fue eliminado correctamente.');
+    try {
+      await eliminarProducto(producto.id);
+      Alert.alert('Eliminado', 'El producto fue eliminado correctamente.');
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo eliminar el producto.');
+    }
   };
 
   const renderProducto = ({ item }) => (
@@ -114,7 +126,7 @@ export default function Productos({ navigation, route}) {
         <Text style={styles.titulo}>Productos</Text>
         <TouchableOpacity
           style={styles.botonAgregar}
-          onPress={() => alert("Va a la sección Nuevo producto")}
+          onPress={() => navigation.navigate("NuevoProductos")}
         >
           <Text style={styles.textoAgregar}>+ Agregar</Text>
         </TouchableOpacity>
@@ -154,6 +166,17 @@ export default function Productos({ navigation, route}) {
             )}
             contentContainerStyle={styles.listContent}
             showsVerticalScrollIndicator={false}
+            ListEmptyComponent={
+              <View style={styles.emptyBox}>
+                {cargando ? (
+                  <ActivityIndicator size="large" color={colores.verdePrincipal} />
+                ) : (
+                  <Text style={[styles.emptyText, tema.textoSecundario]}>
+                    {errorCarga || "No hay productos."}
+                  </Text>
+                )}
+              </View>
+            }
           />
 
       </View>

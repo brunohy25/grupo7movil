@@ -35,7 +35,9 @@ export default function ProductoCard({ producto, onVer, onEditar, onEliminar }) 
           </Text>
         </View>
 
-        <Ionicons name="chevron-forward" size={22} color={tema.textoSecundario.color} />
+        <TouchableOpacity onPress={onVer} hitSlop={12} accessibilityLabel="Ver producto">
+          <Ionicons name="chevron-forward" size={22} color={tema.textoSecundario.color} />
+        </TouchableOpacity>
       </View>
 
       {/* Fila inferior: acciones */}
