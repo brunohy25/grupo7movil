@@ -13,7 +13,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { colores, COLORS, SPACING, RADIUS, FONTS } from "../constants/colores";
-import { estilosGlobales } from "../constants/estilos";
+import { estilosGlobales, estilosTema } from "../constants/estilos";
+import { usarTema } from "../contexto/ContextoTema";
 import { PRODUCTOS_MOCK } from "../data/ProductosMock";
 import ProductoCard from '../components/ProductoCard';
 import ModalEditar from '../components/ModalEditar';
@@ -23,6 +24,8 @@ import BarraNavegaciónInferior from '../components/BarraNavegaciónInferior'
 
 
 export default function Productos({ navigation, route}) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
   const [productos, setProductos] = useState(PRODUCTOS_MOCK);
   const [busqueda, setBusqueda] = useState('');
   const [filtroActivo, setFiltroActivo] = useState(false);
@@ -117,13 +120,13 @@ export default function Productos({ navigation, route}) {
         </TouchableOpacity>
       </View>
 
-      <View style={styles.cuerpo}>
+      <View style={[styles.cuerpo, tema.fondo]}>
         {/* Búsqueda fuera de la lista para que el campo no pierda el foco */}
         <View style={styles.filaBusqueda}>
-          <View style={[styles.cajaCampo, styles.campoBusqueda]}>
-            <Ionicons name="search" size={20} color="#575757" />
+          <View style={[styles.cajaCampo, styles.campoBusqueda, tema.campo]}>
+            <Ionicons name="search" size={20} color={modoOscuro ? tema.texto.color : "#575757"} />
             <TextInput
-              style={styles.inputBusqueda}
+              style={[styles.inputBusqueda, modoOscuro && tema.texto]}
               placeholder="Buscar producto..."
               placeholderTextColor="#a4a4a4"
               value={busqueda}
@@ -131,10 +134,10 @@ export default function Productos({ navigation, route}) {
             />
           </View>
           <TouchableOpacity
-            style={[styles.cajaCampo, styles.botonFiltro]}
+            style={[styles.cajaCampo, styles.botonFiltro, tema.campo]}
             onPress={() => alert("Filtros próximamente")}
           >
-            <MaterialIcons name="filter-list" size={24} color="#404040" />
+            <MaterialIcons name="filter-list" size={24} color={modoOscuro ? tema.texto.color : "#404040"} />
           </TouchableOpacity>
         </View>
 

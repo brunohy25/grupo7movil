@@ -1,5 +1,5 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { colores } from "./colores";
+import { colores, COLORS } from "./colores";
 
 const anchoPantalla = Dimensions.get("window").width;
 
@@ -481,6 +481,7 @@ export const estilosTema = {
     },
     divisor: { backgroundColor: colores.bordeSuave },
     texto: { color: colores.verdeOscuro },
+    textoSecundario: { color: COLORS.textGray },
     campo: {
       backgroundColor: colores.campoFondo,
       borderColor: colores.campoBorde,
@@ -492,13 +493,14 @@ export const estilosTema = {
   oscuro: {
     fondo: { backgroundColor: "#1E1E1E" },
     fondoAjustes: { backgroundColor: "#1E1E1E" },
-    tarjeta: { backgroundColor: "#333333" },
+    tarjeta: { backgroundColor: "#333333", borderColor: "#3D3D3D" },
     tarjetaAjustes: {
       backgroundColor: "#2A2A2A",
       borderColor: "#3D3D3D",
     },
     divisor: { backgroundColor: "#383838" },
     texto: { color: colores.blanco },
+    textoSecundario: { color: colores.placeholderOscuro },
     campo: {
       backgroundColor: "#333333",
       borderColor: "#555555",

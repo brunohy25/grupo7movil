@@ -4,10 +4,14 @@ import { FontAwesome } from '@expo/vector-icons';
 import { auth } from '../src/config/firebaseConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { colores } from '../constants/colores';
+import { estilosTema } from '../constants/estilos';
+import { usarTema } from '../contexto/ContextoTema';
 import BarraVerdeSuperior from '../components/BarraVerdeSuperior';
 import handleForgotPassword from '../components/Olvidecontra';
 
 export default function Reestablecer({ navigation }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   const [email, setEmail] = useState('');
 
 
@@ -50,17 +54,18 @@ export default function Reestablecer({ navigation }) {
   return (
     <BarraVerdeSuperior>
       
-    <View style={styles.container}>
+    <View style={[styles.container, modoOscuro && tema.fondo]}>
       <Image source={require('../assets/logos/logo.png')} style={styles.logo} />
-      <Text style={styles.title}>Olvidé mi contraseña</Text>
-      <Text style={styles.signUpText}>Reestablecer contraseña de tu cuenta:</Text>
-      <View style={styles.inputContainer}>
+      <Text style={[styles.title, modoOscuro && tema.texto]}>Olvidé mi contraseña</Text>
+      <Text style={[styles.signUpText, modoOscuro && tema.texto]}>Reestablecer contraseña de tu cuenta:</Text>
+      <View style={[styles.inputContainer, tema.campo]}>
         <View style={styles.iconContainer}>
           <FontAwesome name="user" size={20} color="#ccc" />
         </View>
 
         <TextInput
-          style={styles.input}
+          style={[styles.input, modoOscuro && tema.texto]}
+          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
           placeholder="Ingrese su correo"
           value={email}
           onChangeText={setEmail}
@@ -72,8 +77,8 @@ export default function Reestablecer({ navigation }) {
       <TouchableOpacity  style={styles.button}  onPress={() => handleForgotPassword(email, navigation)}>
         <Text style={styles.buttonText}>Enviar Solicitud al correo</Text>
       </TouchableOpacity>
-      <TouchableOpacity  style={styles.button2}  onPress={() => navigation.navigate('Login')}>
-              <Text style={styles.buttonText2}>Volver al Inicio de sesión</Text>
+      <TouchableOpacity  style={[styles.button2, modoOscuro && tema.borde]}  onPress={() => navigation.navigate('Login')}>
+              <Text style={[styles.buttonText2, modoOscuro && tema.texto]}>Volver al Inicio de sesión</Text>
             </TouchableOpacity>
     </View>
     </BarraVerdeSuperior>

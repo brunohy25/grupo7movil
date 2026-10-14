@@ -19,13 +19,13 @@ export default function Home({ navigation }) {
   const insets = useSafeAreaInsets();
 
   return (
-    <View style={estilos.contenedorVerde}>
+    <View style={[estilos.contenedorVerde]}>
       <StatusBar barStyle={modoOscuro ? "light-content" : "dark-content"} backgroundColor="transparent" translucent={true} />
 
       {/* Contenido principal */}
       <ScrollView
         style={[tema.fondo, estilos.bordeRedondeadoAbajo, { paddingTop: insets.top }]}
-        contentContainerStyle={estilos.cuerpoScroll}
+        contentContainerStyle={[estilos.cuerpoScroll, tema.fondo]}
         showsVerticalScrollIndicator={false}
       >
         <View style={[estilos.tarjetaCabecera, tema.fondo]}>

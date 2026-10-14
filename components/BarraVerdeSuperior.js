@@ -2,8 +2,13 @@ import React from "react";
 import { View, StyleSheet, StatusBar } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colores } from "../constants/colores";
+import { estilosTema } from "../constants/estilos";
+import { usarTema } from "../contexto/ContextoTema";
 
 export default function BarraVerdeSuperior({ children }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
+
   return (
     <SafeAreaView
       style={styles.contenedorPrincipal}
@@ -13,7 +18,7 @@ export default function BarraVerdeSuperior({ children }) {
         barStyle="light-content"
         backgroundColor={colores.verdePrincipal}
       />
-      <View style={styles.cuerpo}>{children}</View>
+      <View style={[styles.cuerpo, tema.fondo]}>{children}</View>
     </SafeAreaView>
   );
 }

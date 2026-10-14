@@ -5,9 +5,13 @@ import { auth, db } from '../src/config/firebaseConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { colores } from '../constants/colores';
+import { estilosTema } from '../constants/estilos';
+import { usarTema } from '../contexto/ContextoTema';
 import BarraVerdeSuperior from '../components/BarraVerdeSuperior';
 
 export default function SignUp({ navigation }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -81,37 +85,40 @@ export default function SignUp({ navigation }) {
 
   return (
     <BarraVerdeSuperior>
-    <View style={styles.container}>
+    <View style={[styles.container, modoOscuro && tema.fondo]}>
       <Image source={require('../assets/logos/logo.png')} style={styles.logo} />
-      <Text style={styles.title}>Registrar Cuenta</Text>
-      <View style={styles.inputContainer}>
+      <Text style={[styles.title, modoOscuro && tema.texto]}>Registrar Cuenta</Text>
+      <View style={[styles.inputContainer, tema.campo]}>
         <View style={styles.iconContainer}>
           <FontAwesome name="user" size={20} color="#ccc" />
         </View>
         <TextInput
-          style={styles.input}
+          style={[styles.input, modoOscuro && tema.texto]}
+          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
           placeholder="Ingrese su nombre"
           value={firstName}
           onChangeText={setFirstName}
         />
       </View>
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, tema.campo]}>
         <View style={styles.iconContainer}>
           <FontAwesome name="user" size={20} color="#ccc" />
         </View>
         <TextInput
-          style={styles.input}
+          style={[styles.input, modoOscuro && tema.texto]}
+          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
           placeholder="Ingrese su apellido"
           value={lastName}
           onChangeText={setLastName}
         />
       </View>
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, tema.campo]}>
         <View style={styles.iconContainer}>
           <FontAwesome name="envelope" size={20} color="#ccc" />
         </View>
         <TextInput
-          style={styles.input}
+          style={[styles.input, modoOscuro && tema.texto]}
+          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
           placeholder="Ingrese su correo"
           value={email}
           onChangeText={setEmail}
@@ -119,12 +126,13 @@ export default function SignUp({ navigation }) {
           autoCapitalize="none"
         />
       </View>
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, tema.campo]}>
         <View style={styles.iconContainer}>
           <FontAwesome name="lock" size={20} color="#ccc" />
         </View>
         <TextInput
-          style={styles.input}
+          style={[styles.input, modoOscuro && tema.texto]}
+          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
           placeholder="Ingrese su contraseña"
           value={password}
           onChangeText={setPassword}
@@ -134,12 +142,13 @@ export default function SignUp({ navigation }) {
           <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color="#ccc" />
         </TouchableOpacity>
       </View>
-      <View style={styles.inputContainer}>
+      <View style={[styles.inputContainer, tema.campo]}>
         <View style={styles.iconContainer}>
           <FontAwesome name="lock" size={20} color="#ccc" />
         </View>
         <TextInput
-          style={styles.input}
+          style={[styles.input, modoOscuro && tema.texto]}
+          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
           placeholder="Confirme su contraseña"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
@@ -154,8 +163,8 @@ export default function SignUp({ navigation }) {
         <Text style={styles.buttonText}>Registrarse</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity  style={styles.button2}  onPress={() => navigation.navigate('Login')}>
-        <Text style={styles.buttonText2}>Ya tengo cuenta</Text>
+      <TouchableOpacity  style={[styles.button2, modoOscuro && tema.borde]}  onPress={() => navigation.navigate('Login')}>
+        <Text style={[styles.buttonText2, modoOscuro && tema.texto]}>Ya tengo cuenta</Text>
       </TouchableOpacity>
     </View>
     </BarraVerdeSuperior>

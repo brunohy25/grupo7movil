@@ -9,8 +9,12 @@ import * as ImagePicker from 'expo-image-picker';
 
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
+import { estilosTema } from '../constants/estilos';
+import { usarTema } from '../contexto/ContextoTema';
 
 export default function NuevoProductos({ navigation }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   const [form, setForm] = useState({
     nombre: '',
     categoria: '',
@@ -78,13 +82,13 @@ export default function NuevoProductos({ navigation }) {
         style={{ flex: 1 }}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View style={styles.container}>
+        <View style={[styles.container, modoOscuro && tema.fondo]}>
           {/* Header */}
           <View style={styles.header}>
             <TouchableOpacity onPress={handleCancelar} style={styles.backBtn}>
-              <Ionicons name="arrow-back" size={26} color={COLORS.primary} />
+              <Ionicons name="arrow-back" size={26} color={modoOscuro ? tema.texto.color : COLORS.primary} />
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>Nuevo producto</Text>
+            <Text style={[styles.headerTitle, modoOscuro && tema.texto]}>Nuevo producto</Text>
             <View style={{ width: 26 }} />
           </View>
 
@@ -94,13 +98,13 @@ export default function NuevoProductos({ navigation }) {
             keyboardShouldPersistTaps="handled"
           >
             {/* Selector de imagen */}
-            <TouchableOpacity style={styles.imageBox} onPress={seleccionarImagen}>
+            <TouchableOpacity style={[styles.imageBox, modoOscuro && tema.campo]} onPress={seleccionarImagen}>
               {form.imagen ? (
                 <Image source={{ uri: form.imagen }} style={styles.imagePreview} />
               ) : (
                 <>
-                  <Ionicons name="camera" size={44} color={COLORS.textGray} />
-                  <Text style={styles.imageText}>Agregar Imagen{'\n'}del producto</Text>
+                  <Ionicons name="camera" size={44} color={tema.textoSecundario.color} />
+                  <Text style={[styles.imageText, tema.textoSecundario]}>Agregar Imagen{'\n'}del producto</Text>
                 </>
               )}
             </TouchableOpacity>
@@ -108,47 +112,47 @@ export default function NuevoProductos({ navigation }) {
             {/* Nombre */}
             <Field label="Nombre del producto">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.nombre}
                 onChangeText={(v) => update('nombre', v)}
                 placeholder="Ej. Pimiento dulce"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             {/* Categoría */}
             <Field label="Categoría">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.categoria}
                 onChangeText={(v) => update('categoria', v)}
                 placeholder="Ej. Especias"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             {/* Presentación */}
             <Field label="Presentación">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.presentacion}
                 onChangeText={(v) => update('presentacion', v)}
                 placeholder="Ej. 50 g"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             {/* Stock */}
             <Field label="Stock actual">
-              <View style={styles.inputWithIcon}>
-                <Ionicons name="cube-outline" size={18} color={COLORS.textGray} />
+              <View style={[styles.inputWithIcon, modoOscuro && tema.campo]}>
+                <Ionicons name="cube-outline" size={18} color={tema.textoSecundario.color} />
                 <TextInput
-                  style={styles.inputInner}
+                  style={[styles.inputInner, modoOscuro && tema.texto]}
                   value={form.stock}
                   onChangeText={(v) => update('stock', v.replace(/[^0-9]/g, ''))}
                   keyboardType="numeric"
                   placeholder="Ej. 0"
-                  placeholderTextColor={COLORS.textGray}
+                  placeholderTextColor={tema.textoSecundario.color}
                 />
               </View>
             </Field>
@@ -156,33 +160,33 @@ export default function NuevoProductos({ navigation }) {
             {/* Origen */}
             <Field label="Origen">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.origen}
                 onChangeText={(v) => update('origen', v)}
                 placeholder="Ej. Valles Calchaquíes (Salta)"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             {/* Vencimiento */}
             <Field label="Vencimiento">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.vencimiento}
                 onChangeText={(v) => update('vencimiento', v)}
                 placeholder="Ej. 12/26"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             {/* Descripción */}
             <Field label="Descripción (opcional)">
               <TextInput
-                style={[styles.input, styles.textArea]}
+                style={[styles.input, styles.textArea, modoOscuro && tema.campo]}
                 value={form.descripcion}
                 onChangeText={(v) => update('descripcion', v)}
                 placeholder="Información adicional"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
                 multiline
                 numberOfLines={3}
               />
@@ -204,9 +208,11 @@ export default function NuevoProductos({ navigation }) {
 }
 
 function Field({ label, children }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   return (
     <View style={styles.field}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, modoOscuro && tema.texto]}>{label}</Text>
       {children}
     </View>
   );

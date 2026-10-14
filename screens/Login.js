@@ -12,9 +12,13 @@ import { FontAwesome } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../src/config/firebaseConfig";
 import { colores } from "../constants/colores";
+import { estilosTema } from "../constants/estilos";
+import { usarTema } from "../contexto/ContextoTema";
 import BarraVerdeSuperior from "../components/BarraVerdeSuperior";
 
 export default function Login({ navigation }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -60,16 +64,17 @@ export default function Login({ navigation }) {
 
   return (
     <BarraVerdeSuperior>
-      <View style={styles.container}>
+      <View style={[styles.container, modoOscuro && tema.fondo]}>
         <Image source={require("../assets/logos/logo.png")} style={styles.logo} />
-        <Text style={styles.titleLogo}>SABOR ANDINO</Text>
-        <Text style={styles.title}>Iniciar sesión</Text>
-        <View style={styles.inputContainer}>
+        <Text style={[styles.titleLogo, modoOscuro && tema.texto]}>SABOR ANDINO</Text>
+        <Text style={[styles.title, modoOscuro && tema.texto]}>Iniciar sesión</Text>
+        <View style={[styles.inputContainer, tema.campo]}>
           <View style={styles.iconContainer}>
             <FontAwesome name="envelope" size={20} color="#ccc" />
           </View>
           <TextInput
-            style={styles.input}
+            style={[styles.input, modoOscuro && tema.texto]}
+            placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
             placeholder="Ingrese su correo"
             value={email}
             onChangeText={setEmail}
@@ -78,12 +83,13 @@ export default function Login({ navigation }) {
           />
         </View>
 
-        <View style={styles.inputContainer}>
+        <View style={[styles.inputContainer, tema.campo]}>
           <View style={styles.iconContainer}>
             <FontAwesome name="lock" size={20} color="#ccc" />
           </View>
           <TextInput
-            style={styles.input}
+            style={[styles.input, modoOscuro && tema.texto]}
+            placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
             placeholder="Ingrese su contraseña"
             value={password}
             onChangeText={setPassword}
@@ -103,19 +109,19 @@ export default function Login({ navigation }) {
           <Text style={styles.buttonText}>Iniciar Sesión</Text>
         </TouchableOpacity>
 
-        <Text style={styles.signUpText}>¿Olvidaste tu contraseña?</Text>
+        <Text style={[styles.signUpText, modoOscuro && tema.texto]}>¿Olvidaste tu contraseña?</Text>
         <TouchableOpacity
-          style={styles.button2}
+          style={[styles.button2, modoOscuro && tema.borde]}
           onPress={() => navigation.navigate("Reestablecer")}
         >
-          <Text style={styles.buttonText2}>Reestablecer</Text>
+          <Text style={[styles.buttonText2, modoOscuro && tema.texto]}>Reestablecer</Text>
         </TouchableOpacity>
-        <Text style={styles.signUpText}>¿No tenes una cuenta?</Text>
+        <Text style={[styles.signUpText, modoOscuro && tema.texto]}>¿No tenes una cuenta?</Text>
         <TouchableOpacity
-          style={styles.button2}
+          style={[styles.button2, modoOscuro && tema.borde]}
           onPress={() => navigation.navigate("SignUp")}
         >
-          <Text style={styles.buttonText2}>Registrarse</Text>
+          <Text style={[styles.buttonText2, modoOscuro && tema.texto]}>Registrarse</Text>
         </TouchableOpacity>
       </View>
     </BarraVerdeSuperior>

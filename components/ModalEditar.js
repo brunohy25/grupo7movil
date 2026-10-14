@@ -4,8 +4,12 @@ import {
   Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
+import { estilosTema } from '../constants/estilos';
+import { usarTema } from '../contexto/ContextoTema';
 
 export default function ModalEditar({ visible, producto, onCancel, onSave }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   const [form, setForm] = useState({
     nombre: '',
     categoria: '',
@@ -48,10 +52,10 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
         style={styles.overlay}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
-        <View style={styles.modal}>
+        <View style={[styles.modal, tema.tarjeta]}>
           <View style={styles.topBar} />
 
-          <Text style={styles.title}>Editar producto</Text>
+          <Text style={[styles.title, modoOscuro && tema.texto]}>Editar producto</Text>
 
           <ScrollView
             style={styles.content}
@@ -59,72 +63,72 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
           >
             <Field label="Nombre del producto">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.nombre}
                 onChangeText={(v) => update('nombre', v)}
                 placeholder="Ej. Pimienta negra molida"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             <Field label="Categoría">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.categoria}
                 onChangeText={(v) => update('categoria', v)}
                 placeholder="Ej. Especias"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             <Field label="Presentación">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.presentacion}
                 onChangeText={(v) => update('presentacion', v)}
                 placeholder="Ej. 50 g"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             <Field label="Stock disponible">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.stock}
                 onChangeText={(v) => update('stock', v.replace(/[^0-9]/g, ''))}
                 keyboardType="numeric"
                 placeholder="Ej. 45"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             <Field label="Origen">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.origen}
                 onChangeText={(v) => update('origen', v)}
                 placeholder="Ej. Valles Calchaquíes (Salta)"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             <Field label="Vencimiento">
               <TextInput
-                style={styles.input}
+                style={[styles.input, modoOscuro && tema.campo]}
                 value={form.vencimiento}
                 onChangeText={(v) => update('vencimiento', v)}
                 placeholder="Ej. 12/26"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
               />
             </Field>
 
             <Field label="Descripción (opcional)">
               <TextInput
-                style={[styles.input, styles.textArea]}
+                style={[styles.input, styles.textArea, modoOscuro && tema.campo]}
                 value={form.descripcion}
                 onChangeText={(v) => update('descripcion', v)}
                 placeholder="Información adicional"
-                placeholderTextColor={COLORS.textGray}
+                placeholderTextColor={tema.textoSecundario.color}
                 multiline
                 numberOfLines={3}
               />
@@ -132,8 +136,8 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
           </ScrollView>
 
           <View style={styles.buttonsRow}>
-            <TouchableOpacity style={styles.btnCancel} onPress={onCancel}>
-              <Text style={styles.btnCancelText}>Cancelar</Text>
+            <TouchableOpacity style={[styles.btnCancel, modoOscuro && tema.fondo]} onPress={onCancel}>
+              <Text style={[styles.btnCancelText, modoOscuro && tema.texto]}>Cancelar</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.btnSave} onPress={handleSave}>
@@ -147,9 +151,11 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
 }
 
 function Field({ label, children }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   return (
     <View style={styles.field}>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.label, modoOscuro && tema.texto]}>{label}</Text>
       {children}
     </View>
   );

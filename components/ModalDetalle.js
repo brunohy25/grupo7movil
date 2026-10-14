@@ -2,17 +2,21 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
+import { estilosTema } from '../constants/estilos';
+import { usarTema } from '../contexto/ContextoTema';
 
 export default function ModalDetalle({ visible, producto, onClose }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   if (!producto) return null;
 
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onClose}>
       <View style={styles.overlay}>
-        <View style={styles.modal}>
+        <View style={[styles.modal, tema.tarjeta]}>
           <View style={styles.topBar} />
 
-          <Text style={styles.title}>Detalle del producto</Text>
+          <Text style={[styles.title, modoOscuro && tema.texto]}>Detalle del producto</Text>
 
           <ScrollView style={styles.content}>
             <DetailRow label="Nombre:" value={producto.nombre} />
@@ -34,10 +38,12 @@ export default function ModalDetalle({ visible, producto, onClose }) {
 }
 
 function DetailRow({ label, value }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   return (
     <View style={styles.row}>
-      <Text style={styles.label}>{label}</Text>
-      <Text style={styles.value}>{value}</Text>
+      <Text style={[styles.label, modoOscuro && tema.texto]}>{label}</Text>
+      <Text style={[styles.value, modoOscuro && tema.texto]}>{value}</Text>
     </View>
   );
 }

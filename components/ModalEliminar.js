@@ -2,27 +2,31 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
+import { estilosTema } from '../constants/estilos';
+import { usarTema } from '../contexto/ContextoTema';
 
 export default function ModalEliminar({ visible, producto, onCancel, onConfirm }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   return (
     <Modal visible={visible} transparent animationType="fade" onRequestClose={onCancel}>
       <View style={styles.overlay}>
-        <View style={styles.modal}>
+        <View style={[styles.modal, tema.tarjeta]}>
           {/* Barra naranja decorativa superior */}
           <View style={styles.topBar} />
 
-          <Text style={styles.title}>Eliminar producto</Text>
-          <Text style={styles.message}>
+          <Text style={[styles.title, modoOscuro && tema.texto]}>Eliminar producto</Text>
+          <Text style={[styles.message, modoOscuro && tema.texto]}>
             ¿Estás seguro que deseas eliminar el producto seleccionado?
           </Text>
 
           {producto && (
-            <Text style={styles.productName}>"{producto.nombre}"</Text>
+            <Text style={[styles.productName, tema.textoSecundario]}>"{producto.nombre}"</Text>
           )}
 
           <View style={styles.buttonsRow}>
-            <TouchableOpacity style={styles.btnCancel} onPress={onCancel}>
-              <Text style={styles.btnCancelText}>Cancelar</Text>
+            <TouchableOpacity style={[styles.btnCancel, modoOscuro && tema.fondo]} onPress={onCancel}>
+              <Text style={[styles.btnCancelText, modoOscuro && tema.texto]}>Cancelar</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.btnDelete} onPress={onConfirm}>

@@ -2,13 +2,20 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
+import { estilosTema } from '../constants/estilos';
+import { usarTema } from '../contexto/ContextoTema';
 
 export default function ProductoCard({ producto, onVer, onEditar, onEliminar }) {
+  const { modoOscuro } = usarTema();
+  const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
+  // En oscuro la línea de acciones usa el borde de las tarjetas de Ajustes
+  const bordeOscuro = tema.tarjetaAjustes.borderColor;
+
   return (
-    <View style={styles.card}>
+    <View style={[styles.card, tema.tarjeta]}>
       {/* Fila superior: imagen + info + flecha */}
       <View style={styles.topRow}>
-        <View style={styles.imageBox}>
+        <View style={[styles.imageBox, modoOscuro && tema.fondo]}>
           {producto.imagen ? (
             <Image source={{ uri: producto.imagen }} style={styles.image} />
           ) : (
@@ -17,30 +24,30 @@ export default function ProductoCard({ producto, onVer, onEditar, onEliminar }) 
         </View>
 
         <View style={styles.infoBox}>
-          <Text style={styles.nombre} numberOfLines={1}>
+          <Text style={[styles.nombre, modoOscuro && tema.texto]} numberOfLines={1}>
             {producto.nombre}
           </Text>
-          <Text style={styles.detalle} numberOfLines={1}>
+          <Text style={[styles.detalle, tema.textoSecundario]} numberOfLines={1}>
             {producto.categoria} - {producto.presentacion}
           </Text>
-          <Text style={styles.stock}>
-            Stock: <Text style={styles.stockNumber}>{producto.stock} un.</Text>
+          <Text style={[styles.stock, modoOscuro && tema.texto]}>
+            Stock: <Text style={[styles.stockNumber, modoOscuro && tema.texto]}>{producto.stock} un.</Text>
           </Text>
         </View>
 
-        <Ionicons name="chevron-forward" size={22} color={COLORS.textGray} />
+        <Ionicons name="chevron-forward" size={22} color={tema.textoSecundario.color} />
       </View>
 
       {/* Fila inferior: acciones */}
-      <View style={styles.actionsRow}>
+      <View style={[styles.actionsRow, modoOscuro && { borderTopColor: bordeOscuro }]}>
         <TouchableOpacity style={styles.actionBtn} onPress={onVer}>
-          <Ionicons name="eye-outline" size={18} color={COLORS.textDark} />
-          <Text style={styles.actionText}>Ver</Text>
+          <Ionicons name="eye-outline" size={18} color={modoOscuro ? tema.texto.color : COLORS.textDark} />
+          <Text style={[styles.actionText, modoOscuro && tema.texto]}>Ver</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionBtn} onPress={onEditar}>
-          <Ionicons name="pencil" size={18} color={COLORS.textDark} />
-          <Text style={styles.actionText}>Editar</Text>
+          <Ionicons name="pencil" size={18} color={modoOscuro ? tema.texto.color : COLORS.textDark} />
+          <Text style={[styles.actionText, modoOscuro && tema.texto]}>Editar</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionBtn} onPress={onEliminar}>
