@@ -5,7 +5,6 @@ import {
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  Image,
   FlatList,
   Alert,
   StatusBar,
@@ -24,14 +23,13 @@ import ModalEliminar from '../components/ModalEliminar';
 import BarraNavegaciónInferior from '../components/BarraNavegaciónInferior'
 
 
-export default function Productos({ navigation, route}) {
+export default function Productos({ navigation }) {
   const { modoOscuro } = usarTema();
   const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
   const [productos, setProductos] = useState([]);
   const [cargando, setCargando] = useState(true);
   const [errorCarga, setErrorCarga] = useState(null);
   const [busqueda, setBusqueda] = useState('');
-  const [filtroActivo, setFiltroActivo] = useState(false);
   const [modalEditar, setModalEditar] = useState({ visible: false, producto: null });
   const [modalDetalle, setModalDetalle] = useState({ visible: false, producto: null });
   const [modalEliminar, setModalEliminar] = useState({ visible: false, producto: null });
@@ -68,51 +66,6 @@ export default function Productos({ navigation, route}) {
       Alert.alert('Error', 'No se pudo eliminar el producto.');
     }
   };
-
-  const renderProducto = ({ item }) => (
-    <View style={styles.tarjetaProducto}>
-      <View style={styles.filaSuperior}>
-        <Image
-          source={item.imagen}
-          style={styles.imagenProducto}
-          resizeMode="contain"
-        />
-        <View style={styles.columnaTexto}>
-          <Text style={styles.nombreProducto}>{item.nombre}</Text>
-          <Text style={styles.detalleProducto}>
-            {`${item.categoria} - ${item.peso}`}
-          </Text>
-          <Text style={styles.stockProducto}>{`Stock: ${item.stock} un.`}</Text>
-        </View>
-        <Ionicons name="chevron-forward" size={20} color="#505050" />
-      </View>
-
-      {/* Acciones de la tarjeta */}
-      <View style={styles.filaAcciones}>
-        <TouchableOpacity
-          style={styles.botonAccion}
-          onPress={() => alert(`Ver ${item.nombre}`)}
-        >
-          <Ionicons name="eye" size={20} color="#7c7c7c" />
-          <Text style={styles.textoAccion}>Ver</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.botonAccion}
-          onPress={() => alert(`Editar ${item.nombre}`)}
-        >
-          <MaterialIcons name="edit" size={20} color="#696a6b" />
-          <Text style={styles.textoAccion}>Editar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.botonAccion}
-          onPress={() => alert(`Eliminar ${item.nombre}`)}
-        >
-          <Ionicons name="trash-outline" size={20} color={colores.rojo} />
-          <Text style={[styles.textoAccion, styles.textoEliminar]}>Eliminar</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
 
   return (
     <SafeAreaView
@@ -271,64 +224,6 @@ const styles = StyleSheet.create({
   lista: {
     gap: 15,
     paddingBottom: 20,
-  },
-  tarjetaProducto: {
-    backgroundColor: colores.blanco,
-    borderRadius: 10,
-    padding: 14,
-    borderWidth: 1,
-    borderColor: colores.bordeSuave,
-    elevation: 3,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-  },
-  filaSuperior: {
-    flexDirection: "row",
-    alignItems: "flex-start",
-    marginBottom: 12,
-  },
-  imagenProducto: {
-    width: 70,
-    height: 70,
-  },
-  columnaTexto: {
-    flex: 1,
-    marginLeft: 20,
-  },
-  nombreProducto: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: colores.textoOscuro,
-  },
-  detalleProducto: {
-    fontSize: 15,
-    fontWeight: "500",
-    color: colores.textoSecundario,
-  },
-  stockProducto: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: colores.verdePrincipal,
-  },
-  filaAcciones: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  botonAccion: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  textoAccion: {
-    fontSize: 15,
-    fontWeight: "500",
-    color: colores.textoOscuro,
-  },
-  textoEliminar: {
-    color: colores.rojo,
   },
   safe: {
     flex: 1,
