@@ -510,7 +510,7 @@ export const estilosTema = {
   },
 };
 
-// estilos compartidos para las pantallas de autenticación (Login, SignUp)
+// estilos compartidos para las pantallas de autenticación (Login, SignUp, Reestablecer)
 export const estilosAuth = StyleSheet.create({
   container: {
     flex: 1,
@@ -604,6 +604,27 @@ export const estilosAuth = StyleSheet.create({
   signUpText: {
     marginTop: 20,
     color: colores.verdePrincipal,
+  },
+  // textos de ayuda y de error debajo de los campos
+  ayuda: {
+    width: "100%",
+    marginTop: -6,
+    marginBottom: 10,
+  },
+  textoAyuda: {
+    fontSize: 12,
+  },
+  textoError: {
+    fontSize: 12,
+    color: colores.rojo,
+  },
+  filaRegla: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  botonDeshabilitado: {
+    opacity: 0.5,
   },
 });
 

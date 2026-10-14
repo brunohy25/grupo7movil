@@ -11,6 +11,7 @@ import { estilos, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
+import { REGEX_NOMBRE, MENSAJE_NOMBRE_INVALIDO } from "../src/utilidades/validaciones";
 
 export default function Perfil({ navigation }) {
   const usuario = auth.currentUser;
@@ -67,6 +68,11 @@ export default function Perfil({ navigation }) {
   const guardarCambios = async () => {
     if (!nombre.trim() || !apellido.trim()) {
       Alert.alert("Atención", "Ingresá tu nombre y apellido.");
+      return;
+    }
+
+    if (!REGEX_NOMBRE.test(nombre.trim()) || !REGEX_NOMBRE.test(apellido.trim())) {
+      Alert.alert("Atención", MENSAJE_NOMBRE_INVALIDO);
       return;
     }
 

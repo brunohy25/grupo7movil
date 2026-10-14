@@ -1,54 +1,35 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { auth } from '../src/config/firebaseConfig';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { colores } from '../constants/colores';
-import { estilosTema } from '../constants/estilos';
+import { estilosAuth, estilosTema } from '../constants/estilos';
 import { usarTema } from '../contexto/ContextoTema';
 import BarraVerdeSuperior from '../components/BarraVerdeSuperior';
 import handleForgotPassword from '../components/Olvidecontra';
+import { REGEX_CORREO } from '../src/utilidades/validaciones';
+
+// Devuelve el mensaje de error del correo, o '' si es válido
+const errorDeCorreo = (texto) => {
+  if (!texto.trim()) return 'El correo electrónico es obligatorio.';
+  return REGEX_CORREO.test(texto.trim()) ? '' : 'Por favor, ingrese un formato de correo válido.';
+};
 
 export default function Reestablecer({ navigation }) {
   const { modoOscuro } = usarTema();
   const tema = estilosTema[modoOscuro ? 'oscuro' : 'claro'];
   const [email, setEmail] = useState('');
+  const [errorCorreo, setErrorCorreo] = useState('');
+  const [enviando, setEnviando] = useState(false);
 
+  const botonDeshabilitado = !REGEX_CORREO.test(email.trim()) || enviando;
 
-  const handleSignUp = async () => {
-    if (!firstName.trim() || !lastName.trim() || !email.trim() || !password || !confirmPassword) {
-      Alert.alert("Error", "Todos los campos son obligatorios.");
-      return;
-    }
-
-    let credential;
+  const enviarSolicitud = async () => {
+    setEnviando(true);
     try {
-      credential = await createUserWithEmailAndPassword(auth, email.trim(), password);
-    } catch (error) {
-      console.error('Error de registro:', error.code, error.message);
-      let errorMessage = "Hubo un problema al registrar el usuario.";
-      switch (error.code) {
-        case 'auth/invalid-email':
-          errorMessage = "El formato del correo electrónico no es válido.";
-          break;
-        case 'auth/network-request-failed':
-          errorMessage = "Error de conexión, por favor intenta más tarde.";
-          break;
-        case 'auth/invalid-api-key':
-          errorMessage = "La clave API de Firebase no es válida. Revisa el archivo .env.";
-          break;
-      }
-      Alert.alert("Error", `${errorMessage}\n\nCódigo: ${error.code ?? 'desconocido'}`);
-      return;
+      await handleForgotPassword(email, navigation);
+    } finally {
+      setEnviando(false);
     }
-
-    try {
-      await updateProfile(credential.user, { displayName: `${firstName.trim()} ${lastName.trim()}` });
-      Alert.alert("Registro exitoso", "Usuario registrado con éxito.");
-    } catch (error) {
-      Alert.alert("Cuenta creada", "La cuenta se creó, pero no se pudo guardar el nombre.");
-    }
-    // Input de ingreso de correo
   };
 
   return (
@@ -68,14 +49,23 @@ export default function Reestablecer({ navigation }) {
           placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
           placeholder="Ingrese su correo"
           value={email}
-          onChangeText={setEmail}
+          onChangeText={(texto) => {
+            setEmail(texto);
+            if (errorCorreo) setErrorCorreo(errorDeCorreo(texto));
+          }}
+          onBlur={() => setErrorCorreo(errorDeCorreo(email))}
           keyboardType="email-address"
           autoCapitalize="none"
         />
       </View>
+      {!!errorCorreo && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{errorCorreo}</Text>}
 
-      <TouchableOpacity  style={styles.button}  onPress={() => handleForgotPassword(email, navigation)}>
-        <Text style={styles.buttonText}>Enviar Solicitud al correo</Text>
+      <TouchableOpacity
+        style={[styles.button, botonDeshabilitado && estilosAuth.botonDeshabilitado]}
+        onPress={enviarSolicitud}
+        disabled={botonDeshabilitado}
+      >
+        <Text style={styles.buttonText}>Enviar</Text>
       </TouchableOpacity>
       <TouchableOpacity  style={[styles.button2, modoOscuro && tema.borde]}  onPress={() => navigation.navigate('Login')}>
               <Text style={[styles.buttonText2, modoOscuro && tema.texto]}>Volver al Inicio de sesión</Text>

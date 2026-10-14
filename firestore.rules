@@ -2,15 +2,24 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Cada usuario solo lee y edita su propio perfil
+    // Cada usuario solo lee y edita su propio perfil, con nombre, apellido y correo válidos
     match /usuarios/{idUsuario} {
-      allow read, write: if request.auth != null && request.auth.uid == idUsuario;
+      allow read, delete: if request.auth != null && request.auth.uid == idUsuario;
+      allow create, update: if request.auth != null && request.auth.uid == idUsuario
+                            && esUsuarioValido(request.resource.data);
     }
 
     // Cualquier usuario con sesión iniciada gestiona productos
     match /productos/{idProducto} {
       allow read, delete: if request.auth != null;
       allow create, update: if request.auth != null && esProductoValido(request.resource.data);
+    }
+
+    // Mismas expresiones regulares que la app (src/utilidades/validaciones.js)
+    function esUsuarioValido(u) {
+      return u.nombre is string && u.nombre.matches('^[a-zA-Z\\sñÑ\\x{00C0}-\\x{017F}]+$')
+          && u.apellido is string && u.apellido.matches('^[a-zA-Z\\sñÑ\\x{00C0}-\\x{017F}]+$')
+          && u.email is string && u.email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
     }
 
     function esProductoValido(p) {
