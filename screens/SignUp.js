@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { auth } from '../src/config/firebaseConfig';
+import { auth, db } from '../src/config/firebaseConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { colores } from '../constants/colores';
 import { estilosAuth } from '../constants/estilos';
 import BarraVerdeSuperior from '../components/BarraVerdeSuperior';
@@ -65,6 +66,13 @@ export default function SignUp({ navigation }) {
 
     try {
       await updateProfile(credential.user, { displayName: `${firstName.trim()} ${lastName.trim()}` });
+      if (db) {
+        await setDoc(doc(db, "usuarios", credential.user.uid), {
+          nombre: firstName.trim(),
+          apellido: lastName.trim(),
+          email: email.trim(),
+        });
+      }
       Alert.alert("Registro exitoso", "Usuario registrado con éxito.");
     } catch (error) {
       Alert.alert("Cuenta creada", "La cuenta se creó, pero no se pudo guardar el nombre.");
@@ -75,7 +83,7 @@ export default function SignUp({ navigation }) {
   return (
     <BarraVerdeSuperior>
     <View style={[estilosAuth.container, { marginTop: 40 }]}>
-      <Image source={require('../assets/logo.png')} style={[estilosAuth.logo, { marginBottom: 28 }]} />
+      <Image source={require('../assets/logos/logo.png')} style={estilosAuth.logo} />
       <Text style={estilosAuth.title}>Registrar Cuenta</Text>
       <View style={estilosAuth.inputContainer}>
         <View style={estilosAuth.iconContainer}>

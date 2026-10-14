@@ -61,7 +61,7 @@ export default function Login({ navigation }) {
   return (
     <BarraVerdeSuperior>
       <View style={[estilosAuth.container, { marginTop: 60 }]}>
-        <Image source={require("../assets/logo.png")} style={estilosAuth.logo} />
+        <Image source={require("../assets/logos/logo.png")} style={estilosAuth.logo} />
         <Text style={estilosAuth.titleLogo}>SABOR ANDINO</Text>
         <Text style={estilosAuth.title}>Iniciar sesión</Text>
         <View style={estilosAuth.inputContainer}>

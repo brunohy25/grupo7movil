@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react';
 import {
   Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform,
 } from 'react-native';
-import { COLORS, SPACING, RADIUS, FONTS } from '../theme/colors';
 import { getAuth, sendPasswordResetEmail } from "firebase/auth";
 
 const auth = getAuth();
