@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, Alert, Image } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { auth, db } from '../src/config/firebaseConfig';
+import { auth, db, setProximaAlertaAuth } from '../src/config/firebaseConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { colores } from '../constants/colores';
 import { estilosAuth, estilosTema } from '../constants/estilos';
 import { usarTema } from '../contexto/ContextoTema';
 import BarraVerdeSuperior from '../components/BarraVerdeSuperior';
+import ModalAlerta from '../components/ModalAlerta';
 import { REGEX_NOMBRE, REGEX_CORREO, REGLAS_CONTRASENA, MENSAJE_NOMBRE_INVALIDO } from '../src/utilidades/validaciones';
 
 const nombreValido = (texto) => REGEX_NOMBRE.test(texto.trim());
@@ -26,6 +27,11 @@ export default function SignUp({ navigation }) {
   const [errores, setErrores] = useState({ nombre: false, apellido: false, correo: false });
   const [contrasenaEnfocada, setContrasenaEnfocada] = useState(false);
   const [registrando, setRegistrando] = useState(false);
+  const [modalAlerta, setModalAlerta] = useState({
+    visible: false,
+    titulo: '',
+    mensaje: '',
+  });
 
   // Se valida al salir del campo; si ya hay un error, se revalida mientras se escribe
   const marcarError = (campo, hayError) => setErrores((previos) => ({ ...previos, [campo]: hayError }));
@@ -44,20 +50,29 @@ export default function SignUp({ navigation }) {
 
   const handleSignUp = async () => {
     if (!formularioValido) {
-      Alert.alert("Error", "Por favor, complete todos los campos para continuar");
+      setModalAlerta({
+        visible: true,
+        titulo: "Error",
+        mensaje: "Por favor, complete todos los campos para continuar.",
+      });
       return;
     }
 
     setRegistrando(true);
     let credential;
     try {
+      setProximaAlertaAuth({
+        titulo: "Registro exitoso",
+        mensaje: "Usuario registrado con éxito.",
+      });
       credential = await createUserWithEmailAndPassword(auth, email.trim(), password);
     } catch (error) {
+      setProximaAlertaAuth(null);
       console.error('Error de registro:', error.code, error.message);
       let errorMessage = "Hubo un problema al registrar el usuario.";
       switch (error.code) {
         case 'auth/email-already-in-use':
-          errorMessage = "Este correo electrónico ya se encuentra registrado";
+          errorMessage = "Este correo electrónico ya se encuentra registrado.";
           break;
         case 'auth/invalid-email':
           errorMessage = "El formato del correo electrónico no es válido.";
@@ -75,7 +90,11 @@ export default function SignUp({ navigation }) {
           errorMessage = "La clave API de Firebase no es válida. Revisa el archivo .env.";
           break;
       }
-      Alert.alert("Error", errorMessage);
+      setModalAlerta({
+        visible: true,
+        titulo: "Error",
+        mensaje: errorMessage,
+      });
       setRegistrando(false);
       return;
     }
@@ -89,132 +108,137 @@ export default function SignUp({ navigation }) {
           email: email.trim(),
         });
       }
-      Alert.alert("Registro exitoso", "Usuario registrado con éxito.");
     } catch (error) {
-      Alert.alert("Cuenta creada", "La cuenta se creó, pero no se pudo guardar el nombre.");
+      console.warn("No se pudo guardar datos adicionales en Firestore:", error);
     }
     setRegistrando(false);
-    // Firebase inicia la sesión y el navegador muestra Home.
   };
 
   return (
     <BarraVerdeSuperior>
-    <View style={[estilosAuth.container, { paddingTop: 20, paddingBottom: 20 }, modoOscuro && tema.fondo]}>
-      <Image source={require('../assets/logos/logo.png')} style={estilosAuth.logo} />
-      <Text style={[estilosAuth.title, modoOscuro && tema.texto]}>Registrar Cuenta</Text>
-      <View style={[estilosAuth.inputContainer, tema.campo]}>
-        <View style={estilosAuth.iconContainer}>
-          <FontAwesome name="user" size={20} color="#ccc" />
+      <View style={[estilosAuth.container, { paddingTop: 20, paddingBottom: 20 }, modoOscuro && tema.fondo]}>
+        <Image source={require('../assets/logos/logo.png')} style={estilosAuth.logo} />
+        <Text style={[estilosAuth.title, modoOscuro && tema.texto]}>Registrar Cuenta</Text>
+        <View style={[estilosAuth.inputContainer, tema.campo]}>
+          <View style={estilosAuth.iconContainer}>
+            <FontAwesome name="user" size={20} color="#ccc" />
+          </View>
+          <TextInput
+            style={[estilosAuth.input, modoOscuro && tema.texto]}
+            placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
+            placeholder="Ingrese su nombre"
+            value={firstName}
+            onChangeText={cambiarCampo('nombre', setFirstName, nombreValido)}
+            onBlur={() => marcarError('nombre', !nombreValido(firstName))}
+          />
         </View>
-        <TextInput
-          style={[estilosAuth.input, modoOscuro && tema.texto]}
-          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-          placeholder="Ingrese su nombre"
-          value={firstName}
-          onChangeText={cambiarCampo('nombre', setFirstName, nombreValido)}
-          onBlur={() => marcarError('nombre', !nombreValido(firstName))}
-        />
-      </View>
-      {errores.nombre && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{MENSAJE_NOMBRE_INVALIDO}</Text>}
-      <View style={[estilosAuth.inputContainer, tema.campo]}>
-        <View style={estilosAuth.iconContainer}>
-          <FontAwesome name="user" size={20} color="#ccc" />
+        {errores.nombre && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{MENSAJE_NOMBRE_INVALIDO}</Text>}
+        <View style={[estilosAuth.inputContainer, tema.campo]}>
+          <View style={estilosAuth.iconContainer}>
+            <FontAwesome name="user" size={20} color="#ccc" />
+          </View>
+          <TextInput
+            style={[estilosAuth.input, modoOscuro && tema.texto]}
+            placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
+            placeholder="Ingrese su apellido"
+            value={lastName}
+            onChangeText={cambiarCampo('apellido', setLastName, nombreValido)}
+            onBlur={() => marcarError('apellido', !nombreValido(lastName))}
+          />
         </View>
-        <TextInput
-          style={[estilosAuth.input, modoOscuro && tema.texto]}
-          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-          placeholder="Ingrese su apellido"
-          value={lastName}
-          onChangeText={cambiarCampo('apellido', setLastName, nombreValido)}
-          onBlur={() => marcarError('apellido', !nombreValido(lastName))}
-        />
-      </View>
-      {errores.apellido && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{MENSAJE_NOMBRE_INVALIDO}</Text>}
-      <View style={[estilosAuth.inputContainer, tema.campo]}>
-        <View style={estilosAuth.iconContainer}>
-          <FontAwesome name="envelope" size={20} color="#ccc" />
+        {errores.apellido && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{MENSAJE_NOMBRE_INVALIDO}</Text>}
+        <View style={[estilosAuth.inputContainer, tema.campo]}>
+          <View style={estilosAuth.iconContainer}>
+            <FontAwesome name="envelope" size={20} color="#ccc" />
+          </View>
+          <TextInput
+            style={[estilosAuth.input, modoOscuro && tema.texto]}
+            placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
+            placeholder="Ingrese su correo"
+            value={email}
+            onChangeText={cambiarCampo('correo', setEmail, correoValido)}
+            onBlur={() => marcarError('correo', !correoValido(email))}
+            keyboardType="email-address"
+            autoCapitalize="none"
+          />
         </View>
-        <TextInput
-          style={[estilosAuth.input, modoOscuro && tema.texto]}
-          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-          placeholder="Ingrese su correo"
-          value={email}
-          onChangeText={cambiarCampo('correo', setEmail, correoValido)}
-          onBlur={() => marcarError('correo', !correoValido(email))}
-          keyboardType="email-address"
-          autoCapitalize="none"
-        />
-      </View>
-      {errores.correo && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>Por favor, ingrese un formato de correo válido</Text>}
-      <View style={[estilosAuth.inputContainer, tema.campo]}>
-        <View style={estilosAuth.iconContainer}>
-          <FontAwesome name="lock" size={20} color="#ccc" />
+        {errores.correo && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>Por favor, ingrese un formato de correo válido</Text>}
+        <View style={[estilosAuth.inputContainer, tema.campo]}>
+          <View style={estilosAuth.iconContainer}>
+            <FontAwesome name="lock" size={20} color="#ccc" />
+          </View>
+          <TextInput
+            style={[estilosAuth.input, modoOscuro && tema.texto]}
+            placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
+            placeholder="Ingrese su contraseña"
+            value={password}
+            onChangeText={setPassword}
+            onFocus={() => setContrasenaEnfocada(true)}
+            onBlur={() => setContrasenaEnfocada(false)}
+            secureTextEntry={!showPassword}
+            maxLength={16}
+          />
+          <TouchableOpacity style={estilosAuth.eyeButton} onPress={() => setShowPassword(!showPassword)}>
+            <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color="#ccc" />
+          </TouchableOpacity>
         </View>
-        <TextInput
-          style={[estilosAuth.input, modoOscuro && tema.texto]}
-          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-          placeholder="Ingrese su contraseña"
-          value={password}
-          onChangeText={setPassword}
-          onFocus={() => setContrasenaEnfocada(true)}
-          onBlur={() => setContrasenaEnfocada(false)}
-          secureTextEntry={!showPassword}
-          maxLength={16}
-        />
-        <TouchableOpacity style={estilosAuth.eyeButton} onPress={() => setShowPassword(!showPassword)}>
-          <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color="#ccc" />
+        {contrasenaEnfocada || password ? (
+          <View style={estilosAuth.ayuda}>
+            {REGLAS_CONTRASENA.map(({ texto, cumple }) => {
+              const cumplida = cumple(password);
+              const color = cumplida ? colores.verde : tema.textoSecundario.color;
+              return (
+                <View key={texto} style={estilosAuth.filaRegla}>
+                  <FontAwesome name={cumplida ? "check-circle" : "circle-o"} size={13} color={color} />
+                  <Text style={[estilosAuth.textoAyuda, { color }]}>{texto}</Text>
+                </View>
+              );
+            })}
+          </View>
+        ) : (
+          <Text style={[estilosAuth.ayuda, estilosAuth.textoAyuda, tema.textoSecundario]}>
+            Mínimo 6 caracteres, una mayúscula, una minúscula, un número
+          </Text>
+        )}
+        <View style={[estilosAuth.inputContainer, tema.campo]}>
+          <View style={estilosAuth.iconContainer}>
+            <FontAwesome name="lock" size={20} color="#ccc" />
+          </View>
+          <TextInput
+            style={[estilosAuth.input, modoOscuro && tema.texto]}
+            placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
+            placeholder="Confirme su contraseña"
+            value={confirmPassword}
+            onChangeText={setConfirmPassword}
+            secureTextEntry={!showConfirmPassword}
+            maxLength={16}
+          />
+          <TouchableOpacity style={estilosAuth.eyeButton} onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
+            <FontAwesome name={showConfirmPassword ? "eye-slash" : "eye"} size={20} color="#ccc" />
+          </TouchableOpacity>
+        </View>
+        {contrasenasNoCoinciden && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>Las contraseñas no coinciden</Text>}
+
+        <TouchableOpacity
+          style={[estilosAuth.button, (!formularioValido || registrando) && estilosAuth.botonDeshabilitado]}
+          onPress={handleSignUp}
+          disabled={!formularioValido || registrando}
+        >
+          <Text style={estilosAuth.buttonText}>Registrarse</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity  style={[estilosAuth.button2, modoOscuro && tema.borde]}  onPress={() => navigation.navigate('Login')}>
+          <Text style={[estilosAuth.buttonText2, modoOscuro && tema.texto]}>Ya tengo cuenta</Text>
         </TouchableOpacity>
       </View>
-      {contrasenaEnfocada || password ? (
-        <View style={estilosAuth.ayuda}>
-          {REGLAS_CONTRASENA.map(({ texto, cumple }) => {
-            const cumplida = cumple(password);
-            const color = cumplida ? colores.verde : tema.textoSecundario.color;
-            return (
-              <View key={texto} style={estilosAuth.filaRegla}>
-                <FontAwesome name={cumplida ? "check-circle" : "circle-o"} size={13} color={color} />
-                <Text style={[estilosAuth.textoAyuda, { color }]}>{texto}</Text>
-              </View>
-            );
-          })}
-        </View>
-      ) : (
-        <Text style={[estilosAuth.ayuda, estilosAuth.textoAyuda, tema.textoSecundario]}>
-          Mínimo 6 caracteres, una mayúscula, una minúscula, un número
-        </Text>
-      )}
-      <View style={[estilosAuth.inputContainer, tema.campo]}>
-        <View style={estilosAuth.iconContainer}>
-          <FontAwesome name="lock" size={20} color="#ccc" />
-        </View>
-        <TextInput
-          style={[estilosAuth.input, modoOscuro && tema.texto]}
-          placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-          placeholder="Confirme su contraseña"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry={!showConfirmPassword}
-          maxLength={16}
-        />
-        <TouchableOpacity style={estilosAuth.eyeButton} onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-          <FontAwesome name={showConfirmPassword ? "eye-slash" : "eye"} size={20} color="#ccc" />
-        </TouchableOpacity>
-      </View>
-      {contrasenasNoCoinciden && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>Las contraseñas no coinciden</Text>}
 
-      <TouchableOpacity
-        style={[estilosAuth.button, (!formularioValido || registrando) && estilosAuth.botonDeshabilitado]}
-        onPress={handleSignUp}
-        disabled={!formularioValido || registrando}
-      >
-        <Text style={estilosAuth.buttonText}>Registrarse</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity  style={[estilosAuth.button2, modoOscuro && tema.borde]}  onPress={() => navigation.navigate('Login')}>
-        <Text style={[estilosAuth.buttonText2, modoOscuro && tema.texto]}>Ya tengo cuenta</Text>
-      </TouchableOpacity>
-    </View>
+      <ModalAlerta
+        visible={modalAlerta.visible}
+        titulo={modalAlerta.titulo}
+        mensaje={modalAlerta.mensaje}
+        textoConfirmar="Cerrar"
+        onConfirmar={() => setModalAlerta({ visible: false, titulo: '', mensaje: '' })}
+      />
     </BarraVerdeSuperior>
   );
 }
-

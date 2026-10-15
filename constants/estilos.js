@@ -467,6 +467,116 @@ export const estilos = StyleSheet.create({
     fontSize: 15,
     fontWeight: "600",
   },
+
+  // ==========================================
+  // POPUP / MODAL DE ALERTA Y NOTIFICACIONES
+  // ==========================================
+  popupCard: {
+    width: "100%",
+    maxWidth: 350,
+    backgroundColor: colores.blanco,
+    borderRadius: 24,
+    paddingVertical: 24,
+    paddingHorizontal: 20,
+    alignItems: "center",
+    elevation: 8,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.16,
+    shadowRadius: 10,
+  },
+
+  popupTitulo: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: colores.verdeOscuro,
+    textAlign: "center",
+    marginBottom: 10,
+  },
+
+  popupMensaje: {
+    fontSize: 15,
+    color: "#555555",
+    textAlign: "center",
+    lineHeight: 22,
+    marginBottom: 20,
+    paddingHorizontal: 4,
+  },
+
+  popupBotonPill: {
+    backgroundColor: colores.verdePrincipal,
+  },
+
+  popupBotonPillRojo: {
+    backgroundColor: colores.rojo,
+  },
+
+  popupBotonPillCancelar: {
+    backgroundColor: "transparent",
+    borderWidth: 1.5,
+    borderColor: colores.campoBorde,
+  },
+
+  popupBotonFila: {
+    flex: 1,
+    minHeight: 46,
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  popupBotonColumna: {
+    width: "100%",
+    minHeight: 46,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  popupBotonUnico: {
+    minHeight: 46,
+    minWidth: 140,
+    paddingVertical: 12,
+    paddingHorizontal: 36,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 4,
+  },
+
+  popupTextoBoton: {
+    color: colores.blanco,
+    fontWeight: "bold",
+    fontSize: 14.5,
+    textAlign: "center",
+  },
+
+  popupTextoBotonCancelar: {
+    color: colores.textoOscuro,
+    fontWeight: "600",
+    fontSize: 14.5,
+    textAlign: "center",
+  },
+
+  popupFilaBotones: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 10,
+    marginTop: 4,
+  },
+
+  popupColumnaBotones: {
+    width: "100%",
+    alignItems: "stretch",
+    gap: 10,
+    marginTop: 4,
+  },
 });
 
 // Estilos para el modo claro y oscuro
@@ -488,6 +598,11 @@ export const estilosTema = {
       color: colores.verdeOscuro,
     },
     borde: { borderColor: colores.verdeOscuro },
+    popupCard: { backgroundColor: colores.blanco },
+    popupTitulo: { color: colores.verdeOscuro },
+    popupMensaje: { color: "#555555" },
+    popupBotonPillCancelar: { borderColor: colores.campoBorde },
+    popupTextoBotonCancelar: { color: colores.textoOscuro },
   },
 
   oscuro: {
@@ -507,6 +622,11 @@ export const estilosTema = {
       color: colores.blanco,
     },
     borde: { borderColor: colores.blanco },
+    popupCard: { backgroundColor: "#2A2A2A" },
+    popupTitulo: { color: colores.blanco },
+    popupMensaje: { color: "#CCCCCC" },
+    popupBotonPillCancelar: { borderColor: "#555555" },
+    popupTextoBotonCancelar: { color: colores.blanco },
   },
 };
 

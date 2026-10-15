@@ -4,16 +4,16 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   Image,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../src/config/firebaseConfig";
+import { auth, setProximaAlertaAuth } from "../src/config/firebaseConfig";
 import { colores } from "../constants/colores";
 import { estilosAuth, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
 import BarraVerdeSuperior from "../components/BarraVerdeSuperior";
+import ModalAlerta from "../components/ModalAlerta";
 
 export default function Login({ navigation }) {
   const { modoOscuro } = usarTema();
@@ -21,18 +21,30 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [modalAlerta, setModalAlerta] = useState({
+    visible: false,
+    titulo: "",
+    mensaje: "",
+  });
 
   const handleLogin = async () => {
     if (!email.trim() || !password) {
-      Alert.alert("Error", "Por favor ingrese ambos campos.");
+      setModalAlerta({
+        visible: true,
+        titulo: "Error",
+        mensaje: "Por favor ingrese ambos campos.",
+      });
       return;
     }
 
     try {
+      setProximaAlertaAuth({
+        titulo: "Sesión iniciada",
+        mensaje: "Has iniciado sesión correctamente.",
+      });
       await signInWithEmailAndPassword(auth, email.trim(), password);
-      Alert.alert("Login exitoso", "Has iniciado sesión correctamente.");
-      // El observador de Firebase cambia la pantalla al detectar la sesión.
     } catch (error) {
+      setProximaAlertaAuth(null);
       console.error("Error de inicio de sesión:", error.code, error.message);
       let errorMessage = "Hubo un problema al iniciar sesión.";
       switch (error.code) {
@@ -54,10 +66,11 @@ export default function Login({ navigation }) {
             "La clave API de Firebase no es válida. Revisa el archivo .env.";
           break;
       }
-      Alert.alert(
-        "Error",
-        `${errorMessage}\n\nCódigo: ${error.code ?? "desconocido"}`,
-      );
+      setModalAlerta({
+        visible: true,
+        titulo: "Error",
+        mensaje: errorMessage,
+      });
     }
   };
 
@@ -123,7 +136,14 @@ export default function Login({ navigation }) {
           <Text style={[estilosAuth.buttonText2, modoOscuro && tema.texto]}>Registrarse</Text>
         </TouchableOpacity>
       </View>
+
+      <ModalAlerta
+        visible={modalAlerta.visible}
+        titulo={modalAlerta.titulo}
+        mensaje={modalAlerta.mensaje}
+        textoConfirmar="Cerrar"
+        onConfirmar={() => setModalAlerta({ visible: false, titulo: "", mensaje: "" })}
+      />
     </BarraVerdeSuperior>
   );
 }
-

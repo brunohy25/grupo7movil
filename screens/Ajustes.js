@@ -5,11 +5,10 @@ import {
   Switch,
   ScrollView,
   TouchableOpacity,
-  Alert,
   Modal,
   Linking,
 } from "react-native";
-import { Ionicons, FontAwesome, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, FontAwesome } from "@expo/vector-icons";
 import { auth } from "../src/config/firebaseConfig";
 import { sendPasswordResetEmail, deleteUser } from "firebase/auth";
 import { colores } from "../constants/colores";
@@ -17,6 +16,7 @@ import { estilos, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
+import ModalAlerta from "../components/ModalAlerta";
 
 export default function Ajustes({ navigation }) {
   const usuario = auth.currentUser;
@@ -28,66 +28,84 @@ export default function Ajustes({ navigation }) {
   const [modalTerminos, setModalTerminos] = useState(false);
   const [modalAyuda, setModalAyuda] = useState(false);
 
+  // Estados de popups personalizados
+  const [modalPasswordVisible, setModalPasswordVisible] = useState(false);
+  const [modalEliminarVisible, setModalEliminarVisible] = useState(false);
+  const [modalInfo, setModalInfo] = useState({
+    visible: false,
+    titulo: "",
+    mensaje: "",
+    boton: "Cerrar",
+  });
+
   // 1. Cambiar contraseña
   const handleCambiarContrasena = () => {
     if (!usuario?.email) {
-      Alert.alert("Error", "No se encontró el correo del usuario.");
+      setModalInfo({
+        visible: true,
+        titulo: "Atención",
+        mensaje: "No se encontró el correo del usuario.",
+        boton: "Entendido",
+      });
       return;
     }
+    setModalPasswordVisible(true);
+  };
 
-    Alert.alert(
-      "Cambiar contraseña",
-      `¿Deseas enviar un correo a ${usuario.email} para restablecer tu contraseña?`,
-      [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Enviar correo",
-          onPress: async () => {
-            try {
-              await sendPasswordResetEmail(auth, usuario.email);
-              Alert.alert(
-                "Correo enviado",
-                "Revisá tu bandeja de entrada o spam para crear una nueva contraseña."
-              );
-            } catch (error) {
-              Alert.alert("Error", "No se pudo enviar el correo de recuperación.");
-            }
-          },
-        },
-      ]
-    );
+  const confirmarCambioContrasena = async () => {
+    setModalPasswordVisible(false);
+    try {
+      await sendPasswordResetEmail(auth, usuario.email);
+      setModalInfo({
+        visible: true,
+        titulo: "Correo enviado",
+        mensaje: "Revisá tu bandeja de entrada o spam para crear una nueva contraseña.",
+        boton: "Entendido",
+      });
+    } catch (error) {
+      setModalInfo({
+        visible: true,
+        titulo: "Error",
+        mensaje: "No se pudo enviar el correo de recuperación.",
+        boton: "Cerrar",
+      });
+    }
   };
 
   // 2. Eliminar cuenta
   const handleEliminarCuenta = () => {
-    Alert.alert(
-      "Eliminar cuenta",
-      "Esta acción es irreversible y se perderán todos tus datos asociados. ¿Estás seguro?",
-      [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "Eliminar definitivamente",
-          style: "destructive",
-          onPress: async () => {
-            try {
-              if (usuario) {
-                await deleteUser(usuario);
-                Alert.alert("Cuenta eliminada", "Tu cuenta ha sido eliminada con éxito.");
-              }
-            } catch (error) {
-              if (error.code === "auth/requires-recent-login") {
-                Alert.alert(
-                  "Seguridad",
-                  "Por motivos de seguridad, debes volver a iniciar sesión antes de eliminar la cuenta."
-                );
-              } else {
-                Alert.alert("Error", "No se pudo eliminar la cuenta. Intenta más tarde.");
-              }
-            }
-          },
-        },
-      ]
-    );
+    setModalEliminarVisible(true);
+  };
+
+  const confirmarEliminarCuenta = async () => {
+    setModalEliminarVisible(false);
+    try {
+      if (usuario) {
+        await deleteUser(usuario);
+        setModalInfo({
+          visible: true,
+          titulo: "Cuenta eliminada",
+          mensaje: "Tu cuenta ha sido eliminada con éxito.",
+          boton: "Entendido",
+        });
+      }
+    } catch (error) {
+      if (error.code === "auth/requires-recent-login") {
+        setModalInfo({
+          visible: true,
+          titulo: "Seguridad",
+          mensaje: "Por motivos de seguridad, debes volver a iniciar sesión antes de eliminar la cuenta.",
+          boton: "Entendido",
+        });
+      } else {
+        setModalInfo({
+          visible: true,
+          titulo: "Error",
+          mensaje: "No se pudo eliminar la cuenta. Intenta más tarde.",
+          boton: "Cerrar",
+        });
+      }
+    }
   };
 
   // 3. Abrir enlaces de contacto
@@ -97,10 +115,20 @@ export default function Ajustes({ navigation }) {
       if (soportado) {
         await Linking.openURL(url);
       } else {
-        Alert.alert("Atención", "No se pudo abrir la aplicación requerida.");
+        setModalInfo({
+          visible: true,
+          titulo: "Atención",
+          mensaje: "No se pudo abrir la aplicación requerida.",
+          boton: "Cerrar",
+        });
       }
     } catch (error) {
-      Alert.alert("Error", "Ocurrió un problema al abrir el enlace.");
+      setModalInfo({
+        visible: true,
+        titulo: "Error",
+        mensaje: "Ocurrió un problema al abrir el enlace.",
+        boton: "Cerrar",
+      });
     }
   };
 
@@ -333,6 +361,40 @@ export default function Ajustes({ navigation }) {
           </View>
         </View>
       </Modal>
+
+      {/* ================= MODALES DE ALERTA PERSONALIZADOS (ESTILO IMAGE 1) ================= */}
+      {/* Modal Cambiar Contraseña */}
+      <ModalAlerta
+        visible={modalPasswordVisible}
+        titulo="Cambiar contraseña"
+        mensaje={`¿Deseas enviar un correo a ${usuario?.email || "tu correo"} para restablecer tu contraseña?`}
+        textoConfirmar="Enviar correo"
+        onConfirmar={confirmarCambioContrasena}
+        textoCancelar="Cancelar"
+        onCancelar={() => setModalPasswordVisible(false)}
+      />
+
+      {/* Modal Eliminar Cuenta (con botón en rojo) */}
+      <ModalAlerta
+        visible={modalEliminarVisible}
+        titulo="Eliminar cuenta"
+        mensaje="Esta acción es irreversible y se perderán todos tus datos asociados. ¿Estás seguro?"
+        textoConfirmar="Eliminar definitivamente"
+        onConfirmar={confirmarEliminarCuenta}
+        textoCancelar="Cancelar"
+        onCancelar={() => setModalEliminarVisible(false)}
+        esPeligro={true}
+        botonesVerticales={true}
+      />
+
+      {/* Modal de información / feedback / errores */}
+      <ModalAlerta
+        visible={modalInfo.visible}
+        titulo={modalInfo.titulo}
+        mensaje={modalInfo.mensaje}
+        textoConfirmar={modalInfo.boton || "Cerrar"}
+        onConfirmar={() => setModalInfo({ visible: false, titulo: "", mensaje: "", boton: "Cerrar" })}
+      />
 
       {/* Barra de navegación inferior */}
       <BarraNavegaciónInferior navigation={navigation} />
