@@ -777,6 +777,6 @@ export const estilosAuth = StyleSheet.create({
   },
 });
 
-// Alias para garantizar 100% de compatibilidad con cualquier import
+// Alias para compatibilidad
 export const estilosGlobales = estilos;
 export const styles = estilos;

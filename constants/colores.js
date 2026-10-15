@@ -58,7 +58,7 @@ export const coloresTema = {
   },
 };
 
-// Tokens COLORS unificados (sistema en inglés para compatibilidad directa)
+// Paleta en ingles
 export const COLORS = {
   primary: '#2D5016',
   primaryLight: '#5A7D2A',
@@ -117,6 +117,6 @@ export const FONTS = {
   },
 };
 
-// Aliases para máxima compatibilidad
+// Alias de colores
 export const colors = COLORS;
 export default colores;

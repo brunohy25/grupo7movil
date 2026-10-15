@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
-import { colores, COLORS, SPACING, RADIUS, FONTS } from "../constants/colores";
+import { colores } from "../constants/colores";
 import { estilosGlobales, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
 import { escucharProductos, eliminarProducto } from "../src/servicios/productos";
@@ -221,93 +221,18 @@ const styles = StyleSheet.create({
     width: 50,
     justifyContent: "center",
   },
-  lista: {
-    gap: 15,
-    paddingBottom: 20,
-  },
-  safe: {
-    flex: 1,
-    backgroundColor: COLORS.primary,
-  },
-  container: {
-    flex: 1,
-    backgroundColor: COLORS.cream,
-    paddingHorizontal: SPACING.md,
-    paddingTop: SPACING.md,
-  },
-  header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: SPACING.md,
-  },
-  headerTitle: {
-    fontSize: FONTS.sizes.xxl,
-    fontWeight: '700',
-    color: COLORS.textDark,
-  },
-  btnAgregar: {
-    backgroundColor: COLORS.white,
-    paddingHorizontal: SPACING.md,
-    paddingVertical: SPACING.sm,
-    borderRadius: RADIUS.pill,
-    borderWidth: 1,
-    borderColor: COLORS.primary,
-  },
-  btnAgregarText: {
-    color: COLORS.primary,
-    fontWeight: '700',
-    fontSize: FONTS.sizes.sm,
-  },
-  searchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: SPACING.md,
-  },
-  searchBox: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: COLORS.inputBg,
-    borderRadius: RADIUS.md,
-    paddingHorizontal: SPACING.md,
-    height: 44,
-    marginRight: SPACING.sm,
-    borderWidth: 1,
-    borderColor: COLORS.inputBorder,
-  },
-  searchInput: {
-    flex: 1,
-    marginLeft: SPACING.sm,
-    fontSize: FONTS.sizes.sm,
-    color: COLORS.textDark,
-  },
-  btnFiltro: {
-    width: 44,
-    height: 44,
-    borderRadius: RADIUS.md,
-    backgroundColor: COLORS.inputBg,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: COLORS.inputBorder,
-  },
-  btnFiltroActive: {
-    backgroundColor: COLORS.primary,
-    borderColor: COLORS.primary,
-  },
   listContent: {
-    paddingBottom: SPACING.xl,
+    paddingBottom: 24,
   },
   emptyBox: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingVertical: SPACING.xl * 2,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingVertical: 48,
   },
   emptyText: {
-    marginTop: SPACING.md,
-    fontSize: FONTS.sizes.md,
-    color: COLORS.textGray,
+    marginTop: 16,
+    fontSize: 16,
+    color: colores.textoSecundario,
   },
 });

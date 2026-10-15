@@ -59,21 +59,26 @@ export default function Navigation() {
   return (
     <>
       <NavigationContainer>
-        {/* En web cada pantalla ocupa solo el alto visible; sin esto el contenido se corta y no se puede desplazar */}
-        <Stack.Navigator screenOptions={{ cardStyle: { flex: 1 } }}>
+        <Stack.Navigator
+          screenOptions={{
+            headerShown: false,
+            animationEnabled: false,
+            cardStyle: { flex: 1 },
+          }}
+        >
           {user ? (
             <>
-              <Stack.Screen name="Home" component={Home} options={{ headerShown: false, animation: 'none', transitionSpec: { open: { animation: 'timing', config: { duration: 0 } }, close: { animation: 'timing', config: { duration: 0 } } } }} />
-              <Stack.Screen name="Productos" component={Productos} options={{ headerShown: false }}/>
-              <Stack.Screen name="NuevoProductos" component={NuevoProductos} options={{ headerShown: false }}/>
-              <Stack.Screen name="Perfil" component={Perfil} options={{ headerShown: false, animation: 'none', transitionSpec: { open: { animation: 'timing', config: { duration: 0 } }, close: { animation: 'timing', config: { duration: 0 } } } }}/>
-              <Stack.Screen name="Ajustes" component={Ajustes} options={{ headerShown: false, animation: 'none', transitionSpec: { open: { animation: 'timing', config: { duration: 0 } }, close: { animation: 'timing', config: { duration: 0 } } } }} />
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Productos" component={Productos} />
+              <Stack.Screen name="NuevoProductos" component={NuevoProductos} />
+              <Stack.Screen name="Perfil" component={Perfil} />
+              <Stack.Screen name="Ajustes" component={Ajustes} />
             </>
           ) : (
             <>
-              <Stack.Screen name="Login" component={Login} options={{ headerShown: false }} />
-              <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }} />
-              <Stack.Screen name="Reestablecer" component={Reestablecer} options={{ headerShown: false }} />
+              <Stack.Screen name="Login" component={Login} />
+              <Stack.Screen name="SignUp" component={SignUp} />
+              <Stack.Screen name="Reestablecer" component={Reestablecer} />
             </>
           )}
         </Stack.Navigator>

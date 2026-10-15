@@ -61,7 +61,7 @@ export default function NuevoProductos({ navigation }) {
     enviando.current = true;
     try {
       setGuardando(true);
-      // ponytail: guarda la URI local de la imagen; no se ve en otros dispositivos hasta subirla a Storage.
+      // Guarda la URI de la imagen seleccionada
       await crearProducto({ ...datos, imagen: form.imagen });
       // La lista de Productos se actualiza sola por onSnapshot.
       navigation.goBack();

@@ -1,6 +1,13 @@
-// (˶˃ ᵕ ˂˶) .ᐟ.ᐟ
 import React, { useState } from "react";
-import {View,Text,TextInput,TouchableOpacity,StyleSheet,Alert,Image,ScrollView,} from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+} from "react-native";
 import { signOut, updateProfile } from "firebase/auth";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
@@ -46,7 +53,7 @@ export default function Perfil({ navigation }) {
     };
 
     cargarPerfil();
-  }, [usuario]);
+  }, [usuario?.uid]);
 
   const seleccionarFoto = async () => {
     try {
