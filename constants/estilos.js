@@ -513,7 +513,8 @@ export const estilosTema = {
 // estilos compartidos para las pantallas de autenticación (Login, SignUp, Reestablecer)
 export const estilosAuth = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    width: "100%",
     alignItems: "center",
     paddingHorizontal: 24,
     backgroundColor: colores.crema,

@@ -77,12 +77,14 @@ export default function Reestablecer({ navigation }) {
 
 const styles = StyleSheet.create({
   container: {
-  flex: 1,
-  marginTop:40,
-  alignItems: 'center',
-  paddingHorizontal: 24,
-  backgroundColor: '#f3f3eb',
-},
+    flexGrow: 1,
+    width: "100%",
+    paddingTop: 20,
+    paddingBottom: 20,
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    backgroundColor: '#f3f3eb',
+  },
   logo: {
   width: 220,
   height: 150,

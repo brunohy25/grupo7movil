@@ -99,7 +99,7 @@ export default function SignUp({ navigation }) {
 
   return (
     <BarraVerdeSuperior>
-    <View style={[estilosAuth.container, { marginTop: 40 }, modoOscuro && tema.fondo]}>
+    <View style={[estilosAuth.container, { paddingTop: 20, paddingBottom: 20 }, modoOscuro && tema.fondo]}>
       <Image source={require('../assets/logos/logo.png')} style={estilosAuth.logo} />
       <Text style={[estilosAuth.title, modoOscuro && tema.texto]}>Registrar Cuenta</Text>
       <View style={[estilosAuth.inputContainer, tema.campo]}>

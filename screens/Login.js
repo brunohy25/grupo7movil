@@ -63,7 +63,7 @@ export default function Login({ navigation }) {
 
   return (
     <BarraVerdeSuperior>
-      <View style={[estilosAuth.container, { marginTop: 60 }, modoOscuro && tema.fondo]}>
+      <View style={[estilosAuth.container, { paddingTop: 20, paddingBottom: 20 }, modoOscuro && tema.fondo]}>
         <Image source={require("../assets/logos/logo.png")} style={estilosAuth.logo} />
         <Text style={[estilosAuth.titleLogo, modoOscuro && tema.texto]}>SABOR ANDINO</Text>
         <Text style={[estilosAuth.title, modoOscuro && tema.texto]}>Iniciar sesión</Text>
