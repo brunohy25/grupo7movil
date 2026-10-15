@@ -305,7 +305,7 @@ export default function Ajustes({ navigation }) {
                   abrirEnlace("https://wa.me/5493875551234?text=Hola,%20necesito%20ayuda%20con%20la%20app%20Sabor%20Andino")
                 }
               >
-                <FontAwesome name="whatsapp" size={22} color="#25D366" />
+                <FontAwesome name="whatsapp" size={22} color={colores.whatsapp} />
                 <Text style={[estilos.textoContacto, tema.texto]}>WhatsApp: +54 9 387 555-1234</Text>
               </TouchableOpacity>
 

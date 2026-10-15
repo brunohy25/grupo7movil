@@ -82,7 +82,7 @@ export default function Login({ navigation }) {
         <Text style={[estilosAuth.title, modoOscuro && tema.texto]}>Iniciar sesión</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
-            <FontAwesome name="envelope" size={20} color="#ccc" />
+            <FontAwesome name="envelope" size={20} color={colores.iconoGris} />
           </View>
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
@@ -97,7 +97,7 @@ export default function Login({ navigation }) {
 
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
-            <FontAwesome name="lock" size={20} color="#ccc" />
+            <FontAwesome name="lock" size={20} color={colores.iconoGris} />
           </View>
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
@@ -112,7 +112,7 @@ export default function Login({ navigation }) {
               style={estilosAuth.eyeButton}
               name={showPassword ? "eye-slash" : "eye"}
               size={20}
-              color="#ccc"
+              color={colores.iconoGris}
             />
           </TouchableOpacity>
         </View>

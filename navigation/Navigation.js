@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, isFirebaseConfigured, getProximaAlertaAuth } from '../src/config/firebaseConfig';
+import { estilos } from '../constants/estilos';
 import ModalAlerta from '../components/ModalAlerta';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
@@ -43,8 +44,8 @@ export default function Navigation() {
 
   if (!isFirebaseConfigured) {
     return (
-      <View style={styles.center}>
-        <Text style={styles.message}>
+      <View style={estilos.navCentro}>
+        <Text style={estilos.navMensaje}>
           Falta configurar Firebase. Copia .env.example como .env y completa los datos de tu proyecto.
         </Text>
       </View>
@@ -52,7 +53,7 @@ export default function Navigation() {
   }
 
   if (user === undefined) {
-    return <View style={styles.center}><ActivityIndicator size="large" /></View>;
+    return <View style={estilos.navCentro}><ActivityIndicator size="large" /></View>;
   }
 
   return (
@@ -88,8 +89,3 @@ export default function Navigation() {
     </>
   );
 }
-
-const styles = StyleSheet.create({
-  center: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24 },
-  message: { textAlign: 'center', fontSize: 16 },
-});

@@ -181,7 +181,7 @@ export const estilos = StyleSheet.create({
     borderWidth: 1,
     borderColor: colores.bordeSuave,
     elevation: 3,
-    shadowColor: "#000",
+    shadowColor: colores.sombra,
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 3,
@@ -368,7 +368,7 @@ export const estilos = StyleSheet.create({
 
   modalFondo: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    backgroundColor: colores.overlay,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -480,7 +480,7 @@ export const estilos = StyleSheet.create({
     paddingHorizontal: 20,
     alignItems: "center",
     elevation: 8,
-    shadowColor: "#000",
+    shadowColor: colores.sombra,
     shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.16,
     shadowRadius: 10,
@@ -496,7 +496,7 @@ export const estilos = StyleSheet.create({
 
   popupMensaje: {
     fontSize: 15,
-    color: "#555555",
+    color: colores.grisMedio,
     textAlign: "center",
     lineHeight: 22,
     marginBottom: 20,
@@ -577,6 +577,18 @@ export const estilos = StyleSheet.create({
     gap: 10,
     marginTop: 4,
   },
+
+  // Navegación centrada compartida
+  navCentro: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 24,
+  },
+  navMensaje: {
+    textAlign: "center",
+    fontSize: 16,
+  },
 });
 
 // Estilos para el modo claro y oscuro
@@ -600,32 +612,32 @@ export const estilosTema = {
     borde: { borderColor: colores.verdeOscuro },
     popupCard: { backgroundColor: colores.blanco },
     popupTitulo: { color: colores.verdeOscuro },
-    popupMensaje: { color: "#555555" },
+    popupMensaje: { color: colores.grisMedio },
     popupBotonPillCancelar: { borderColor: colores.campoBorde },
     popupTextoBotonCancelar: { color: colores.textoOscuro },
   },
 
   oscuro: {
-    fondo: { backgroundColor: "#1E1E1E" },
-    fondoAjustes: { backgroundColor: "#1E1E1E" },
-    tarjeta: { backgroundColor: "#333333", borderColor: "#3D3D3D" },
+    fondo: { backgroundColor: colores.fondoOscuro },
+    fondoAjustes: { backgroundColor: colores.fondoOscuro },
+    tarjeta: { backgroundColor: colores.campoOscuro, borderColor: colores.tarjetaOscuroBorde },
     tarjetaAjustes: {
-      backgroundColor: "#2A2A2A",
-      borderColor: "#3D3D3D",
+      backgroundColor: colores.tarjetaOscuro,
+      borderColor: colores.tarjetaOscuroBorde,
     },
-    divisor: { backgroundColor: "#383838" },
+    divisor: { backgroundColor: colores.divisorOscuro },
     texto: { color: colores.blanco },
     textoSecundario: { color: colores.placeholderOscuro },
     campo: {
-      backgroundColor: "#333333",
-      borderColor: "#555555",
+      backgroundColor: colores.campoOscuro,
+      borderColor: colores.bordeOscuro,
       color: colores.blanco,
     },
     borde: { borderColor: colores.blanco },
-    popupCard: { backgroundColor: "#2A2A2A" },
+    popupCard: { backgroundColor: colores.tarjetaOscuro },
     popupTitulo: { color: colores.blanco },
-    popupMensaje: { color: "#CCCCCC" },
-    popupBotonPillCancelar: { borderColor: "#555555" },
+    popupMensaje: { color: colores.textoMensajeOscuro },
+    popupBotonPillCancelar: { borderColor: colores.bordeOscuro },
     popupTextoBotonCancelar: { color: colores.blanco },
   },
 };
@@ -746,6 +758,22 @@ export const estilosAuth = StyleSheet.create({
   },
   botonDeshabilitado: {
     opacity: 0.5,
+  },
+  // Barra verde superior compartida
+  barraVerdeContenedor: {
+    flex: 1,
+    backgroundColor: colores.verdePrincipal,
+  },
+  barraVerdeTeclado: {
+    flex: 1,
+  },
+  barraVerdeCuerpo: {
+    flex: 1,
+    backgroundColor: colores.crema,
+  },
+  barraVerdeScroll: {
+    flexGrow: 1,
+    paddingBottom: 50,
   },
 });
 

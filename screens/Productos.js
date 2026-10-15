@@ -89,11 +89,11 @@ export default function Productos({ navigation }) {
         {/* Búsqueda fuera de la lista para que el campo no pierda el foco */}
         <View style={styles.filaBusqueda}>
           <View style={[styles.cajaCampo, styles.campoBusqueda, tema.campo]}>
-            <Ionicons name="search" size={20} color={modoOscuro ? tema.texto.color : "#575757"} />
+            <Ionicons name="search" size={20} color={modoOscuro ? tema.texto.color : colores.grisOscuro} />
             <TextInput
               style={[styles.inputBusqueda, modoOscuro && tema.texto]}
               placeholder="Buscar producto..."
-              placeholderTextColor="#a4a4a4"
+              placeholderTextColor={colores.placeholderClaro}
               value={busqueda}
               onChangeText={setBusqueda}
             />
@@ -102,7 +102,7 @@ export default function Productos({ navigation }) {
             style={[styles.cajaCampo, styles.botonFiltro, tema.campo]}
             onPress={() => alert("Filtros próximamente")}
           >
-            <MaterialIcons name="filter-list" size={24} color={modoOscuro ? tema.texto.color : "#404040"} />
+            <MaterialIcons name="filter-list" size={24} color={modoOscuro ? tema.texto.color : colores.filtroIcono} />
           </TouchableOpacity>
         </View>
 

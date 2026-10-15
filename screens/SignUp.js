@@ -121,7 +121,7 @@ export default function SignUp({ navigation }) {
         <Text style={[estilosAuth.title, modoOscuro && tema.texto]}>Registrar Cuenta</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
-            <FontAwesome name="user" size={20} color="#ccc" />
+            <FontAwesome name="user" size={20} color={colores.iconoGris} />
           </View>
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
@@ -135,7 +135,7 @@ export default function SignUp({ navigation }) {
         {errores.nombre && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{MENSAJE_NOMBRE_INVALIDO}</Text>}
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
-            <FontAwesome name="user" size={20} color="#ccc" />
+            <FontAwesome name="user" size={20} color={colores.iconoGris} />
           </View>
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
@@ -149,7 +149,7 @@ export default function SignUp({ navigation }) {
         {errores.apellido && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{MENSAJE_NOMBRE_INVALIDO}</Text>}
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
-            <FontAwesome name="envelope" size={20} color="#ccc" />
+            <FontAwesome name="envelope" size={20} color={colores.iconoGris} />
           </View>
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
@@ -165,7 +165,7 @@ export default function SignUp({ navigation }) {
         {errores.correo && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>Por favor, ingrese un formato de correo válido</Text>}
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
-            <FontAwesome name="lock" size={20} color="#ccc" />
+            <FontAwesome name="lock" size={20} color={colores.iconoGris} />
           </View>
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
@@ -179,7 +179,7 @@ export default function SignUp({ navigation }) {
             maxLength={16}
           />
           <TouchableOpacity style={estilosAuth.eyeButton} onPress={() => setShowPassword(!showPassword)}>
-            <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color="#ccc" />
+            <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color={colores.iconoGris} />
           </TouchableOpacity>
         </View>
         {contrasenaEnfocada || password ? (
@@ -202,7 +202,7 @@ export default function SignUp({ navigation }) {
         )}
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
-            <FontAwesome name="lock" size={20} color="#ccc" />
+            <FontAwesome name="lock" size={20} color={colores.iconoGris} />
           </View>
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
@@ -214,7 +214,7 @@ export default function SignUp({ navigation }) {
             maxLength={16}
           />
           <TouchableOpacity style={estilosAuth.eyeButton} onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-            <FontAwesome name={showConfirmPassword ? "eye-slash" : "eye"} size={20} color="#ccc" />
+            <FontAwesome name={showConfirmPassword ? "eye-slash" : "eye"} size={20} color={colores.iconoGris} />
           </TouchableOpacity>
         </View>
         {contrasenasNoCoinciden && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>Las contraseñas no coinciden</Text>}

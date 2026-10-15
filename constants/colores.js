@@ -22,6 +22,22 @@ export const colores = {
   verde: "#4CAF50",
   gris: "#9E9E9E",
   sombra: "#000000",
+
+  // Utilidades, marcas y modales
+  whatsapp: "#25D366",
+  overlay: "rgba(0, 0, 0, 0.5)",
+  grisOscuro: "#575757",
+  filtroIcono: "#404040",
+  grisMedio: "#555555",
+
+  // Tokens para modo oscuro
+  fondoOscuro: "#1E1E1E",
+  tarjetaOscuro: "#2A2A2A",
+  tarjetaOscuroBorde: "#3D3D3D",
+  campoOscuro: "#333333",
+  divisorOscuro: "#383838",
+  bordeOscuro: "#555555",
+  textoMensajeOscuro: "#CCCCCC",
 };
 
 // para el modo oscuro separo en paletas de colores
@@ -67,9 +83,11 @@ export const COLORS = {
   green: '#4CAF50',
   gray: '#9E9E9E',
 
-  // BORDES
+  // BORDES Y SOMBRAS
   border: '#E0E0E0',
   shadow: '#000000',
+  overlay: 'rgba(0, 0, 0, 0.5)',
+  whatsapp: '#25D366',
 };
 
 export const SPACING = {
