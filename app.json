@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "login-signup",
-    "slug": "login-signup",
+    "name": "APP SABORES ANDINOS",
+    "slug": "APP SABORES ANDINOS",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logos/logo.png",
     "userInterfaceStyle": "light",
     "ios": {
       "supportsTablet": true
@@ -21,7 +21,7 @@
       "visible": "sticky-immersive"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/logos/logo.png"
     }
   }
 }
