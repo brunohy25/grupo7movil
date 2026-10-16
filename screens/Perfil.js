@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   Image,
   ScrollView,
 } from "react-native";
@@ -16,6 +15,7 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { colores } from "../constants/colores";
 import { estilos, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
+import { mostrarAlerta } from "../contexto/ContextoAlerta";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
 import { REGEX_NOMBRE, MENSAJE_NOMBRE_INVALIDO } from "../src/utilidades/validaciones";
@@ -68,23 +68,23 @@ export default function Perfil({ navigation }) {
         setFotoPerfil(resultado.assets[0].uri);
       }
     } catch (error) {
-      Alert.alert("Error", "No se pudo abrir la galería.");
+      mostrarAlerta("Error", "No se pudo abrir la galería.");
     }
   };
 
   const guardarCambios = async () => {
     if (!nombre.trim() || !apellido.trim()) {
-      Alert.alert("Atención", "Ingresá tu nombre y apellido.");
+      mostrarAlerta("Atención", "Ingresá tu nombre y apellido.");
       return;
     }
 
     if (!REGEX_NOMBRE.test(nombre.trim()) || !REGEX_NOMBRE.test(apellido.trim())) {
-      Alert.alert("Atención", MENSAJE_NOMBRE_INVALIDO);
+      mostrarAlerta("Atención", MENSAJE_NOMBRE_INVALIDO);
       return;
     }
 
     if (!usuario) {
-      Alert.alert("Error", "No se encontró el usuario.");
+      mostrarAlerta("Error", "No se encontró el usuario.");
       return;
     }
 
@@ -110,9 +110,9 @@ export default function Perfil({ navigation }) {
       });
 
       setEditando(false);
-      Alert.alert("Éxito", "Perfil actualizado correctamente.");
+      mostrarAlerta("Éxito", "Perfil actualizado correctamente.");
     } catch (error) {
-      Alert.alert("Error", "No se pudo actualizar el perfil.");
+      mostrarAlerta("Error", "No se pudo actualizar el perfil.");
     } finally {
       setGuardando(false);
     }
@@ -135,22 +135,20 @@ export default function Perfil({ navigation }) {
   };
 
   const cerrarSesion = () => {
-    Alert.alert("Cerrar sesión", "¿Querés cerrar sesión?", [
-      {
-        text: "Cancelar",
-        style: "cancel",
+    mostrarAlerta({
+      titulo: "Cerrar sesión",
+      mensaje: "¿Querés cerrar sesión?",
+      textoCancelar: "Cancelar",
+      textoConfirmar: "Salir",
+      esPeligro: true,
+      onConfirmar: async () => {
+        try {
+          await signOut(auth);
+        } catch (error) {
+          mostrarAlerta("Error", "No se pudo cerrar sesión.");
+        }
       },
-      {
-        text: "Salir",
-        onPress: async () => {
-          try {
-            await signOut(auth);
-          } catch (error) {
-            Alert.alert("Error", "No se pudo cerrar sesión.");
-          }
-        },
-      },
-    ]);
+    });
   };
 
   return (

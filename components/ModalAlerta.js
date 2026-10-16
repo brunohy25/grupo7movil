@@ -24,6 +24,7 @@ export default function ModalAlerta({
       visible={visible}
       transparent
       animationType="fade"
+      statusBarTranslucent={true}
       onRequestClose={onCancelar || onConfirmar}
     >
       <View style={estilos.modalFondo}>

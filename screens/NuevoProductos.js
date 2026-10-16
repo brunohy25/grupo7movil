@@ -2,7 +2,7 @@
 import React, { useState, useRef } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView,
-  Image, Alert, KeyboardAvoidingView, Platform,
+  Image, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
@@ -11,6 +11,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
 import { estilosTema } from '../constants/estilos';
 import { usarTema } from '../contexto/ContextoTema';
+import { mostrarAlerta } from '../contexto/ContextoAlerta';
 import { crearProducto, validarProducto } from '../src/servicios/productos';
 
 export default function NuevoProductos({ navigation }) {
@@ -35,7 +36,7 @@ export default function NuevoProductos({ navigation }) {
   const seleccionarImagen = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== 'granted') {
-      Alert.alert('Permiso denegado', 'Necesitamos acceso a tu galería para elegir una imagen.');
+      mostrarAlerta('Permiso denegado', 'Necesitamos acceso a tu galería para elegir una imagen.');
       return;
     }
 
@@ -55,7 +56,7 @@ export default function NuevoProductos({ navigation }) {
     if (enviando.current) return;
     const { error, datos } = validarProducto(form);
     if (error) {
-      Alert.alert('Campo requerido', error);
+      mostrarAlerta('Campo requerido', error);
       return;
     }
     enviando.current = true;
@@ -63,10 +64,14 @@ export default function NuevoProductos({ navigation }) {
       setGuardando(true);
       // Guarda la URI de la imagen seleccionada
       await crearProducto({ ...datos, imagen: form.imagen });
-      // La lista de Productos se actualiza sola por onSnapshot.
-      navigation.goBack();
+      mostrarAlerta({
+        titulo: 'Éxito',
+        mensaje: 'Producto agregado correctamente.',
+        textoConfirmar: 'Aceptar',
+        onConfirmar: () => navigation.goBack(),
+      });
     } catch (e) {
-      Alert.alert('Error', 'No se pudo guardar el producto.');
+      mostrarAlerta('Error', 'No se pudo guardar el producto.');
     } finally {
       enviando.current = false;
       setGuardando(false);

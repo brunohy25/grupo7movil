@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   StyleSheet,
   FlatList,
-  Alert,
   StatusBar,
   ActivityIndicator,
 } from "react-native";
@@ -15,6 +14,7 @@ import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { colores } from "../constants/colores";
 import { estilosGlobales, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
+import { mostrarAlerta } from "../contexto/ContextoAlerta";
 import { escucharProductos, eliminarProducto } from "../src/servicios/productos";
 import ProductoCard from '../components/ProductoCard';
 import ModalEditar from '../components/ModalEditar';
@@ -51,7 +51,7 @@ export default function Productos({ navigation }) {
   // ModalEditar ya guardó en Firestore; acá solo se cierra.
   const handleGuardarEdicion = () => {
     setModalEditar({ visible: false, producto: null });
-    Alert.alert('Éxito', 'Producto actualizado correctamente.');
+    mostrarAlerta('Éxito', 'Producto actualizado correctamente.');
   };
 
   const handleConfirmarEliminar = async () => {
@@ -61,9 +61,9 @@ export default function Productos({ navigation }) {
     setModalEliminar({ visible: false, producto: null });
     try {
       await eliminarProducto(producto.id);
-      Alert.alert('Eliminado', 'El producto fue eliminado correctamente.');
+      mostrarAlerta('Eliminado', 'El producto fue eliminado correctamente.');
     } catch (error) {
-      Alert.alert('Error', 'No se pudo eliminar el producto.');
+      mostrarAlerta('Error', 'No se pudo eliminar el producto.');
     }
   };
 
@@ -100,7 +100,7 @@ export default function Productos({ navigation }) {
           </View>
           <TouchableOpacity
             style={[styles.cajaCampo, styles.botonFiltro, tema.campo]}
-            onPress={() => alert("Filtros próximamente")}
+            onPress={() => mostrarAlerta("Próximamente", "Los filtros estarán disponibles próximamente.")}
           >
             <MaterialIcons name="filter-list" size={24} color={modoOscuro ? tema.texto.color : colores.filtroIcono} />
           </TouchableOpacity>

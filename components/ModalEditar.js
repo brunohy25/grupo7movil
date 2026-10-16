@@ -1,11 +1,12 @@
 // components/ModalEditar.js
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform, Alert,
+  Modal, View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, KeyboardAvoidingView, Platform,
 } from 'react-native';
 import { COLORS, SPACING, RADIUS, FONTS } from '../constants/colores';
 import { estilosTema } from '../constants/estilos';
 import { usarTema } from '../contexto/ContextoTema';
+import { mostrarAlerta } from '../contexto/ContextoAlerta';
 import { actualizarProducto, validarProducto } from '../src/servicios/productos';
 
 export default function ModalEditar({ visible, producto, onCancel, onSave }) {
@@ -44,7 +45,7 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
     if (enviando.current) return;
     const { error, datos } = validarProducto(form);
     if (error) {
-      Alert.alert('Atención', error);
+      mostrarAlerta('Atención', error);
       return;
     }
     enviando.current = true;
@@ -53,7 +54,7 @@ export default function ModalEditar({ visible, producto, onCancel, onSave }) {
       await actualizarProducto(producto.id, datos);
       onSave({ ...producto, ...datos });
     } catch (e) {
-      Alert.alert('Error', 'No se pudo actualizar el producto.');
+      mostrarAlerta('Error', 'No se pudo actualizar el producto.');
     } finally {
       enviando.current = false;
       setGuardando(false);

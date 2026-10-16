@@ -10,14 +10,13 @@ import {
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { estilos, estilosTema } from '../constants/estilos';
 import { usarTema } from "../contexto/ContextoTema";
+import { mostrarAlerta } from "../contexto/ContextoAlerta";
 import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
-import ModalAlerta from "../components/ModalAlerta";
 
 export default function Home({ navigation }) {
   const { modoOscuro } = usarTema();
   const tema = modoOscuro ? estilosTema.oscuro : estilosTema.claro;
   const insets = useSafeAreaInsets();
-  const [modalNotificaciones, setModalNotificaciones] = useState(false);
 
   return (
     <View style={[estilos.contenedorVerde]}>
@@ -32,7 +31,7 @@ export default function Home({ navigation }) {
         <View style={[estilos.tarjetaCabecera, tema.fondo]}>
           <TouchableOpacity
             style={estilos.botonNotificacion}
-            onPress={() => setModalNotificaciones(true)}
+            onPress={() => mostrarAlerta("Notificaciones", "No tienes nuevas notificaciones.")}
           >
             <Image
               source={require("../assets/iconos/Icono_notificaciones.png")}
@@ -77,7 +76,7 @@ export default function Home({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={[estilos.botonGrilla, tema.tarjeta]}
-            onPress={() => alert("Va a la sección Pedidos")}
+            onPress={() => mostrarAlerta("Próximamente", "La sección Pedidos estará disponible próximamente.")}
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
@@ -93,7 +92,7 @@ export default function Home({ navigation }) {
         <View style={estilos.filaBotones}>
           <TouchableOpacity
             style={[estilos.botonGrilla, tema.tarjeta]}
-            onPress={() => alert("Va a la sección Proveedores")}
+            onPress={() => mostrarAlerta("Próximamente", "La sección Proveedores estará disponible próximamente.")}
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
@@ -105,7 +104,7 @@ export default function Home({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={[estilos.botonGrilla, tema.tarjeta]}
-            onPress={() => alert("Va a la sección Movimientos")}
+            onPress={() => mostrarAlerta("Próximamente", "La sección Cobranzas estará disponible próximamente.")}
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
@@ -121,7 +120,7 @@ export default function Home({ navigation }) {
         <View style={estilos.filaBotones}>
           <TouchableOpacity
             style={[estilos.botonGrilla, tema.tarjeta]}
-            onPress={() => alert("Va a la sección Depósito")}
+            onPress={() => mostrarAlerta("Próximamente", "La sección Depósito estará disponible próximamente.")}
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
@@ -133,7 +132,7 @@ export default function Home({ navigation }) {
           </TouchableOpacity>
           <TouchableOpacity
             style={[estilos.botonGrilla, tema.tarjeta]}
-            onPress={() => alert("Va a la sección Entregas")}
+            onPress={() => mostrarAlerta("Próximamente", "La sección Entregas estará disponible próximamente.")}
           >
             <View style={estilos.contenidoBotonGrilla}>
               <Image
@@ -145,15 +144,6 @@ export default function Home({ navigation }) {
           </TouchableOpacity>
         </View>
       </ScrollView>
-
-      {/* Modal Notificaciones (estilo Image 1) */}
-      <ModalAlerta
-        visible={modalNotificaciones}
-        titulo="Notificaciones"
-        mensaje="No tienes nuevas notificaciones."
-        textoConfirmar="Cerrar"
-        onConfirmar={() => setModalNotificaciones(false)}
-      />
 
       {/* Barra de navegación inferior */}
       <BarraNavegaciónInferior navigation={navigation} />

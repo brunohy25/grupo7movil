@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth, isFirebaseConfigured, getProximaAlertaAuth } from '../src/config/firebaseConfig';
 import { estilos } from '../constants/estilos';
-import ModalAlerta from '../components/ModalAlerta';
+import { mostrarAlerta } from '../contexto/ContextoAlerta';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
@@ -19,11 +19,6 @@ const Stack = createStackNavigator();
 
 export default function Navigation() {
   const [user, setUser] = useState(undefined);
-  const [modalAlertaAuth, setModalAlertaAuth] = useState({
-    visible: false,
-    titulo: "",
-    mensaje: "",
-  });
 
   useEffect(() => {
     if (!auth) return;
@@ -31,10 +26,10 @@ export default function Navigation() {
       if (nuevoUsuario) {
         const alerta = getProximaAlertaAuth();
         if (alerta) {
-          setModalAlertaAuth({
-            visible: true,
+          mostrarAlerta({
             titulo: alerta.titulo,
             mensaje: alerta.mensaje,
+            textoConfirmar: "Continuar",
           });
         }
       }
@@ -57,40 +52,30 @@ export default function Navigation() {
   }
 
   return (
-    <>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-            animationEnabled: false,
-            cardStyle: { flex: 1 },
-          }}
-        >
-          {user ? (
-            <>
-              <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="Productos" component={Productos} />
-              <Stack.Screen name="NuevoProductos" component={NuevoProductos} />
-              <Stack.Screen name="Perfil" component={Perfil} />
-              <Stack.Screen name="Ajustes" component={Ajustes} />
-            </>
-          ) : (
-            <>
-              <Stack.Screen name="Login" component={Login} />
-              <Stack.Screen name="SignUp" component={SignUp} />
-              <Stack.Screen name="Reestablecer" component={Reestablecer} />
-            </>
-          )}
-        </Stack.Navigator>
-      </NavigationContainer>
-
-      <ModalAlerta
-        visible={modalAlertaAuth.visible}
-        titulo={modalAlertaAuth.titulo}
-        mensaje={modalAlertaAuth.mensaje}
-        textoConfirmar="Continuar"
-        onConfirmar={() => setModalAlertaAuth({ visible: false, titulo: "", mensaje: "" })}
-      />
-    </>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerShown: false,
+          animationEnabled: false,
+          cardStyle: { flex: 1 },
+        }}
+      >
+        {user ? (
+          <>
+            <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Productos" component={Productos} />
+            <Stack.Screen name="NuevoProductos" component={NuevoProductos} />
+            <Stack.Screen name="Perfil" component={Perfil} />
+            <Stack.Screen name="Ajustes" component={Ajustes} />
+          </>
+        ) : (
+          <>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="SignUp" component={SignUp} />
+            <Stack.Screen name="Reestablecer" component={Reestablecer} />
+          </>
+        )}
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }

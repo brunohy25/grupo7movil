@@ -3,6 +3,7 @@ import { Platform } from 'react-native';
 import 'react-native-gesture-handler';
 import Navigation from './navigation/Navigation';
 import { ProveedorTema } from "./contexto/ContextoTema";
+import { ProveedorAlerta } from "./contexto/ContextoAlerta";
 import * as NavigationBar from 'expo-navigation-bar';
 
 export default function App() {
@@ -14,7 +15,9 @@ export default function App() {
 
   return (
     <ProveedorTema>
-      <Navigation />
+      <ProveedorAlerta>
+        <Navigation />
+      </ProveedorAlerta>
     </ProveedorTema>
   );
 }

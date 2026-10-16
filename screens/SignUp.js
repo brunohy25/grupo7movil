@@ -7,8 +7,8 @@ import { doc, setDoc } from 'firebase/firestore';
 import { colores } from '../constants/colores';
 import { estilosAuth, estilosTema } from '../constants/estilos';
 import { usarTema } from '../contexto/ContextoTema';
+import { mostrarAlerta } from '../contexto/ContextoAlerta';
 import BarraVerdeSuperior from '../components/BarraVerdeSuperior';
-import ModalAlerta from '../components/ModalAlerta';
 import { REGEX_NOMBRE, REGEX_CORREO, REGLAS_CONTRASENA, MENSAJE_NOMBRE_INVALIDO } from '../src/utilidades/validaciones';
 
 const nombreValido = (texto) => REGEX_NOMBRE.test(texto.trim());
@@ -27,11 +27,6 @@ export default function SignUp({ navigation }) {
   const [errores, setErrores] = useState({ nombre: false, apellido: false, correo: false });
   const [contrasenaEnfocada, setContrasenaEnfocada] = useState(false);
   const [registrando, setRegistrando] = useState(false);
-  const [modalAlerta, setModalAlerta] = useState({
-    visible: false,
-    titulo: '',
-    mensaje: '',
-  });
 
   // Se valida al salir del campo; si ya hay un error, se revalida mientras se escribe
   const marcarError = (campo, hayError) => setErrores((previos) => ({ ...previos, [campo]: hayError }));
@@ -50,11 +45,7 @@ export default function SignUp({ navigation }) {
 
   const handleSignUp = async () => {
     if (!formularioValido) {
-      setModalAlerta({
-        visible: true,
-        titulo: "Error",
-        mensaje: "Por favor, complete todos los campos para continuar.",
-      });
+      mostrarAlerta("Error", "Por favor, complete todos los campos para continuar.");
       return;
     }
 
@@ -90,11 +81,7 @@ export default function SignUp({ navigation }) {
           errorMessage = "La clave API de Firebase no es válida. Revisa el archivo .env.";
           break;
       }
-      setModalAlerta({
-        visible: true,
-        titulo: "Error",
-        mensaje: errorMessage,
-      });
+      mostrarAlerta("Error", errorMessage);
       setRegistrando(false);
       return;
     }
@@ -231,14 +218,6 @@ export default function SignUp({ navigation }) {
           <Text style={[estilosAuth.buttonText2, modoOscuro && tema.texto]}>Ya tengo cuenta</Text>
         </TouchableOpacity>
       </View>
-
-      <ModalAlerta
-        visible={modalAlerta.visible}
-        titulo={modalAlerta.titulo}
-        mensaje={modalAlerta.mensaje}
-        textoConfirmar="Cerrar"
-        onConfirmar={() => setModalAlerta({ visible: false, titulo: '', mensaje: '' })}
-      />
     </BarraVerdeSuperior>
   );
 }
