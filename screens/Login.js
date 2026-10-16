@@ -14,6 +14,15 @@ import { estilosAuth, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
 import { mostrarAlerta } from "../contexto/ContextoAlerta";
 import BarraVerdeSuperior from "../components/BarraVerdeSuperior";
+import { REGEX_CORREO } from "../src/utilidades/validaciones"; // CAMBIO 1: reutilizamos la validación de correo del SignUp
+
+// CAMBIO 1: devuelven el mensaje de error, o "" si el campo está bien
+const mensajeCorreo = (texto) => {
+  if (!texto.trim()) return "Ingrese su correo electrónico.";
+  if (!REGEX_CORREO.test(texto.trim())) return "Por favor, ingrese un formato de correo válido";
+  return "";
+};
+const mensajeContrasena = (texto) => (!texto ? "Ingrese su contraseña." : "");
 
 export default function Login({ navigation }) {
   const { modoOscuro } = usarTema();
@@ -21,14 +30,31 @@ export default function Login({ navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [errores, setErrores] = useState({ correo: "", contrasena: "" }); // CAMBIO 2: errores debajo de cada campo
+  const [iniciando, setIniciando] = useState(false); // CAMBIO 3: evita tocar el botón dos veces
+
+  // Se valida al salir del campo; si ya hay un error, se revalida mientras se escribe
+  const cambiarCorreo = (texto) => {
+    setEmail(texto);
+    if (errores.correo) setErrores((previos) => ({ ...previos, correo: mensajeCorreo(texto) }));
+  };
+  const cambiarContrasena = (texto) => {
+    setPassword(texto);
+    if (errores.contrasena) setErrores((previos) => ({ ...previos, contrasena: mensajeContrasena(texto) }));
+  };
 
   const handleLogin = async () => {
-    if (!email.trim() || !password) {
-      mostrarAlerta("Error", "Por favor ingrese ambos campos.");
+    const errorCorreo = mensajeCorreo(email);
+    const errorContrasena = mensajeContrasena(password);
+
+    if (errorCorreo || errorContrasena) {
+      setErrores({ correo: errorCorreo, contrasena: errorContrasena });
       return;
     }
 
     try {
+      setIniciando(true);
+      await signInWithEmailAndPassword(auth, email.trim(), password);
       setProximaAlertaAuth({
         titulo: "Sesión iniciada",
         mensaje: "Has iniciado sesión correctamente.",
@@ -42,12 +68,19 @@ export default function Login({ navigation }) {
         case "auth/invalid-email":
           errorMessage = "El formato del correo electrónico no es válido.";
           break;
+        // CAMBIO 4: Firebase no distingue si falló el correo o la contraseña, así que el mensaje es general
         case "auth/invalid-credential":
         case "auth/wrong-password":
-          errorMessage = "La contraseña es incorrecta.";
-          break;
         case "auth/user-not-found":
-          errorMessage = "No se encontró un usuario con este correo.";
+        case "auth/missing-password":
+
+          errorMessage = "Correo o contraseña incorrectos.";
+          break;
+        case "auth/user-disabled":
+          errorMessage = "Esta cuenta fue deshabilitada.";
+          break;
+        case "auth/too-many-requests":
+          errorMessage = "Demasiados intentos fallidos. Esperá unos minutos e intentá de nuevo.";
           break;
         case "auth/network-request-failed":
           errorMessage = "Error de conexión, por favor intenta más tarde.";
@@ -58,6 +91,8 @@ export default function Login({ navigation }) {
           break;
       }
       mostrarAlerta("Error", errorMessage);
+    } finally {
+      setIniciando(false);
     }
   };
 
@@ -74,13 +109,15 @@ export default function Login({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su correo"
+            placeholder="Ingrese su correo (Ej: bruno@ejemplo.com)"
             value={email}
-            onChangeText={setEmail}
+            onChangeText={cambiarCorreo}
+            onBlur={() => setErrores((previos) => ({ ...previos, correo: mensajeCorreo(email) }))}
             keyboardType="email-address"
             autoCapitalize="none"
           />
         </View>
+        {!!errores.correo && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{errores.correo}</Text>}
 
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
@@ -89,9 +126,10 @@ export default function Login({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su contraseña"
+            placeholder="Ingrese su contraseña (Ej: Clave123) "
             value={password}
-            onChangeText={setPassword}
+            onChangeText={cambiarContrasena}
+            onBlur={() => setErrores((previos) => ({ ...previos, contrasena: mensajeContrasena(password) }))}
             secureTextEntry={!showPassword}
           />
           <TouchableOpacity
@@ -106,9 +144,14 @@ export default function Login({ navigation }) {
             />
           </TouchableOpacity>
         </View>
+        {!!errores.contrasena && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{errores.contrasena}</Text>}
 
-        <TouchableOpacity style={estilosAuth.button} onPress={handleLogin}>
-          <Text style={estilosAuth.buttonText}>Iniciar Sesión</Text>
+        <TouchableOpacity
+          style={[estilosAuth.button, iniciando && estilosAuth.botonDeshabilitado]}
+          onPress={handleLogin}
+          disabled={iniciando}
+        >
+          <Text style={estilosAuth.buttonText}>{iniciando ? "Ingresando..." : "Iniciar Sesión"}</Text>
         </TouchableOpacity>
 
         <Text style={[estilosAuth.signUpText, modoOscuro && tema.texto]}>¿Olvidaste tu contraseña?</Text>

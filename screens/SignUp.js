@@ -52,12 +52,13 @@ export default function SignUp({ navigation }) {
     setRegistrando(true);
     let credential;
     try {
+      credential = await createUserWithEmailAndPassword(auth, email.trim(), password);
       setProximaAlertaAuth({
         titulo: "Registro exitoso",
         mensaje: "Usuario registrado con éxito.",
       });
-      credential = await createUserWithEmailAndPassword(auth, email.trim(), password);
     } catch (error) {
+
       setProximaAlertaAuth(null);
       console.error('Error de registro:', error.code, error.message);
       let errorMessage = "Hubo un problema al registrar el usuario.";
@@ -74,6 +75,10 @@ export default function SignUp({ navigation }) {
         case 'auth/password-does-not-meet-requirements':
           errorMessage = "La contraseña no cumple los requisitos: debe tener entre 6 y 16 caracteres e incluir una mayúscula, una minúscula y un número.";
           break;
+        case 'auth/too-many-requests':
+          errorMessage = "Demasiados intentos. Esperá unos minutos e intenta de nuevo. ";
+          break;
+
         case 'auth/network-request-failed':
           errorMessage = "Error de conexión, por favor intenta más tarde.";
           break;
@@ -113,7 +118,7 @@ export default function SignUp({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su nombre"
+            placeholder="Ingrese su nombre (Ej: Bruno) "
             value={firstName}
             onChangeText={cambiarCampo('nombre', setFirstName, nombreValido)}
             onBlur={() => marcarError('nombre', !nombreValido(firstName))}
@@ -127,7 +132,7 @@ export default function SignUp({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su apellido"
+            placeholder="Ingrese su apellido (Ej: Huichulef) "
             value={lastName}
             onChangeText={cambiarCampo('apellido', setLastName, nombreValido)}
             onBlur={() => marcarError('apellido', !nombreValido(lastName))}
@@ -141,7 +146,7 @@ export default function SignUp({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su correo"
+            placeholder="Ingrese su correo Ej: bruno@ejemplo.com"
             value={email}
             onChangeText={cambiarCampo('correo', setEmail, correoValido)}
             onBlur={() => marcarError('correo', !correoValido(email))}
@@ -157,13 +162,13 @@ export default function SignUp({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su contraseña"
+            placeholder="Ingrese su contraseña (Ej: Clave123) "
             value={password}
             onChangeText={setPassword}
             onFocus={() => setContrasenaEnfocada(true)}
             onBlur={() => setContrasenaEnfocada(false)}
             secureTextEntry={!showPassword}
-            maxLength={16}
+            maxLength={30}
           />
           <TouchableOpacity style={estilosAuth.eyeButton} onPress={() => setShowPassword(!showPassword)}>
             <FontAwesome name={showPassword ? "eye-slash" : "eye"} size={20} color={colores.iconoGris} />

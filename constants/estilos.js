@@ -307,6 +307,25 @@ export const estilos = StyleSheet.create({
     color: colores.verdeOscuro,
     fontSize: 15,
   },
+  grillaAvatares: {
+    flexDirection: "row",
+    justifyContent: "center",
+    gap: 16,
+    marginVertical: 12,
+  },
+
+  avatarOpcion: {
+    borderWidth: 3,
+    borderColor: "transparent",
+    borderRadius: 50,
+    padding: 4,
+  },
+
+  avatarImagen: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
+  },
 
   // ==========================================
   // AJUSTES

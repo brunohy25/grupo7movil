@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { signOut, updateProfile } from "firebase/auth";
 import { MaterialIcons, Ionicons } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
 import { auth, db } from "../src/config/firebaseConfig";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { colores } from "../constants/colores";
@@ -20,10 +19,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import BarraNavegaciónInferior from "../components/BarraNavegaciónInferior";
 import { REGEX_NOMBRE, MENSAJE_NOMBRE_INVALIDO } from "../src/utilidades/validaciones";
 
+// 👇 NUEVO: mapa de avatares
+const AVATARES = {
+  neutral: require("../assets/avatares/neutral.png"),
+  hombre: require("../assets/avatares/hombre.png"),
+  mujer: require("../assets/avatares/mujer.png"),
+};
+
 export default function Perfil({ navigation }) {
   const usuario = auth.currentUser;
 
-  //para el modo oscuro
   const { modoOscuro } = usarTema();
   const tema = estilosTema[modoOscuro ? "oscuro" : "claro"];
   const insets = useSafeAreaInsets();
@@ -32,7 +37,7 @@ export default function Perfil({ navigation }) {
   const [apellido, setApellido] = useState("");
   const [editando, setEditando] = useState(false);
   const [guardando, setGuardando] = useState(false);
-  const [fotoPerfil, setFotoPerfil] = useState(null);
+  const [avatarId, setAvatarId] = useState("neutral"); // 👈 NUEVO: reemplaza a fotoPerfil
 
   React.useEffect(() => {
     const cargarPerfil = async () => {
@@ -46,6 +51,7 @@ export default function Perfil({ navigation }) {
           const data = docSnap.data();
           setNombre(data.nombre || "");
           setApellido(data.apellido || "");
+          setAvatarId(data.avatarId || "neutral"); // 👈 carga avatarId
         }
       } catch (error) {
         console.error("Error al cargar perfil desde Firestore:", error);
@@ -54,23 +60,6 @@ export default function Perfil({ navigation }) {
 
     cargarPerfil();
   }, [usuario?.uid]);
-
-  const seleccionarFoto = async () => {
-    try {
-      const resultado = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ["images"],
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.8,
-      });
-
-      if (!resultado.canceled && resultado.assets?.length > 0) {
-        setFotoPerfil(resultado.assets[0].uri);
-      }
-    } catch (error) {
-      mostrarAlerta("Error", "No se pudo abrir la galería.");
-    }
-  };
 
   const guardarCambios = async () => {
     if (!nombre.trim() || !apellido.trim()) {
@@ -91,7 +80,6 @@ export default function Perfil({ navigation }) {
     try {
       setGuardando(true);
 
-      // Guardamos los campos limpios y separados en la base de datos Firestore
       if (db) {
         await setDoc(
           doc(db, "usuarios", usuario.uid),
@@ -99,12 +87,12 @@ export default function Perfil({ navigation }) {
             nombre: nombre.trim(),
             apellido: apellido.trim(),
             email: usuario.email || "",
+            avatarId: avatarId, // 👈 guarda el ID del avatar
           },
           { merge: true }
         );
       }
 
-      // Sincronizamos también el usuario en Auth
       await updateProfile(usuario, {
         displayName: `${nombre.trim()} ${apellido.trim()}`,
       });
@@ -126,6 +114,7 @@ export default function Perfil({ navigation }) {
           const data = docSnap.data();
           setNombre(data.nombre || "");
           setApellido(data.apellido || "");
+          setAvatarId(data.avatarId || "neutral"); // 👈 restaura avatarId
         }
       } catch (error) {
         console.error("Error al restaurar perfil:", error);
@@ -153,7 +142,6 @@ export default function Perfil({ navigation }) {
 
   return (
     <View style={[estilos.contenedorVerde, { paddingTop: insets.top }]}>
-
       <View style={[estilos.encabezado, estilos.encabezadoPerfil]}>
         <Text style={estilos.titulo}>
           {editando ? "Editar Perfil" : "Mi Perfil"}
@@ -165,21 +153,35 @@ export default function Perfil({ navigation }) {
         contentContainerStyle={[estilos.contenido, { flexGrow: 1 }]}
         keyboardShouldPersistTaps="handled"
       >
+        {/* 👇 Avatar actual */}
         <View style={estilos.contenedorFoto}>
           <View style={estilos.foto}>
-            {fotoPerfil ? (
-              <Image source={{ uri: fotoPerfil }} style={estilos.imagenPerfil}/>
-            ) : (
-              <Text style={estilos.iconoFoto}>👤</Text>
-            )}
+            <Image source={AVATARES[avatarId]} style={estilos.imagenPerfil} />
           </View>
-
-          {editando && (
-            <TouchableOpacity style={estilos.botonCamara} onPress={seleccionarFoto}>
-              <Ionicons name="camera" size={22} color={colores.blanco}/>
-            </TouchableOpacity>
-          )}
         </View>
+
+        {/* 👇 NUEVO: grilla de selección, solo cuando editando */}
+        {editando && (
+          <>
+            <Text style={[estilos.etiqueta, tema.texto, { textAlign: "center" }]}>
+              Elegí tu avatar
+            </Text>
+            <View style={estilos.grillaAvatares}>
+              {Object.keys(AVATARES).map((id) => (
+                <TouchableOpacity
+                  key={id}
+                  onPress={() => setAvatarId(id)}
+                  style={[
+                    estilos.avatarOpcion,
+                    avatarId === id && { borderColor: colores.verdePrincipal },
+                  ]}
+                >
+                  <Image source={AVATARES[id]} style={estilos.avatarImagen} />
+                </TouchableOpacity>
+              ))}
+            </View>
+          </>
+        )}
 
         <Text style={[estilos.etiqueta, tema.texto]}>Nombre</Text>
 
@@ -192,9 +194,8 @@ export default function Perfil({ navigation }) {
             placeholder="Nombre"
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : colores.placeholderClaro}
           />
-
           {editando && (
-            <MaterialIcons name="edit" size={22} color={tema.texto.color}/>
+            <MaterialIcons name="edit" size={22} color={tema.texto.color} />
           )}
         </View>
 
@@ -209,9 +210,8 @@ export default function Perfil({ navigation }) {
             placeholder="Apellido"
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : colores.placeholderClaro}
           />
-
           {editando && (
-            <MaterialIcons name="edit" size={22} color={tema.texto.color}/>
+            <MaterialIcons name="edit" size={22} color={tema.texto.color} />
           )}
         </View>
 
@@ -247,7 +247,7 @@ export default function Perfil({ navigation }) {
           </>
         )}
       </ScrollView>
-      <BarraNavegaciónInferior navigation={navigation}/>
+      <BarraNavegaciónInferior navigation={navigation} />
     </View>
   );
 }
