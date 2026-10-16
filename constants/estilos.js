@@ -701,8 +701,8 @@ export const estilosAuth = StyleSheet.create({
     textAlignVertical: "center",
   },
   eyeButton: {
-    width: 32,
-    height: 32,
+    width: 36,
+    height: "100%",
     alignItems: "center",
     justifyContent: "center",
   },

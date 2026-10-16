@@ -94,9 +94,12 @@ export default function Login({ navigation }) {
             onChangeText={setPassword}
             secureTextEntry={!showPassword}
           />
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
+          <TouchableOpacity
+            style={estilosAuth.eyeButton}
+            onPress={() => setShowPassword(!showPassword)}
+            activeOpacity={0.7}
+          >
             <FontAwesome
-              style={estilosAuth.eyeButton}
               name={showPassword ? "eye-slash" : "eye"}
               size={20}
               color={colores.iconoGris}
