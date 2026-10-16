@@ -118,7 +118,7 @@ export default function SignUp({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su nombre (Ej: Bruno) "
+            placeholder="Ingrese su nombre"
             value={firstName}
             onChangeText={cambiarCampo('nombre', setFirstName, nombreValido)}
             onBlur={() => marcarError('nombre', !nombreValido(firstName))}
@@ -132,7 +132,7 @@ export default function SignUp({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su apellido (Ej: Huichulef) "
+            placeholder="Ingrese su apellido"
             value={lastName}
             onChangeText={cambiarCampo('apellido', setLastName, nombreValido)}
             onBlur={() => marcarError('apellido', !nombreValido(lastName))}
@@ -146,7 +146,7 @@ export default function SignUp({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su correo Ej: bruno@ejemplo.com"
+            placeholder="Ingrese su correo"
             value={email}
             onChangeText={cambiarCampo('correo', setEmail, correoValido)}
             onBlur={() => marcarError('correo', !correoValido(email))}
@@ -162,7 +162,7 @@ export default function SignUp({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su contraseña (Ej: Clave123) "
+            placeholder="Ingrese su contraseña"
             value={password}
             onChangeText={setPassword}
             onFocus={() => setContrasenaEnfocada(true)}

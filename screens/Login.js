@@ -109,7 +109,7 @@ export default function Login({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su correo (Ej: bruno@ejemplo.com)"
+            placeholder="Ingrese su correo"
             value={email}
             onChangeText={cambiarCorreo}
             onBlur={() => setErrores((previos) => ({ ...previos, correo: mensajeCorreo(email) }))}
@@ -126,7 +126,7 @@ export default function Login({ navigation }) {
           <TextInput
             style={[estilosAuth.input, modoOscuro && tema.texto]}
             placeholderTextColor={modoOscuro ? colores.placeholderOscuro : undefined}
-            placeholder="Ingrese su contraseña (Ej: Clave123) "
+            placeholder="Ingrese su contraseña"
             value={password}
             onChangeText={cambiarContrasena}
             onBlur={() => setErrores((previos) => ({ ...previos, contrasena: mensajeContrasena(password) }))}
