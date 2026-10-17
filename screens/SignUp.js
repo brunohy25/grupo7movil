@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
-import { auth, db, setProximaAlertaAuth } from '../src/config/firebaseConfig';
+import { auth, db } from '../src/config/firebaseConfig';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 import { colores } from '../constants/colores';
@@ -53,13 +53,7 @@ export default function SignUp({ navigation }) {
     let credential;
     try {
       credential = await createUserWithEmailAndPassword(auth, email.trim(), password);
-      setProximaAlertaAuth({
-        titulo: "Registro exitoso",
-        mensaje: "Usuario registrado con éxito.",
-      });
     } catch (error) {
-
-      setProximaAlertaAuth(null);
       console.error('Error de registro:', error.code, error.message);
       let errorMessage = "Hubo un problema al registrar el usuario.";
       switch (error.code) {
@@ -103,6 +97,11 @@ export default function SignUp({ navigation }) {
     } catch (error) {
       console.warn("No se pudo guardar datos adicionales en Firestore:", error);
     }
+    mostrarAlerta({
+      titulo: "Registro exitoso",
+      mensaje: "Usuario registrado con éxito.",
+      textoConfirmar: "Continuar",
+    });
     setRegistrando(false);
   };
 

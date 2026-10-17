@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth, setProximaAlertaAuth } from "../src/config/firebaseConfig";
+import { auth } from "../src/config/firebaseConfig";
 import { colores } from "../constants/colores";
 import { estilosAuth, estilosTema } from "../constants/estilos";
 import { usarTema } from "../contexto/ContextoTema";
@@ -55,13 +55,12 @@ export default function Login({ navigation }) {
     try {
       setIniciando(true);
       await signInWithEmailAndPassword(auth, email.trim(), password);
-      setProximaAlertaAuth({
+      mostrarAlerta({
         titulo: "Sesión iniciada",
         mensaje: "Has iniciado sesión correctamente.",
+        textoConfirmar: "Continuar",
       });
-      await signInWithEmailAndPassword(auth, email.trim(), password);
     } catch (error) {
-      setProximaAlertaAuth(null);
       console.error("Error de inicio de sesión:", error.code, error.message);
       let errorMessage = "Hubo un problema al iniciar sesión.";
       switch (error.code) {

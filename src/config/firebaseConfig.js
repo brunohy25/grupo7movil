@@ -32,16 +32,4 @@ if (isFirebaseConfigured) {
   db = getFirestore(app);
 }
 
-let proximaAlertaAuth = null;
-
-export const setProximaAlertaAuth = (alerta) => {
-  proximaAlertaAuth = alerta;
-};
-
-export const getProximaAlertaAuth = () => {
-  const temp = proximaAlertaAuth;
-  proximaAlertaAuth = null;
-  return temp;
-};
-
 export { auth, db };

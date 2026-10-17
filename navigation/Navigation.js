@@ -3,9 +3,8 @@ import { ActivityIndicator, Text, View } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { onAuthStateChanged } from 'firebase/auth';
-import { auth, isFirebaseConfigured, getProximaAlertaAuth } from '../src/config/firebaseConfig';
+import { auth, isFirebaseConfigured } from '../src/config/firebaseConfig';
 import { estilos } from '../constants/estilos';
-import { mostrarAlerta } from '../contexto/ContextoAlerta';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import Home from '../screens/Home';
@@ -22,19 +21,7 @@ export default function Navigation() {
 
   useEffect(() => {
     if (!auth) return;
-    return onAuthStateChanged(auth, (nuevoUsuario) => {
-      if (nuevoUsuario) {
-        const alerta = getProximaAlertaAuth();
-        if (alerta) {
-          mostrarAlerta({
-            titulo: alerta.titulo,
-            mensaje: alerta.mensaje,
-            textoConfirmar: "Continuar",
-          });
-        }
-      }
-      setUser(nuevoUsuario);
-    });
+    return onAuthStateChanged(auth, setUser);
   }, []);
 
   if (!isFirebaseConfigured) {
