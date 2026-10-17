@@ -37,10 +37,11 @@ export default function Reestablecer({ navigation }) {
       <View style={[estilosAuth.container, { paddingTop: 20, paddingBottom: 20 }, modoOscuro && tema.fondo]}>
         <Image source={require('../assets/logos/logo.png')} style={estilosAuth.logo} />
         <Text style={[estilosAuth.title, modoOscuro && tema.texto]}>Olvidé mi contraseña</Text>
-        <Text style={[estilosAuth.signUpText, modoOscuro && tema.texto]}>Reestablecer contraseña de tu cuenta:</Text>
+        <Text style={[estilosAuth.signUpText, modoOscuro && tema.texto, { marginBottom: 10 }]}>Reestablecer contraseña de tu cuenta:</Text>
+        <Text style={[estilosAuth.label, modoOscuro && tema.texto]}>Correo electrónico</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
-            <FontAwesome name="user" size={20} color={colores.iconoGris} />
+            <FontAwesome name="envelope" size={20} color={colores.iconoGris} />
           </View>
 
           <TextInput

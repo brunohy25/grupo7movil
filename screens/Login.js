@@ -102,6 +102,7 @@ export default function Login({ navigation }) {
         <Image source={require("../assets/logos/logo.png")} style={estilosAuth.logo} />
         <Text style={[estilosAuth.titleLogo, modoOscuro && tema.texto]}>SABOR ANDINO</Text>
         <Text style={[estilosAuth.title, modoOscuro && tema.texto]}>Iniciar sesión</Text>
+        <Text style={[estilosAuth.label, modoOscuro && tema.texto]}>Correo electrónico</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
             <FontAwesome name="envelope" size={20} color={colores.iconoGris} />
@@ -119,6 +120,7 @@ export default function Login({ navigation }) {
         </View>
         {!!errores.correo && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{errores.correo}</Text>}
 
+        <Text style={[estilosAuth.label, modoOscuro && tema.texto]}>Contraseña</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
             <FontAwesome name="lock" size={20} color={colores.iconoGris} />

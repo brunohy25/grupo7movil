@@ -689,9 +689,11 @@ export const estilosAuth = StyleSheet.create({
   },
   label: {
     alignSelf: "flex-start",
-    fontSize: 16,
-    fontWeight: "bold",
-    marginTop: 10,
+    fontSize: 14,
+    fontWeight: "600",
+    marginTop: 6,
+    marginBottom: 6,
+    marginLeft: 2,
     color: colores.verdeOscuro,
   },
   inputContainer: {

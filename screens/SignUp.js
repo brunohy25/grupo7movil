@@ -111,6 +111,8 @@ export default function SignUp({ navigation }) {
       <View style={[estilosAuth.container, { paddingTop: 20, paddingBottom: 20 }, modoOscuro && tema.fondo]}>
         <Image source={require('../assets/logos/logo.png')} style={estilosAuth.logo} />
         <Text style={[estilosAuth.title, modoOscuro && tema.texto]}>Registrar Cuenta</Text>
+
+        <Text style={[estilosAuth.label, modoOscuro && tema.texto]}>Nombre</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
             <FontAwesome name="user" size={20} color={colores.iconoGris} />
@@ -125,6 +127,8 @@ export default function SignUp({ navigation }) {
           />
         </View>
         {errores.nombre && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{MENSAJE_NOMBRE_INVALIDO}</Text>}
+
+        <Text style={[estilosAuth.label, modoOscuro && tema.texto]}>Apellido</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
             <FontAwesome name="user" size={20} color={colores.iconoGris} />
@@ -139,6 +143,8 @@ export default function SignUp({ navigation }) {
           />
         </View>
         {errores.apellido && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>{MENSAJE_NOMBRE_INVALIDO}</Text>}
+
+        <Text style={[estilosAuth.label, modoOscuro && tema.texto]}>Correo electrónico</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
             <FontAwesome name="envelope" size={20} color={colores.iconoGris} />
@@ -155,6 +161,8 @@ export default function SignUp({ navigation }) {
           />
         </View>
         {errores.correo && <Text style={[estilosAuth.ayuda, estilosAuth.textoError]}>Por favor, ingrese un formato de correo válido</Text>}
+
+        <Text style={[estilosAuth.label, modoOscuro && tema.texto]}>Contraseña</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
             <FontAwesome name="lock" size={20} color={colores.iconoGris} />
@@ -192,6 +200,8 @@ export default function SignUp({ navigation }) {
             Mínimo 6 caracteres, una mayúscula, una minúscula, un número
           </Text>
         )}
+
+        <Text style={[estilosAuth.label, modoOscuro && tema.texto]}>Confirmar contraseña</Text>
         <View style={[estilosAuth.inputContainer, tema.campo]}>
           <View style={estilosAuth.iconContainer}>
             <FontAwesome name="lock" size={20} color={colores.iconoGris} />
